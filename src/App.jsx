@@ -234,53 +234,68 @@ function SiteMockup(props) {
   var ls=useState(true),loading=ls[0],setLoading=ls[1];
   var es=useState(false),err=es[0],setErr=es[1];
 
-  function FakeBar(p){return <div style={{height:p.h||6,borderRadius:3,background:p.c||"rgba(255,255,255,0.06)",width:p.w||"100%"}} />;}
-  function FakePill(p){return <span style={{fontSize:9,padding:"3px 10px",borderRadius:100,border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{p.t}</span>;}
-  function FakeBtn(p){return <div style={{display:"inline-block",padding:p.big?"11px 26px":"8px 18px",background:p.outline?"transparent":site.color,border:p.outline?"1px solid "+site.color+"55":"none",borderRadius:6,fontSize:p.big?12:10,fontWeight:600,color:"#fff",fontFamily:F.body}}>{p.t}</div>;}
-  function FakeStat(p){return <div style={{textAlign:"center",flex:1}}><div style={{fontSize:18,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginTop:2}}>{p.l}</div></div>;}
-  function FakeCard(p){return <div style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:8,padding:"12px 10px"}}><div style={{fontSize:15,marginBottom:5}}>{p.i}</div><div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:5}}>{p.t}</div><FakeBar h={3} w="75%" /><FakeBar h={3} w="55%" /></div>;}
-  function FakeNav(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:14}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
 
   function renderFakeSite() {
-    if (site.id==="physician") return (<div style={{padding:0,height:"100%",background:"linear-gradient(175deg, #f0fdf4 0%, #ecfeff 40%, #ffffff 100%)",color:"#1a1a2e",overflow:"hidden"}}>
-      <div style={{padding:"14px 22px 10px",display:"flex",justifyContent:"space-between",alignItems:"center",borderBottom:"1px solid #e0f2fe"}}>
-        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:30,height:30,borderRadius:8,background:"linear-gradient(135deg, #0891b2, #06b6d4)",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:"#fff",fontSize:13,fontWeight:800}}>M</span></div><div><div style={{fontSize:13,fontWeight:700,color:"#0f172a",fontFamily:F.display}}>Meridian</div><div style={{fontSize:8,color:"#64748b",fontFamily:F.body,letterSpacing:"0.5px"}}>Pain & Spine Institute</div></div></div>
-        <div style={{display:"flex",gap:16}}>{["Services","Providers","Patients","Contact"].map(function(n){return <span key={n} style={{fontSize:10,color:"#64748b",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div>
+    if (site.id==="physician") return (<div style={{height:"100%",background:"#fafaf8",overflow:"hidden",position:"relative"}}>
+      {/* Organic blob accent */}
+      <div style={{position:"absolute",top:"-60px",right:"-40px",width:"280px",height:"280px",borderRadius:"60% 40% 50% 50%",background:"radial-gradient(circle, #99f6e422, #06b6d411, transparent)",filter:"blur(40px)"}} />
+      <div style={{position:"absolute",bottom:"-30px",left:"-30px",width:"200px",height:"200px",borderRadius:"40% 60% 50% 50%",background:"radial-gradient(circle, #a5f3fc22, transparent)",filter:"blur(30px)"}} />
+      {/* Nav */}
+      <div style={{padding:"16px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",position:"relative",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:8,height:8,borderRadius:"50%",background:"#0891b2"}} /><span style={{fontSize:14,fontWeight:700,color:"#0f172a",fontFamily:F.display,letterSpacing:"-0.3px"}}>Meridian</span></div>
+        <div style={{display:"flex",gap:20}}>{["Services","Team","Patients"].map(function(n){return <span key={n} style={{fontSize:10,color:"#94a3b8",fontFamily:F.body}}>{n}</span>;})}<div style={{padding:"5px 14px",background:"#0891b2",borderRadius:6,fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.body}}>Book</div></div>
       </div>
-      <div style={{padding:"28px 22px 0"}}>
-        <div style={{display:"flex",gap:6,marginBottom:14}}><span style={{fontSize:9,padding:"4px 10px",background:"#dcfce7",color:"#16a34a",borderRadius:100,fontFamily:F.mono,fontWeight:600}}>Accepting Patients</span><span style={{fontSize:9,padding:"4px 10px",background:"#e0f2fe",color:"#0284c7",borderRadius:100,fontFamily:F.mono,fontWeight:500}}>Board Certified</span></div>
-        <h3 style={{fontSize:28,fontWeight:800,color:"#0f172a",fontFamily:F.display,lineHeight:1.1,marginBottom:8}}>Advanced Pain Relief.</h3>
-        <h3 style={{fontSize:28,fontWeight:800,color:"#0891b2",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Restored Quality of Life.</h3>
-        <p style={{fontSize:12,color:"#64748b",fontFamily:F.body,lineHeight:1.7,maxWidth:300,marginBottom:16}}>Minimally invasive, evidence-based interventional pain management in the Upstate.</p>
-        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 22px",background:"#0891b2",borderRadius:8,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Request Appointment</div><div style={{padding:"10px 22px",border:"1px solid #cbd5e1",borderRadius:8,fontSize:11,color:"#475569",fontFamily:F.body}}>{"(864) 555-0134"}</div></div>
+      {/* Hero area with large photo placeholder */}
+      <div style={{margin:"0 24px",borderRadius:16,overflow:"hidden",position:"relative",height:"180px",background:"linear-gradient(135deg, #ccfbf1 0%, #a5f3fc 30%, #bae6fd 60%, #e0e7ff 100%)"}}>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg, transparent 40%, rgba(250,250,248,0.9) 100%)"}} />
+        <div style={{position:"absolute",bottom:16,left:20,right:20}}>
+          <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:"#0891b2",fontFamily:F.mono,fontWeight:600,marginBottom:6}}>Interventional Pain Medicine</div>
+          <h3 style={{fontSize:24,fontWeight:800,color:"#0f172a",fontFamily:F.display,lineHeight:1.1}}>Life without<br/>limitations.</h3>
+        </div>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,padding:"18px 22px 0"}}>{[{i:"\u2695\ufe0f",t:"Spine",c:"#dcfce7"},{i:"\u26a1",t:"Nerve Block",c:"#e0f2fe"},{i:"\ud83c\udfaf",t:"Joint",c:"#fef3c7"},{i:"\ud83e\udeb7",t:"Regenerative",c:"#fce7f3"},{i:"\ud83e\ude7a",t:"Stimulator",c:"#ede9fe"},{i:"\ud83d\udcca",t:"Assessment",c:"#f0fdf4"}].map(function(s,si){return <div key={si} style={{background:s.c,borderRadius:8,padding:"10px 6px",textAlign:"center"}}><div style={{fontSize:14,marginBottom:2}}>{s.i}</div><div style={{fontSize:8,fontWeight:600,color:"#334155",fontFamily:F.body}}>{s.t}</div></div>;})}</div>
-      <div style={{margin:"14px 22px",background:"#f8fafc",borderRadius:10,padding:"10px 12px",display:"flex",alignItems:"center",gap:10,border:"1px solid #e2e8f0"}}>
-        <div style={{width:34,height:34,borderRadius:"50%",background:"linear-gradient(135deg, #0891b2, #22d3ee)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#fff"}}>RM</div>
-        <div style={{flex:1}}><div style={{fontSize:11,fontWeight:600,color:"#0f172a",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:8,color:"#94a3b8",fontFamily:F.body}}>Interventional Pain Medicine</div></div>
-        <div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#f59e0b",fontSize:9}}>{"\u2605"}</span>;})}</div>
+      {/* Service cards with distinctive layout */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 24px 0"}}>
+        {[{n:"Spine Care",c:"#f0fdfa",bc:"#0d9488"},{n:"Nerve Blocks",c:"#ecfeff",bc:"#0891b2"},{n:"Regenerative",c:"#fdf4ff",bc:"#a855f7"}].map(function(s,i){return <div key={i} style={{background:s.c,borderRadius:10,padding:"14px 10px",textAlign:"center",position:"relative",overflow:"hidden"}}><div style={{width:24,height:3,borderRadius:2,background:s.bc,margin:"0 auto 8px"}} /><div style={{fontSize:10,fontWeight:700,color:"#334155",fontFamily:F.display}}>{s.n}</div><div style={{fontSize:8,color:"#94a3b8",fontFamily:F.body,marginTop:3}}>Learn more</div></div>;})}
+      </div>
+      {/* Trust bar */}
+      <div style={{display:"flex",justifyContent:"center",gap:20,padding:"16px 24px 0"}}>
+        {[{v:"4.9",l:"Rating"},{v:"2k+",l:"Patients"},{v:"15yr",l:"Experience"}].map(function(s,i){return <div key={i} style={{textAlign:"center"}}><div style={{fontSize:18,fontWeight:800,color:"#0f172a",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"#94a3b8",fontFamily:F.mono}}>{s.l}</div></div>;})}
       </div>
     </div>);
 
-    if (site.id==="accountant") return (<div style={{padding:0,height:"100%",background:"#0a0f1c",overflow:"hidden"}}>
-      <div style={{padding:"16px 24px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div style={{borderBottom:"2px solid #6ee7b7",paddingBottom:4}}><span style={{fontSize:16,fontWeight:300,color:"#fff",fontFamily:F.display,letterSpacing:"3px",textTransform:"uppercase"}}>HC</span></div>
-        <div style={{display:"flex",gap:18}}>{["Services","Team","Insights","Portal"].map(function(n){return <span key={n} style={{fontSize:9,color:"rgba(255,255,255,0.3)",fontFamily:F.body,letterSpacing:"1px",textTransform:"uppercase"}}>{n}</span>;})}</div>
+    if (site.id==="accountant") return (<div style={{height:"100%",background:"#08080a",overflow:"hidden",position:"relative"}}>
+      {/* Geometric grid accent */}
+      <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,backgroundImage:"linear-gradient(rgba(110,231,183,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(110,231,183,0.03) 1px, transparent 1px)",backgroundSize:"40px 40px"}} />
+      <div style={{position:"absolute",top:"50px",right:"30px",width:"200px",height:"200px",border:"1px solid rgba(110,231,183,0.06)",borderRadius:"50%"}} />
+      <div style={{position:"absolute",top:"80px",right:"60px",width:"140px",height:"140px",border:"1px solid rgba(110,231,183,0.04)",borderRadius:"50%"}} />
+      {/* Nav */}
+      <div style={{padding:"18px 28px",display:"flex",justifyContent:"space-between",alignItems:"center",position:"relative",zIndex:1,borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
+        <span style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.mono,letterSpacing:"4px"}}>HARGRAVE<span style={{color:"#6ee7b7"}}>&</span>COLE</span>
+        <div style={{display:"flex",gap:20}}>{["Advisory","Tax","Insights"].map(function(n){return <span key={n} style={{fontSize:9,color:"rgba(255,255,255,0.25)",fontFamily:F.mono,letterSpacing:"1.5px",textTransform:"uppercase"}}>{n}</span>;})}</div>
       </div>
-      <div style={{padding:"20px 24px 0"}}>
-        <div style={{width:40,height:1,background:"#6ee7b7",marginBottom:20}} />
-        <h3 style={{fontSize:36,fontWeight:200,color:"#fff",fontFamily:F.display,lineHeight:1.1,letterSpacing:"-0.5px"}}>Your Numbers.</h3>
-        <h3 style={{fontSize:36,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:14,letterSpacing:"-0.5px"}}>Our Expertise.</h3>
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.35)",fontFamily:F.body,lineHeight:1.75,maxWidth:300,marginBottom:20}}>Strategic tax planning and business advisory for companies that refuse to leave money on the table.</p>
-        <div style={{display:"flex",gap:8}}><div style={{padding:"11px 28px",background:"#6ee7b7",borderRadius:0,fontSize:10,fontWeight:700,color:"#0a0f1c",fontFamily:F.mono,letterSpacing:"1px",textTransform:"uppercase"}}>Consult</div><div style={{padding:"11px 28px",border:"1px solid rgba(255,255,255,0.1)",borderRadius:0,fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.mono,letterSpacing:"1px",textTransform:"uppercase"}}>Portal</div></div>
+      {/* Hero */}
+      <div style={{padding:"40px 28px 0",position:"relative",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"baseline",gap:12,marginBottom:6}}>
+          <span style={{fontSize:60,fontWeight:200,color:"#fff",fontFamily:F.display,lineHeight:0.9,letterSpacing:"-2px"}}>$2.4</span>
+          <span style={{fontSize:14,fontWeight:500,color:"#6ee7b7",fontFamily:F.mono,letterSpacing:"1px"}}>MILLION</span>
+        </div>
+        <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,letterSpacing:"3px",textTransform:"uppercase",marginBottom:24}}>Client Tax Savings / 2024</div>
+        <div style={{width:50,height:1,background:"#6ee7b7",marginBottom:20}} />
+        <h3 style={{fontSize:22,fontWeight:300,color:"rgba(255,255,255,0.9)",fontFamily:F.display,lineHeight:1.4,maxWidth:280,letterSpacing:"0.5px"}}>Strategic financial advisory for companies that think in decades.</h3>
       </div>
-      <div style={{display:"flex",gap:0,margin:"24px 24px 0",borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:18}}>{[{v:"800+",l:"Clients"},{v:"$2.4M",l:"Tax Saved"},{v:"22yr",l:"Track Record"}].map(function(s,si){return <div key={si} style={{flex:1,textAlign:"center",borderRight:si<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:22,fontWeight:800,color:"#6ee7b7",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.2)",fontFamily:F.mono,marginTop:3}}>{s.l}</div></div>;})}</div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,margin:"18px 24px 0",background:"rgba(255,255,255,0.04)"}}>{[{i:"\ud83d\udcb0",t:"Tax Strategy"},{i:"\ud83d\udcc8",t:"Advisory"},{i:"\ud83d\udccb",t:"Audit Prep"},{i:"\ud83c\udfe2",t:"Entity Setup"}].map(function(s,si){return <div key={si} style={{background:"#0a0f1c",padding:"14px 12px",display:"flex",gap:8,alignItems:"center"}}><span style={{fontSize:14}}>{s.i}</span><div style={{fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.display,letterSpacing:"0.5px"}}>{s.t}</div></div>;})}</div>
-      <div style={{margin:"14px 24px",display:"flex",alignItems:"center",gap:8}}><div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#6ee7b7",fontSize:8}}>{"\u2605"}</span>;})}</div><span style={{fontSize:8,color:"rgba(255,255,255,0.2)",fontFamily:F.mono}}>4.9 / 5 (127 reviews)</span><span style={{marginLeft:"auto",fontSize:8,color:"rgba(255,255,255,0.15)",fontFamily:F.mono}}>QuickBooks Pro Advisor</span></div>
+      {/* Metric row */}
+      <div style={{display:"flex",gap:0,margin:"28px 28px 0",position:"relative",zIndex:1}}>
+        {[{v:"800+",l:"Active Clients"},{v:"22",l:"Years"},{v:"98%",l:"Retention"}].map(function(s,i){return <div key={i} style={{flex:1,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)",borderRight:i<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.mono,textAlign:"center"}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.15)",fontFamily:F.mono,textAlign:"center",marginTop:4}}>{s.l}</div></div>;})}
+      </div>
+      {/* Services strip */}
+      <div style={{display:"flex",gap:0,margin:"0 28px",position:"relative",zIndex:1}}>
+        {["Tax Strategy","M&A Advisory","Audit Defense","Entity Design"].map(function(s,i){return <div key={i} style={{flex:1,padding:"12px 8px",borderTop:"1px solid rgba(255,255,255,0.04)",fontSize:8,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,letterSpacing:"0.5px",textAlign:"center"}}>{s}</div>;})}
+      </div>
     </div>);
 
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
+
 
 
 
@@ -650,21 +665,20 @@ export default function DonnyAI() {
   }, []);
 
   var BG = "#06070b";
-  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
+  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
     <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
       <style>{CSS}</style>
       <ParticleHero scrollRef={scrollRef} mouseRef={mouseRef} />
       <CursorGlow mouseRef={mouseRef} />
-      <SpiralWave scrollRef={scrollRef} mouseRef={mouseRef} />
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
           <div style={{display:"flex",justifyContent:"center",gap:"24px",marginBottom:"28px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map(function(t,i){return <span key={i} style={{fontSize:"11px",fontFamily:F.mono,color:i===2?C.accent:C.textMid,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>;})}</div>
-          <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
+          
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
@@ -689,26 +703,17 @@ export default function DonnyAI() {
         <div style={{ padding: "0 24px" }}>
           <Heading tag="Portfolio" title="Sites I've Built" subtitle="Every one of these was designed and developed using AI-accelerated workflows. Agency quality at startup speed." />
         </div>
-        <div style={{ overflowX: "auto", padding: "0 24px 20px", WebkitOverflowScrolling: "touch" }}>
-          <div className="reel-scroll" style={{ display: "flex", gap: "24px", paddingRight: "24px" }}>
+        <div style={{ overflowX: "auto", padding: "0 0 20px", WebkitOverflowScrolling: "touch" }}>
+          <div className="reel-scroll" style={{ display: "flex", gap: "24px", padding: "0 max(24px, calc((100vw - 1120px)/2))", width: "fit-content" }}>
             {SITES.map(function(s, i) { return <SiteMockup key={i} site={s} index={i} />; })}
           </div>
         </div>
+        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:9,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore →</span></div>
       </section>
 
       <section id="stats" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}><Stats /></section>
 
-      <section id="about" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
-        <Heading tag="About" title="AI Is My Medium" />
-        <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
-          <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
-          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
-          <p>The AI space moves fast. <span style={{ color: "#fff", fontWeight: 600 }}>I move faster.</span></p>
-        </div>
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "32px" }}>
-          {["Claude", "ChatGPT", "Cursor", "Midjourney", "Remotion", "Vercel AI", "Three.js", "Next.js"].map(function(t) { return <ToolPill key={t} name={t} />; })}
-        </div>
-      </section>
+      
 
       <section id="lab" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
         <Heading tag="Interactive Lab" title="Playground" subtitle="These aren't just demos — they're proof that beautiful, interactive experiences can be built with AI." />
@@ -746,6 +751,19 @@ export default function DonnyAI() {
         </div>
       </section>
 
+      <section id="about" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
+        <Heading tag="About" title="AI Is My Medium" />
+        <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
+          <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
+          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
+          <p>The AI space moves fast. <span style={{ color: "#fff", fontWeight: 600 }}>I move faster.</span></p>
+        </div>
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "32px" }}>
+          {["Claude", "ChatGPT", "Cursor", "Midjourney", "Remotion", "Vercel AI", "Three.js", "Next.js"].map(function(t) { return <ToolPill key={t} name={t} />; })}
+        </div>
+      </section>
+
+
 
       <section id="process" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "700px", margin: "0 auto" }}>
         <Heading tag="How I Work" title="The Process" align="left" />
@@ -765,7 +783,7 @@ export default function DonnyAI() {
           Let's Build <span style={{ color: C.accent }}>Something</span>
         </h2>
         <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, marginBottom: "40px" }}>The future doesn't wait. Neither should you.</p>
-        <MagBtn onClick={function(){window.location.href="mailto:hello@donny.ai";}} style={{ fontSize: "14px", padding: "18px 50px" }}>Get In Touch</MagBtn>
+        <button onClick={function(){window.location.href="mailto:hello@donny.ai";}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"14px",letterSpacing:"2px",textTransform:"uppercase",padding:"18px 50px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>Get In Touch</button>
       </section>
 
       <footer style={{ padding: "32px 24px", borderTop: "1px solid "+C.border, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
