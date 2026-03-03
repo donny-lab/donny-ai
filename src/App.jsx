@@ -173,6 +173,8 @@ function ParticleHero({ scrollRef, mouseRef }) {
       points.rotation.x = Math.sin(t * 0.06) * 0.06;
       lines.rotation.copy(points.rotation);
       camera.position.z = 5 + sf * 2;
+      var fadeOp = Math.max(0, 1 - sf * 0.4);
+      renderer.domElement.style.opacity = fadeOp;
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
@@ -346,11 +348,8 @@ function HoloCard({ project, index }) {
       }}>
         {h && <div style={{ position: "absolute", inset: 0, background: `radial-gradient(300px circle at ${glow.x}% ${glow.y}%, ${project.color}15, transparent 50%)`, pointerEvents: "none" }} />}
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
-            <span style={{ fontSize: "20px", color: project.color, filter: `drop-shadow(0 0 6px ${project.color}55)` }}>{project.icon}</span>
-            <span style={{ fontSize: "12px", letterSpacing: "1.5px", textTransform: "uppercase", color: project.color, fontFamily: F.mono, background: project.color+"0f", padding: "4px 12px", borderRadius: "100px" }}>{project.tag}</span>
-          </div>
-          <h3 style={{ fontSize: "22px", fontWeight: 600, color: "#fff", margin: "10px 0 8px", fontFamily: F.display }}>{project.title}</h3>
+          <span style={{ fontSize: "12px", letterSpacing: "1.5px", textTransform: "uppercase", color: project.color, fontFamily: F.mono, background: project.color+"0f", padding: "4px 12px", borderRadius: "100px", display: "inline-block", marginBottom: "12px" }}>{project.tag}</span>
+          <h3 style={{ fontSize: "24px", fontWeight: 700, color: "#fff", margin: "0 0 10px", fontFamily: F.display, letterSpacing: "-0.3px" }}>{project.title}</h3>
           <p style={{ fontSize: "15px", lineHeight: 1.7, color: C.textBody, fontFamily: F.body }}>{project.desc}</p>
         </div>
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "16px", position: "relative", zIndex: 1 }}>
@@ -879,88 +878,111 @@ function StackOrbit() {
 // AUTOMATION CAROUSEL (one card at a time, swipeable)
 // ============================================================
 function AutomationCarousel() {
-  const [ref, vis] = useInView(0.1);
-  const [idx, setIdx] = useState(0);
-  const [dir, setDir] = useState(1);
-  const [activeStep, setActiveStep] = useState(-1);
-  const [showAfter, setShowAfter] = useState(false);
-  const a = AUTOMATIONS[idx];
+  var [ref, vis] = useInView(0.1);
+  var [idx, setIdx] = useState(0);
+  var [showAfter, setShowAfter] = useState(false);
+  var [activeStep, setActiveStep] = useState(-1);
+  var a = AUTOMATIONS[idx];
 
-  useEffect(() => {
+  useEffect(function() {
     setShowAfter(false);
     setActiveStep(-1);
-    let step = 0;
-    const interval = setInterval(() => { step = (step + 1) % a.steps.length; setActiveStep(step); }, 800);
+    var step = 0;
+    var interval = setInterval(function() { step = (step + 1) % a.steps.length; setActiveStep(step); }, 900);
     setActiveStep(0);
-    return () => clearInterval(interval);
+    return function() { clearInterval(interval); };
   }, [idx]);
 
-  const go = (d) => { setDir(d); setIdx((idx + d + AUTOMATIONS.length) % AUTOMATIONS.length); };
-
   return (
-    <div ref={ref} style={{maxWidth:"680px",margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
-      {/* Progress dots */}
-      <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:28}}>
-        {AUTOMATIONS.map((auto,i) => <button key={i} onClick={() => {setDir(i>idx?1:-1);setIdx(i);}} style={{width:i===idx?32:8,height:8,borderRadius:4,background:i===idx?a.color:"rgba(255,255,255,0.1)",border:"none",cursor:"pointer",transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)"}} />)}
+    <div ref={ref} style={{maxWidth:760,margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
+
+      {/* Tab navigation with actual names */}
+      <div style={{display:"flex",gap:4,marginBottom:0,borderRadius:"14px 14px 0 0",overflow:"hidden",background:"rgba(255,255,255,0.02)",border:`1px solid ${C.border}`,borderBottom:"none"}}>
+        {AUTOMATIONS.map(function(auto,i) {
+          var isActive = i === idx;
+          return (
+            <button key={i} onClick={function(){setIdx(i);}} style={{
+              flex:1,padding:"16px 12px",background:isActive?C.bgCard:"transparent",
+              border:"none",borderBottom:isActive?"2px solid "+auto.color:"2px solid transparent",
+              cursor:"pointer",transition:"all 0.3s",position:"relative",
+            }}>
+              <div style={{fontSize:13,fontWeight:isActive?700:500,color:isActive?"#fff":C.textDim,fontFamily:F.display,transition:"all 0.3s",marginBottom:2}}>{auto.title}</div>
+              <div style={{fontSize:11,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px",transition:"all 0.3s"}}>{auto.time}</div>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Card */}
-      <div style={{background:C.bgCard,border:`1px solid ${a.color}22`,borderRadius:20,padding:"44px 40px",position:"relative",overflow:"hidden",minHeight:420}}>
-        <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg, transparent, ${a.color}, transparent)`,opacity:0.5}} />
+      {/* Main card */}
+      <div style={{background:C.bgCard,border:`1px solid ${C.border}`,borderRadius:"0 0 14px 14px",overflow:"hidden"}}>
 
-        {/* Header */}
-        <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24}}>
-          <div style={{fontSize:40,width:64,height:64,display:"flex",alignItems:"center",justifyContent:"center",background:a.color+"11",borderRadius:16,border:`1px solid ${a.color}22`}}>{a.icon}</div>
-          <div style={{flex:1}}>
-            <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,marginBottom:4,letterSpacing:"-0.5px"}}>{a.title}</h3>
-            <span style={{fontSize:14,fontFamily:F.mono,color:a.color,letterSpacing:"1px",fontWeight:500}}>{a.time}</span>
+        {/* Flow visualization — THE HERO, at the top */}
+        <div style={{padding:"32px 40px 24px",background:`linear-gradient(180deg, ${a.color}08, transparent)`,borderBottom:`1px solid ${C.border}`}}>
+          <div style={{display:"flex",alignItems:"flex-start",gap:0}}>
+            {a.steps.map(function(step,si) {
+              var isActive = activeStep === si;
+              var isPast = activeStep > si;
+              return (
+                <div key={si} style={{display:"flex",alignItems:"flex-start",flex:si<a.steps.length-1?1:"none"}}>
+                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",minWidth:60}}>
+                    <div style={{
+                      width:isActive?20:12,height:isActive?20:12,borderRadius:"50%",
+                      background:isActive?a.color:isPast?a.color+"88":"rgba(255,255,255,0.08)",
+                      transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)",
+                      boxShadow:isActive?"0 0 24px "+a.color+"66":"none",
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                    }}>
+                      {isActive && <div style={{width:6,height:6,borderRadius:"50%",background:"#fff"}} />}
+                    </div>
+                    <div style={{
+                      fontSize:12,fontWeight:isActive?700:400,marginTop:10,textAlign:"center",
+                      color:isActive?a.color:isPast?C.textBody:"rgba(255,255,255,0.25)",
+                      fontFamily:F.body,transition:"all 0.3s",lineHeight:1.3,maxWidth:80,
+                    }}>{step}</div>
+                  </div>
+                  {si<a.steps.length-1 && (
+                    <div style={{flex:1,paddingTop:5,position:"relative"}}>
+                      <div style={{height:2,background:"rgba(255,255,255,0.06)",borderRadius:1,margin:"0 4px",overflow:"hidden"}}>
+                        <div style={{height:"100%",background:isPast?a.color+"88":"transparent",transition:"all 0.5s",borderRadius:1,width:isPast?"100%":"0%"}} />
+                      </div>
+                      {isActive && <div style={{position:"absolute",top:2,right:0,width:10,height:10,borderRadius:"50%",background:a.color,animation:"pulse 0.7s ease-in-out infinite",filter:"blur(2px)"}} />}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Description */}
-        <p style={{fontSize:17,color:C.textBody,fontFamily:F.body,lineHeight:1.75,marginBottom:28}}>{a.desc}</p>
+        {/* Content */}
+        <div style={{padding:"32px 40px 36px"}}>
+          <p style={{fontSize:17,color:C.textBody,fontFamily:F.body,lineHeight:1.75,marginBottom:28}}>{a.desc}</p>
 
-        {/* Before / After toggle */}
-        <div style={{display:"flex",gap:12,marginBottom:20}}>
-          <button onClick={() => setShowAfter(false)} style={{flex:1,padding:"14px",background:!showAfter?"rgba(255,255,255,0.06)":"transparent",border:`1px solid ${!showAfter?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.04)"}`,borderRadius:10,color:!showAfter?"#fff":"rgba(255,255,255,0.3)",fontSize:14,fontFamily:F.body,fontWeight:600,cursor:"pointer",transition:"all 0.25s",textAlign:"left"}}>
-            <div style={{fontSize:11,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.2)",marginBottom:6,fontWeight:500}}>WITHOUT AUTOMATION</div>
-            {!showAfter && <span style={{color:C.textBody,fontSize:14,lineHeight:1.6}}>{a.before}</span>}
-          </button>
-          <button onClick={() => setShowAfter(true)} style={{flex:1,padding:"14px",background:showAfter?a.color+"12":"transparent",border:`1px solid ${showAfter?a.color+"33":"rgba(255,255,255,0.04)"}`,borderRadius:10,color:showAfter?"#fff":"rgba(255,255,255,0.3)",fontSize:14,fontFamily:F.body,fontWeight:600,cursor:"pointer",transition:"all 0.25s",textAlign:"left"}}>
-            <div style={{fontSize:11,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.2)",marginBottom:6,fontWeight:500}}>WITH AI AUTOMATION</div>
-            {showAfter && <span style={{color:C.textBody,fontSize:14,lineHeight:1.6}}>{a.after}</span>}
-          </button>
-        </div>
-
-        {/* Animated flow */}
-        <div style={{padding:"20px 0 0",borderTop:`1px solid ${C.border}`}}>
-          <div style={{display:"flex",alignItems:"center",gap:0}}>
-            {a.steps.map((step,si) => <div key={si} style={{display:"flex",alignItems:"center",flex:si<a.steps.length-1?1:"none"}}>
-              <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
-                <div style={{width:activeStep===si?14:8,height:activeStep===si?14:8,borderRadius:"50%",background:activeStep===si?a.color:activeStep>si?a.color+"66":"rgba(255,255,255,0.1)",transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)",boxShadow:activeStep===si?`0 0 20px ${a.color}66`:"none"}} />
-                <span style={{fontSize:11,color:activeStep===si?a.color:activeStep>si?C.textMid:"rgba(255,255,255,0.2)",fontFamily:F.mono,letterSpacing:"0.3px",transition:"all 0.3s",whiteSpace:"nowrap",fontWeight:activeStep===si?600:400}}>{step}</span>
-              </div>
-              {si<a.steps.length-1&&<div style={{flex:1,height:2,background:activeStep>si?a.color+"44":"rgba(255,255,255,0.04)",transition:"background 0.4s",margin:"0 6px 22px 6px",borderRadius:1,position:"relative"}}>
-                {activeStep===si&&<div style={{position:"absolute",right:-1,top:-3,width:8,height:8,borderRadius:"50%",background:a.color,animation:"pulse 0.6s ease-in-out infinite"}} />}
-              </div>}
-            </div>)}
+          {/* Before / After */}
+          <div style={{display:"flex",gap:12}}>
+            <button onClick={function(){setShowAfter(false);}} style={{
+              flex:1,padding:"18px",background:!showAfter?"rgba(255,255,255,0.04)":"transparent",
+              border:"1px solid "+(!showAfter?"rgba(255,255,255,0.1)":"rgba(255,255,255,0.04)"),
+              borderRadius:12,cursor:"pointer",transition:"all 0.25s",textAlign:"left",
+            }}>
+              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITHOUT</div>
+              <p style={{fontSize:14,color:!showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.before}</p>
+            </button>
+            <button onClick={function(){setShowAfter(true);}} style={{
+              flex:1,padding:"18px",background:showAfter?a.color+"0a":"transparent",
+              border:"1px solid "+(showAfter?a.color+"33":"rgba(255,255,255,0.04)"),
+              borderRadius:12,cursor:"pointer",transition:"all 0.25s",textAlign:"left",
+            }}>
+              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITH AI</div>
+              <p style={{fontSize:14,color:showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.after}</p>
+            </button>
           </div>
         </div>
-      </div>
-
-      {/* Navigation arrows */}
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:24,padding:"0 8px"}}>
-        <button onClick={() => go(-1)} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 20px",color:C.textMid,fontSize:14,fontFamily:F.mono,cursor:"pointer",transition:"all 0.2s",display:"flex",alignItems:"center",gap:8}}>
-          <span style={{fontSize:18}}>\u2190</span> Previous
-        </button>
-        <span style={{fontSize:13,color:C.textMid,fontFamily:F.mono}}>{idx + 1} / {AUTOMATIONS.length}</span>
-        <button onClick={() => go(1)} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 20px",color:C.textMid,fontSize:14,fontFamily:F.mono,cursor:"pointer",transition:"all 0.2s",display:"flex",alignItems:"center",gap:8}}>
-          Next <span style={{fontSize:18}}>\u2192</span>
-        </button>
       </div>
     </div>
   );
 }
+
 
 // ============================================================
 // COUNTER
@@ -1069,7 +1091,7 @@ export default function DonnyAI() {
 
       {/* HERO */}
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
-        <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
+        <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"700px",height:"700px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.10) 0%,rgba(139,92,246,0.05) 30%,transparent 50%)",filter:"blur(50px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
           <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map((t,i) => <span key={i} style={{fontSize:"13px",fontFamily:F.mono,color:i===2?C.accent:C.textBody,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>)}</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
@@ -1108,7 +1130,7 @@ export default function DonnyAI() {
         <Stats /></section>
 
       {/* PLAYGROUND */}
-      <section id="lab" style={{ position: "relative", zIndex: 2, padding: "80px 0", overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="lab" style={{ position: "relative", zIndex: 2, padding: "80px 0", overflow: "hidden", background: BG }}>
         
         <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
           <div style={{textAlign:"center",marginBottom:"56px"}}>
