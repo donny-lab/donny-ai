@@ -1182,7 +1182,7 @@ export default function DonnyAI() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: "32px 24px", borderTop: `2px solid ${s.color}22`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <footer style={{ padding: "32px 24px", borderTop: `1px solid ${C.border}`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <span style={{ fontSize: "12px", color: C.textDim, fontFamily: F.mono }}>\u00a9 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
           {[{n:"LinkedIn",u:"https://linkedin.com"},{n:"GitHub",u:"https://github.com"},{n:"Email",u:"mailto:hello@donny.ai"}].map(l => <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ToolPill name={l.n} /></a>)}
