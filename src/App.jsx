@@ -3,34 +3,40 @@ import * as THREE from "three";
 
 var C = {
   accent: "#00e8ff", accent2: "#8b5cf6", accent3: "#f43f5e", green: "#10b981", amber: "#f59e0b",
-  bg: "#06070b", bgCard: "rgba(10,12,22,0.8)", text: "#e8eaed",
-  textBody: "rgba(232,234,237,0.82)", textMid: "rgba(232,234,237,0.62)", textDim: "rgba(232,234,237,0.42)",
+  bg: "#06070b", bgCard: "rgba(10,12,22,0.9)", text: "#e8eaed",
+  textBody: "rgba(232,234,237,0.85)", textMid: "rgba(232,234,237,0.6)", textDim: "rgba(232,234,237,0.4)",
   border: "rgba(255,255,255,0.06)",
 };
 var F = { display: "'Syne', sans-serif", body: "'DM Sans', sans-serif", mono: "'IBM Plex Mono', monospace" };
+var BG = "#06070b";
 
 var SITES = [
-  { name: "Awestruck Agency", type: "Government SaaS & Marketing", year: "2025", color: "#6366f1", gradient: "linear-gradient(135deg, #0f0a2e, #1a1145, #2d1b69)", heroText: "Where Government Meets Innovation", subText: "Full-service marketing for federal, state & local agencies", features: ["NAICS Certified", "508 Compliant", "GSA Schedule"] },
-  { name: "FeX Group", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b", gradient: "linear-gradient(135deg, #1a1400, #2d2200, #3d2e00)", heroText: "Source Smarter. Build Faster.", subText: "AI-powered materials procurement for construction & manufacturing", features: ["AI Matching", "Real-time Pricing", "Global Network"] },
-  { name: "Gestational.ly", type: "Surrogacy Companion App", year: "2025", color: "#ec4899", gradient: "linear-gradient(135deg, #1a0a14, #2d1224, #3d1a33)", heroText: "Every Journey Deserves a Guide", subText: "The companion app for surrogates and intended parents", features: ["Journey Tracking", "Resources Library", "Community"] },
-  { name: "Baking with Care", type: "Artisan Micro Bakery", year: "2025", color: "#d97706", gradient: "linear-gradient(135deg, #1a1008, #2d1c0e, #3d2812)", heroText: "Handcrafted with Heart", subText: "Small-batch artisan baked goods \u00b7 Greenville, SC", features: ["Order Online", "Local Delivery", "Custom Orders"] },
-  { name: "ProcureTrace", type: "AI Compliance Dashboard", year: "2025", color: "#00e8ff", gradient: "linear-gradient(135deg, #040e12, #0a1a20, #0d252e)", heroText: "AI Compliance. Automated.", subText: "OMB M-25-21 interaction logging across every AI platform", features: ["Chrome Extension", "Auto-Logging", "Export Ready"] },
+  { id: "awestruck", name: "Awestruck Agency", url: "awestruckagency.com", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
+  { id: "fex", name: "FeX Group", url: "fexgroup.com", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
+  { id: "gestational", name: "Gestational.ly", url: "gestational.ly", type: "Surrogacy Companion App", year: "2025", color: "#ec4899" },
+  { id: "bakery", name: "Baking with Care", url: "bakingwithcare.co", type: "Artisan Micro Bakery", year: "2025", color: "#d97706" },
+  { id: "procure", name: "ProcureTrace", url: "procuretrace.io", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
+  { id: "synergy", name: "Sourcing Synergies", url: "sourcingsynergies.com", type: "Procurement Consultancy", year: "2025", color: "#10b981" },
+  { id: "continuum", name: "Continuum Intl", url: "continuumintl.com", type: "Global Relocation", year: "2025", color: "#a78bfa" },
 ];
-
 var PROJECTS = [
-  { title: "ProcureTrace", tag: "AI Compliance", desc: "Chrome extension + dashboard auto-logging AI interactions across ChatGPT, Claude, Gemini for federal OMB M-25-21 compliance.", metrics: ["5 Platforms", "Auto-Logged", "Gov-Ready"], color: C.accent, icon: "\u25C8" },
-  { title: "AI Web Studio", tag: "Design & Dev", desc: "Premium websites built at impossible speed. AI-assisted design, development, and content. Agency quality in days.", metrics: ["6+ Shipped", "< 1 Week", "Award-Quality"], color: C.accent2, icon: "\u25C7" },
-  { title: "SEO Engine", tag: "AI Marketing", desc: "AI-driven SEO generating optimized content, targeting AI Overviews, building visibility for enterprise restaurant brands.", metrics: ["Enterprise", "AI Overviews", "Full Funnel"], color: C.accent3, icon: "\u25C6" },
-  { title: "Gestational.ly", tag: "Product Dev", desc: "Surrogacy companion app \u2014 concept to production. Complex React architecture and educational content, fully AI-built.", metrics: ["Full-Stack", "AI-Built", "Live"], color: C.green, icon: "\u25C9" },
-  { title: "AI Visibility Suite", tag: "SaaS Design", desc: "Tiered AI SEO product for agencies. Architecture, pricing, and GTM strategy designed entirely with AI research.", metrics: ["3-Tier SaaS", "Agency", "Revenue"], color: C.amber, icon: "\u25A3" },
-  { title: "Programmatic Video", tag: "AI Creative", desc: "Cinematic product videos generated programmatically with Remotion. AI scripts, auto-rendering, at scale.", metrics: ["Auto-Render", "Cinematic", "Scalable"], color: "#f87171", icon: "\u25B2" },
+  { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
+  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each \u2014 including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["6+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "\u25C7" },
+  { title: "Restaurant SEO", tag: "Marketing", desc: "Ran AI-powered SEO campaigns for major restaurant chains including Chick-fil-A, Dave & Buster's, and LongHorn Steakhouse. Created content that ranks in Google's AI Overviews and drives real foot traffic.", metrics: ["National Chains", "AI Overview Rankings", "Measurable Traffic"], color: C.accent3, icon: "\u25C6" },
+  { title: "Gestational.ly", tag: "App Development", desc: "Took a personal idea and built it into a full working app \u2014 a companion tool for surrogates and intended parents to track their journey, access resources, and stay connected. Concept to launch, entirely AI-built.", metrics: ["Full React App", "Educational Content", "Live Product"], color: C.green, icon: "\u25C9" },
+  { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies \u2014 three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "\u25A3" },
+  { title: "Video Production", tag: "Creative", desc: "Created cinematic product videos that render themselves automatically using code. Write a script, feed in assets, and the system generates broadcast-quality video \u2014 no editor, no timeline, no waiting.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "\u25B2" },
 ];
 
 var CAPS = [
-  { name: "AI Product Design", level: 97, icon: "\u2726" }, { name: "Full-Stack Dev", level: 94, icon: "\u27D0" },
-  { name: "AI-Powered SEO", level: 96, icon: "\u25CE" }, { name: "Prompt Engineering", level: 99, icon: "\u2B21" },
-  { name: "Rapid Prototyping", level: 95, icon: "\u25B3" }, { name: "Systems Architecture", level: 92, icon: "\u25C8" },
-  { name: "3D & Motion", level: 88, icon: "\u25C7" }, { name: "AI Strategy", level: 93, icon: "\u25A3" },
+  { name: "AI Product Design", icon: "\u2726", desc: "From idea to shipped product using AI at every step" },
+  { name: "Full-Stack Development", icon: "\u27D0", desc: "React, Next.js, Node, databases, deployment" },
+  { name: "AI-Powered SEO", icon: "\u25CE", desc: "Content that ranks in Google and AI Overviews" },
+  { name: "Prompt Engineering", icon: "\u2B21", desc: "Getting AI to do exactly what you need, every time" },
+  { name: "Rapid Prototyping", icon: "\u25B3", desc: "Working prototypes in hours, not weeks" },
+  { name: "Systems Architecture", icon: "\u25C8", desc: "Designing how all the pieces fit together" },
+  { name: "3D & Motion Design", icon: "\u25C7", desc: "Interactive experiences, animations, WebGL" },
+  { name: "AI Strategy", icon: "\u25A3", desc: "Helping businesses figure out where AI fits" },
 ];
 
 var STEPS = [
@@ -44,224 +50,276 @@ var LOGOS = ["Chick-fil-A", "Dave & Buster's", "LongHorn Steakhouse", "U.S. Gove
 var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "about", l: "About" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "process", l: "Process" }, { id: "stack", l: "Stack" }, { id: "contact", l: "Contact" }];
 
 function goTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }
-
 function useInView(th) {
-  var threshold = th || 0.15;
-  var ref = useRef(null);
+  var threshold = th || 0.15; var ref = useRef(null);
   var s = useState(false), v = s[0], setV = s[1];
-  useEffect(function() {
-    var obs = new IntersectionObserver(function(entries) { if (entries[0].isIntersecting) setV(true); }, { threshold: threshold });
-    if (ref.current) obs.observe(ref.current);
-    return function() { obs.disconnect(); };
-  }, [threshold]);
+  useEffect(function() { var obs = new IntersectionObserver(function(entries) { if (entries[0].isIntersecting) setV(true); }, { threshold: threshold }); if (ref.current) obs.observe(ref.current); return function() { obs.disconnect(); }; }, [threshold]);
   return [ref, v];
 }
 
 function ParticleHero(props) {
   var scrollRef = props.scrollRef, mouseRef = props.mouseRef;
-  var mountRef = useRef(null);
-  var opRef = useRef(null);
+  var mountRef = useRef(null); var opRef = useRef(null);
   useEffect(function() {
     if (!mountRef.current) return;
     var w = window.innerWidth, h = window.innerHeight;
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
+    var scene = new THREE.Scene(); var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
     camera.position.z = 5;
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(w, h); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     mountRef.current.appendChild(renderer.domElement);
-    var count = 2000;
-    var geo = new THREE.BufferGeometry();
+    var count = 1800; var geo = new THREE.BufferGeometry();
     var pos = new Float32Array(count * 3), cols = new Float32Array(count * 3), tgt = new Float32Array(count * 3), sizes = new Float32Array(count);
-    var pal = [new THREE.Color(C.accent), new THREE.Color(C.accent2), new THREE.Color(C.accent3), new THREE.Color("#4a6070")];
+    var pal = [new THREE.Color("#006680"), new THREE.Color("#5530a0"), new THREE.Color("#a01030"), new THREE.Color("#304050")];
     for (var i = 0; i < count; i++) {
       var i3 = i * 3;
-      pos[i3] = (Math.random() - 0.5) * 18; pos[i3 + 1] = (Math.random() - 0.5) * 18; pos[i3 + 2] = (Math.random() - 0.5) * 8;
-      var phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2, r = 1.8 + Math.random() * 0.5;
+      pos[i3] = (Math.random() - 0.5) * 18; pos[i3+1] = (Math.random() - 0.5) * 18; pos[i3+2] = (Math.random() - 0.5) * 8;
+      var phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2, r = 2.0 + Math.random() * 0.6;
       tgt[i3] = r * Math.sin(phi) * Math.cos(theta);
-      tgt[i3 + 1] = r * Math.sin(phi) * Math.sin(theta) + 0.6;
-      tgt[i3 + 2] = r * Math.cos(phi);
+      tgt[i3+1] = r * Math.sin(phi) * Math.sin(theta) + 0.8;
+      tgt[i3+2] = r * Math.cos(phi);
       var c = pal[Math.floor(Math.random() * pal.length)];
-      cols[i3] = c.r; cols[i3 + 1] = c.g; cols[i3 + 2] = c.b;
-      sizes[i] = Math.random() * 2.5 + 1;
+      cols[i3] = c.r; cols[i3+1] = c.g; cols[i3+2] = c.b;
+      sizes[i] = Math.random() * 2 + 0.8;
     }
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     geo.setAttribute("color", new THREE.BufferAttribute(cols, 3));
     geo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
     var mat = new THREE.ShaderMaterial({
       vertexShader: "attribute float size; varying vec3 vColor; void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=size*(160.0/-mv.z);gl_Position=projectionMatrix*mv;}",
-      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.05,d);gl_FragColor=vec4(vColor,a*0.45);}",
+      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.1,d);gl_FragColor=vec4(vColor,a*0.35);}",
       transparent: true, vertexColors: true, depthWrite: false, blending: THREE.AdditiveBlending,
     });
-    var pts = new THREE.Points(geo, mat);
-    scene.add(pts);
+    var pts = new THREE.Points(geo, mat); scene.add(pts);
     var pairs = [];
-    for (var att = 0; att < 4000 && pairs.length < 200; att++) {
-      var a = Math.floor(Math.random() * count), b = Math.floor(Math.random() * count);
-      if (a === b) continue;
-      var dx = tgt[a*3]-tgt[b*3], dy = tgt[a*3+1]-tgt[b*3+1], dz = tgt[a*3+2]-tgt[b*3+2];
-      if (Math.sqrt(dx*dx+dy*dy+dz*dz) < 0.6) pairs.push([a, b]);
+    for (var att = 0; att < 4000 && pairs.length < 150; att++) {
+      var a = Math.floor(Math.random()*count), b = Math.floor(Math.random()*count); if (a===b) continue;
+      var dx=tgt[a*3]-tgt[b*3],dy=tgt[a*3+1]-tgt[b*3+1],dz=tgt[a*3+2]-tgt[b*3+2];
+      if (Math.sqrt(dx*dx+dy*dy+dz*dz)<0.6) pairs.push([a,b]);
     }
-    var lineGeo = new THREE.BufferGeometry();
-    var lp = new Float32Array(pairs.length * 6);
+    var lineGeo = new THREE.BufferGeometry(); var lp = new Float32Array(pairs.length*6);
     lineGeo.setAttribute("position", new THREE.BufferAttribute(lp, 3));
-    var lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ color: new THREE.Color(C.accent), transparent: true, opacity: 0.05, blending: THREE.AdditiveBlending }));
+    var lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ color: new THREE.Color(C.accent), transparent: true, opacity: 0.04, blending: THREE.AdditiveBlending }));
     scene.add(lines);
     var running = true, frame = 0;
     function animate() {
-      if (!running) return;
-      frame++;
-      var t = frame * 0.016, ease = 1 - Math.pow(1 - Math.min(t / 3.5, 1), 4);
-      var p = geo.attributes.position.array;
-      var sf = (scrollRef.current || 0) * 0.001;
-      var mx = ((mouseRef.current?.x || 0.5) - 0.5) * 2, my = ((mouseRef.current?.y || 0.5) - 0.5) * 2;
-      for (var ii = 0; ii < count; ii++) {
-        var ii3 = ii * 3;
-        p[ii3] += (tgt[ii3] - p[ii3]) * 0.016 * ease; p[ii3+1] += (tgt[ii3+1] - p[ii3+1]) * 0.016 * ease; p[ii3+2] += (tgt[ii3+2] - p[ii3+2]) * 0.016 * ease;
-        p[ii3] += Math.sin(t * 0.3 + ii * 0.05) * 0.0006 + mx * 0.001;
-        p[ii3+1] += Math.cos(t * 0.2 + ii * 0.08) * 0.0006 - my * 0.001;
-      }
+      if (!running) return; frame++;
+      var t = frame*0.016, ease = 1-Math.pow(1-Math.min(t/3.5,1),4);
+      var p = geo.attributes.position.array, sf = (scrollRef.current||0)*0.001;
+      var mx = ((mouseRef.current?.x||0.5)-0.5)*2, my = ((mouseRef.current?.y||0.5)-0.5)*2;
+      for (var ii=0;ii<count;ii++) { var ii3=ii*3; p[ii3]+=(tgt[ii3]-p[ii3])*0.016*ease; p[ii3+1]+=(tgt[ii3+1]-p[ii3+1])*0.016*ease; p[ii3+2]+=(tgt[ii3+2]-p[ii3+2])*0.016*ease; p[ii3]+=Math.sin(t*0.3+ii*0.05)*0.0006+mx*0.001; p[ii3+1]+=Math.cos(t*0.2+ii*0.08)*0.0006-my*0.001; }
       geo.attributes.position.needsUpdate = true;
-      for (var pi = 0; pi < pairs.length; pi++) {
-        var idx = pi * 6, aa = pairs[pi][0], bb = pairs[pi][1];
-        lp[idx]=p[aa*3]; lp[idx+1]=p[aa*3+1]; lp[idx+2]=p[aa*3+2];
-        lp[idx+3]=p[bb*3]; lp[idx+4]=p[bb*3+1]; lp[idx+5]=p[bb*3+2];
-      }
+      for (var pi=0;pi<pairs.length;pi++) { var idx=pi*6,aa=pairs[pi][0],bb=pairs[pi][1]; lp[idx]=p[aa*3];lp[idx+1]=p[aa*3+1];lp[idx+2]=p[aa*3+2]; lp[idx+3]=p[bb*3];lp[idx+4]=p[bb*3+1];lp[idx+5]=p[bb*3+2]; }
       lineGeo.attributes.position.needsUpdate = true;
-      pts.rotation.y = sf * 0.35 + t * 0.035; pts.rotation.x = Math.sin(t * 0.06) * 0.06;
-      lines.rotation.copy(pts.rotation); camera.position.z = 5 + sf * 2;
-      if (opRef.current) { var fadeOp = Math.max(0, 1 - (scrollRef.current || 0) / 700); opRef.current.style.opacity = fadeOp; }
-      renderer.render(scene, camera); requestAnimationFrame(animate);
+      pts.rotation.y=sf*0.35+t*0.035; pts.rotation.x=Math.sin(t*0.06)*0.06;
+      lines.rotation.copy(pts.rotation); camera.position.z=5+sf*2;
+      if (opRef.current) opRef.current.style.opacity = Math.max(0,1-(scrollRef.current||0)/600);
+      renderer.render(scene,camera); requestAnimationFrame(animate);
     }
     animate();
-    function onR() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
-    window.addEventListener("resize", onR);
-    return function() { running = false; window.removeEventListener("resize", onR); if (mountRef.current && renderer.domElement.parentNode === mountRef.current) mountRef.current.removeChild(renderer.domElement); renderer.dispose(); geo.dispose(); mat.dispose(); lineGeo.dispose(); };
+    function onR() { camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); }
+    window.addEventListener("resize",onR);
+    return function() { running=false; window.removeEventListener("resize",onR); if(mountRef.current&&renderer.domElement.parentNode===mountRef.current) mountRef.current.removeChild(renderer.domElement); renderer.dispose(); geo.dispose(); mat.dispose(); lineGeo.dispose(); };
   }, []);
-  return <div ref={function(el) { mountRef.current = el; opRef.current = el; }} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />;
+  return <div ref={function(el){mountRef.current=el;opRef.current=el;}} style={{ position:"fixed",top:0,left:0,width:"100%",height:"100%",zIndex:0,pointerEvents:"none" }} />;
 }
 
 function CursorGlow(props) {
-  var mouseRef = props.mouseRef;
-  var ref = useRef(null);
-  useEffect(function() {
-    var go = true;
-    function loop() { if (!go || !ref.current) return; var x = (mouseRef.current?.x || 0.5) * 100, y = (mouseRef.current?.y || 0.5) * 100; ref.current.style.background = "radial-gradient(600px circle at " + x + "% " + y + "%, rgba(0,232,255,0.025), transparent 60%)"; requestAnimationFrame(loop); }
-    loop(); return function() { go = false; };
-  }, []);
-  return <div ref={ref} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 1 }} />;
+  var mouseRef=props.mouseRef; var ref=useRef(null);
+  useEffect(function() { var go=true; function loop(){if(!go||!ref.current)return; var x=(mouseRef.current?.x||0.5)*100,y=(mouseRef.current?.y||0.5)*100; ref.current.style.background="radial-gradient(600px circle at "+x+"% "+y+"%, rgba(0,232,255,0.02), transparent 60%)"; requestAnimationFrame(loop);} loop(); return function(){go=false;}; }, []);
+  return <div ref={ref} style={{ position:"fixed",top:0,left:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1 }} />;
 }
 
-function GridBG() { return <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundImage: "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)", backgroundSize: "80px 80px", zIndex: 0, pointerEvents: "none", maskImage: "radial-gradient(ellipse at 50% 30%, black 15%, transparent 60%)", WebkitMaskImage: "radial-gradient(ellipse at 50% 30%, black 15%, transparent 60%)" }} />; }
-
 function Nav(props) {
-  var active = props.active;
-  var s = useState(false), show = s[0], setShow = s[1];
-  useEffect(function() { var t = setTimeout(function() { setShow(true); }, 2000); return function() { clearTimeout(t); }; }, []);
-  return (
-    <nav style={{ position: "fixed", top: "50%", right: "20px", transform: "translateY(-50%)", zIndex: 100, display: "flex", flexDirection: "column", gap: "10px", opacity: show ? 1 : 0, transition: "opacity 0.5s" }}>
-      {SECTS.map(function(sec) { return <button key={sec.id} onClick={function() { goTo(sec.id); }} title={sec.l} style={{ width: active === sec.id ? "20px" : "6px", height: "6px", borderRadius: "3px", background: active === sec.id ? C.accent : "rgba(255,255,255,0.15)", border: "none", cursor: "pointer", transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)", padding: 0, boxShadow: active === sec.id ? "0 0 10px rgba(0,232,255,0.25)" : "none" }} />; })}
-    </nav>
-  );
+  var active=props.active; var s=useState(false),show=s[0],setShow=s[1];
+  useEffect(function(){var t=setTimeout(function(){setShow(true);},2000);return function(){clearTimeout(t);};}, []);
+  return (<nav style={{ position:"fixed",top:"50%",right:"20px",transform:"translateY(-50%)",zIndex:100,display:"flex",flexDirection:"column",gap:"10px",opacity:show?1:0,transition:"opacity 0.5s" }}>
+    {SECTS.map(function(sec){return <button key={sec.id} onClick={function(){goTo(sec.id);}} title={sec.l} style={{ width:active===sec.id?"20px":"6px",height:"6px",borderRadius:"3px",background:active===sec.id?C.accent:"rgba(255,255,255,0.15)",border:"none",cursor:"pointer",transition:"all 0.3s cubic-bezier(0.23,1,0.32,1)",padding:0,boxShadow:active===sec.id?"0 0 10px rgba(0,232,255,0.25)":"none" }} />;})}
+  </nav>);
 }
 
 function MagBtn(props) {
-  var ac = props.accent || C.accent;
-  var ref = useRef(null);
-  var os = useState({ x: 0, y: 0 }), o = os[0], setO = os[1];
-  var hs = useState(false), h = hs[0], setH = hs[1];
-  return (
-    <button ref={ref}
-      onMouseMove={function(e) { if (!ref.current) return; var r = ref.current.getBoundingClientRect(); setO({ x: (e.clientX - r.left - r.width / 2) * 0.2, y: (e.clientY - r.top - r.height / 2) * 0.2 }); }}
-      onMouseEnter={function() { setH(true); }} onMouseLeave={function() { setH(false); setO({ x: 0, y: 0 }); }}
-      onClick={props.onClick}
-      style={Object.assign({ transform: "translate(" + o.x + "px," + o.y + "px)", transition: h ? "transform 0.1s" : "transform 0.4s cubic-bezier(0.23,1,0.32,1)", background: h ? ac + "10" : "transparent", border: "1px solid " + (h ? ac : ac + "55"), color: ac, padding: "16px 40px", fontSize: "13px", letterSpacing: "2.5px", textTransform: "uppercase", cursor: "pointer", fontFamily: F.mono, borderRadius: 0, outline: "none", fontWeight: 500, textShadow: "0 0 20px rgba(6,7,11,1)" }, props.style || {})}
-    >{props.children}</button>
-  );
+  var ac=props.accent||C.accent; var ref=useRef(null);
+  var os=useState({x:0,y:0}),o=os[0],setO=os[1]; var hs=useState(false),h=hs[0],setH=hs[1];
+  return (<button ref={ref}
+    onMouseMove={function(e){if(!ref.current)return;var r=ref.current.getBoundingClientRect();setO({x:(e.clientX-r.left-r.width/2)*0.2,y:(e.clientY-r.top-r.height/2)*0.2});}}
+    onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);setO({x:0,y:0});}}
+    onClick={props.onClick}
+    style={Object.assign({transform:"translate("+o.x+"px,"+o.y+"px)",transition:h?"transform 0.1s":"transform 0.4s cubic-bezier(0.23,1,0.32,1)",background:h?ac+"15":"transparent",border:"1px solid "+(h?ac:ac+"55"),color:ac,padding:"16px 40px",fontSize:"13px",letterSpacing:"2.5px",textTransform:"uppercase",cursor:"pointer",fontFamily:F.mono,borderRadius:0,outline:"none",fontWeight:500},props.style||{})}
+  >{props.children}</button>);
 }
 
 function Heading(props) {
-  var al = props.align || "center";
-  var rv = useInView(0.12), ref = rv[0], v = rv[1];
-  return (
-    <div ref={ref} style={{ textAlign: al, marginBottom: "52px", opacity: v ? 1 : 0, transform: v ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1)" }}>
-      <div style={{ fontSize: "11px", letterSpacing: "5px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "14px", fontWeight: 500 }}>{props.tag}</div>
-      <h2 style={{ fontSize: "clamp(30px,4.5vw,52px)", fontWeight: 700, color: "#fff", fontFamily: F.display, letterSpacing: "-0.5px", margin: "0 0 16px" }}>{props.title}</h2>
-      {props.subtitle && <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, maxWidth: al === "center" ? "600px" : "none", margin: al === "center" ? "0 auto" : 0, lineHeight: 1.75 }}>{props.subtitle}</p>}
-    </div>
-  );
+  var al=props.align||"center"; var rv=useInView(0.12),ref=rv[0],v=rv[1];
+  return (<div ref={ref} style={{ textAlign:al,marginBottom:"52px",opacity:v?1:0,transform:v?"translateY(0)":"translateY(20px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)" }}>
+    <div style={{ fontSize:"11px",letterSpacing:"5px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500 }}>{props.tag}</div>
+    <h2 style={{ fontSize:"clamp(30px,4.5vw,52px)",fontWeight:700,color:"#fff",fontFamily:F.display,letterSpacing:"-0.5px",margin:"0 0 16px" }}>{props.title}</h2>
+    {props.subtitle&&<p style={{ fontSize:"17px",color:C.textBody,fontFamily:F.body,maxWidth:al==="center"?"600px":"none",margin:al==="center"?"0 auto":0,lineHeight:1.75 }}>{props.subtitle}</p>}
+  </div>);
 }
 
 function ToolPill(props) {
-  var hs = useState(false), h = hs[0], setH = hs[1];
-  return <span onMouseEnter={function() { setH(true); }} onMouseLeave={function() { setH(false); }} style={{ fontSize: "12px", letterSpacing: "1.5px", color: h ? C.accent : C.textMid, fontFamily: F.mono, border: "1px solid " + (h ? C.accent + "33" : C.border), padding: "7px 16px", borderRadius: "100px", transition: "all 0.3s", cursor: "default", display: "inline-block" }}>{props.name}</span>;
+  var hs=useState(false),h=hs[0],setH=hs[1];
+  return <span onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ fontSize:"12px",letterSpacing:"1.5px",color:h?C.accent:C.textMid,fontFamily:F.mono,border:"1px solid "+(h?C.accent+"33":C.border),padding:"7px 16px",borderRadius:"100px",transition:"all 0.3s",cursor:"default",display:"inline-block" }}>{props.name}</span>;
 }
 
 function SiteMockup(props) {
-  var site = props.site, index = props.index;
-  var rv = useInView(0.1), ref = rv[0], v = rv[1];
-  var hs = useState(false), h = hs[0], setH = hs[1];
-  return (
-    <div ref={ref} style={{ minWidth: "380px", maxWidth: "420px", flexShrink: 0, opacity: v ? 1 : 0, transform: v ? "translateY(0)" : "translateY(30px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1) " + (index * 0.08) + "s" }}>
-      <div onMouseEnter={function() { setH(true); }} onMouseLeave={function() { setH(false); }} style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid " + (h ? site.color + "44" : C.border), transition: "all 0.4s ease", transform: h ? "translateY(-4px)" : "translateY(0)", boxShadow: h ? "0 20px 60px " + site.color + "15" : "none" }}>
-        <div style={{ background: "rgba(20,22,30,0.95)", padding: "10px 14px", display: "flex", alignItems: "center", gap: "6px", borderBottom: "1px solid " + C.border }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff5f57" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#ffbd2e" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#28c840" }} />
-          <div style={{ flex: 1, marginLeft: "8px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", padding: "4px 10px", fontSize: "11px", color: C.textDim, fontFamily: F.mono }}>{site.name.toLowerCase().replace(/\s+/g, "") + ".com"}</div>
-        </div>
-        <div style={{ background: site.gradient, padding: "48px 28px 40px", minHeight: "260px", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: "-20%", right: "-15%", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle, " + site.color + "20, transparent 70%)", filter: "blur(40px)" }} />
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "36px", opacity: 0.6 }}>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", fontFamily: F.display }}>{site.name}</div>
-              <div style={{ display: "flex", gap: "16px" }}>
-                {["About", "Work", "Contact"].map(function(n) { return <span key={n} style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)", fontFamily: F.body }}>{n}</span>; })}
-              </div>
-            </div>
-            <h3 style={{ fontSize: "28px", fontWeight: 700, color: "#fff", fontFamily: F.display, lineHeight: 1.15, marginBottom: "12px" }}>{site.heroText}</h3>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", fontFamily: F.body, lineHeight: 1.6, marginBottom: "22px" }}>{site.subText}</p>
-            <div style={{ display: "inline-block", padding: "10px 22px", background: site.color, borderRadius: "6px", fontSize: "12px", fontWeight: 600, color: "#fff", fontFamily: F.body }}>Get Started</div>
-          </div>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "20px", position: "relative", zIndex: 1 }}>
-            {site.features.map(function(f, i) { return <span key={i} style={{ fontSize: "10px", letterSpacing: "1px", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 12px", borderRadius: "100px", fontFamily: F.mono }}>{f}</span>; })}
-          </div>
+  var site=props.site,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
+  var hs=useState(false),h=hs[0],setH=hs[1];
+
+  function Bar(p){return <div style={{height:p.h||8,borderRadius:4,background:p.c||"rgba(255,255,255,0.08)",width:p.w||"100%",flexShrink:0}} />;}
+  function Pill(p){return <span style={{fontSize:9,padding:"3px 10px",borderRadius:100,border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{p.t}</span>;}
+  function Btn(p){return <div style={{display:"inline-block",padding:p.big?"12px 28px":"9px 20px",background:p.outline?"transparent":site.color,border:p.outline?"1px solid "+site.color+"55":"none",borderRadius:6,fontSize:p.big?13:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>{p.t}</div>;}
+  function SB(p){return <div style={{textAlign:"center",flex:1}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.35)",fontFamily:F.mono,marginTop:3}}>{p.l}</div></div>;}
+  function Cd(p){return <div style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:16,marginBottom:6}}>{p.i}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:4}}>{p.t}</div><Bar h={4} w="80%" /><Bar h={4} w="60%" /></div>;}
+  function NM(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:14,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:16}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.45)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
+
+  function renderSite() {
+    var id = site.id;
+    if (id === "awestruck") return (<div style={{padding:"0 24px"}}>
+      <NM l={["Services","Contracts","Case Studies","Contact"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{display:"flex",gap:6,marginBottom:14}}><Pill t="NAICS 541810" /><Pill t="GSA Schedule" /><Pill t="SDVOSB" /></div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Where Government<br/>Meets <span style={{color:site.color}}>Innovation</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Full-service digital marketing agency serving federal, state, and local government clients.</p>
+        <div style={{display:"flex",gap:10}}><Btn t="View Capabilities" big /><Btn t="Past Performance" outline /></div>
+      </div>
+      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="200+" l="Gov Contracts" /><SB v="12" l="Agencies" /><SB v="98%" l="Retention" /><SB v="$45M" l="Managed" /></div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,paddingBottom:16}}><Cd i={"\ud83c\udfdb\ufe0f"} t="Federal" /><Cd i={"\ud83c\udfe2"} t="State & Local" /><Cd i={"\ud83d\udcca"} t="Analytics" /></div>
+    </div>);
+
+    if (id === "fex") return (<div style={{padding:"0 24px"}}>
+      <NM l={["Platform","Suppliers","Pricing","Demo"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>AI-Powered Sourcing</div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Source Smarter.<br/><span style={{color:site.color}}>Build Faster.</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>AI-powered materials procurement connecting contractors with verified suppliers worldwide.</p>
+        <div style={{display:"flex",gap:10}}><Btn t="Request Demo" big /><Btn t="See Pricing" outline /></div>
+      </div>
+      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="4,200+" l="Suppliers" /><SB v="$2.1B" l="Sourced" /><SB v="48hr" l="Avg Delivery" /></div>
+      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:14,marginBottom:16}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><span style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display}}>Live Price Feed</span><span style={{fontSize:9,color:site.color,fontFamily:F.mono}}>UPDATING</span></div>
+        <div style={{display:"flex",gap:6}}>{["Steel","Lumber","Concrete","Copper"].map(function(m,mi){return <div key={m} style={{flex:1,textAlign:"center"}}><div style={{height:[35,22,28,40][mi],borderRadius:3,background:site.color+"44",marginBottom:4}} /><div style={{fontSize:8,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>{m}</div></div>;})}</div>
+      </div>
+    </div>);
+
+    if (id === "gestational") return (<div style={{padding:"0 24px"}}>
+      <NM l={["Features","For Surrogates","For Parents","Download"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>THE SURROGACY COMPANION APP</div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Every Journey<br/>Deserves a <span style={{color:site.color}}>Guide</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Track milestones, access resources, and stay connected throughout your surrogacy journey.</p>
+        <div style={{display:"flex",gap:10}}><Btn t="Download Free" big /><Btn t="Learn More" outline /></div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"16px 0"}}><Cd i={"\ud83d\udcc5"} t="Journey Tracker" /><Cd i={"\ud83d\udcda"} t="Resources" /><Cd i={"\ud83d\udcac"} t="Messaging" /><Cd i={"\ud83d\udd14"} t="Milestones" /></div>
+      <div style={{display:"flex",gap:12,padding:"14px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="2,800+" l="Families" /><SB v="4.9" l="Rating" /><SB v="24/7" l="Support" /></div>
+    </div>);
+
+    if (id === "bakery") return (<div style={{padding:"0 24px"}}>
+      <NM l={["Menu","Custom Orders","Catering","Order Now"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <h3 style={{fontSize:32,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Handcrafted<br/>with <span style={{color:site.color}}>Heart</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:8}}>Small-batch artisan baked goods made with locally sourced ingredients.</p>
+        <p style={{fontSize:11,color:"rgba(255,255,255,0.35)",fontFamily:F.mono,marginBottom:20}}>Greenville, SC &middot; Est. 2024</p>
+        <Btn t="Order Now" big />
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0"}}>
+        {["Sourdough","Croissants","Custom Cakes","Cookies","Scones","Seasonal"].map(function(item){return <div key={item} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"16px 8px",textAlign:"center"}}><div style={{width:32,height:32,borderRadius:"50%",background:site.color+"15",margin:"0 auto 8px"}} /><div style={{fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{item}</div></div>;})}
+      </div>
+      <div style={{display:"flex",gap:8,padding:"10px 0"}}><Pill t="Local Ingredients" /><Pill t="Same-Day Pickup" /><Pill t="Delivery" /></div>
+    </div>);
+
+    if (id === "procure") return (<div style={{padding:"0 24px"}}>
+      <NM l={["Product","Compliance","Pricing","Install"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{display:"flex",gap:6,marginBottom:14}}><Pill t="OMB M-25-21" /><Pill t="SOC 2" /></div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>AI Compliance.<br/><span style={{color:site.color}}>Automated.</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Auto-log every AI interaction across ChatGPT, Claude, Gemini, Copilot, and Perplexity.</p>
+        <Btn t="Install Chrome Extension" big />
+      </div>
+      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:14,marginBottom:12}}>
+        <div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:10}}>Dashboard Preview</div>
+        <div style={{display:"flex",gap:6,marginBottom:8}}>
+          {[{n:"ChatGPT",v:"247"},{n:"Claude",v:"183"},{n:"Gemini",v:"94"},{n:"Copilot",v:"156"},{n:"Perplexity",v:"72"}].map(function(p){return <div key={p.n} style={{flex:1,textAlign:"center",padding:"8px 0",background:"rgba(255,255,255,0.03)",borderRadius:4}}><div style={{fontSize:8,color:site.color,fontFamily:F.mono}}>{p.n}</div><div style={{fontSize:14,fontWeight:700,color:"#fff",fontFamily:F.display,marginTop:2}}>{p.v}</div><div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>logs</div></div>;})}
         </div>
       </div>
-      <div style={{ padding: "16px 4px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <div style={{ fontSize: "15px", fontWeight: 600, color: C.text, fontFamily: F.display }}>{site.name}</div>
-          <div style={{ fontSize: "13px", color: C.textMid, fontFamily: F.body, marginTop: "2px" }}>{site.type}</div>
+      <div style={{display:"flex",gap:12,padding:"10px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="5" l="AI Platforms" /><SB v="100%" l="Auto-Logged" /><SB v="SOC 2" l="Compliant" /></div>
+    </div>);
+
+    if (id === "synergy") return (<div style={{padding:"0 24px"}}>
+      <NM n="Sourcing Synergies" l={["Services","Industries","About","Contact"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>Strategic Procurement</div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Procurement<br/><span style={{color:site.color}}>Reimagined</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Expert consultancy helping organizations optimize sourcing strategy and vendor relationships.</p>
+        <div style={{display:"flex",gap:10}}><Btn t="Schedule Consultation" big /><Btn t="Our Approach" outline /></div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0"}}><Cd i={"\ud83d\udd0d"} t="Spend Analysis" /><Cd i={"\ud83d\udcb0"} t="Cost Reduction" /><Cd i={"\ud83e\udd1d"} t="Vendor Mgmt" /></div>
+      <div style={{display:"flex",gap:12,padding:"10px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="$180M" l="Savings Found" /><SB v="60+" l="Clients" /><SB v="35%" l="Avg Reduction" /></div>
+    </div>);
+
+    if (id === "continuum") return (<div style={{padding:"0 24px"}}>
+      <NM n="Continuum Intl" l={["Services","Destinations","For Companies","Contact"]} />
+      <div style={{padding:"44px 0 20px"}}>
+        <div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>GLOBAL RELOCATION</div>
+        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Moving People.<br/><span style={{color:site.color}}>Moving Business.</span></h3>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>End-to-end relocation management for global enterprises. Immigration, housing, settling-in.</p>
+        <Btn t="Get Started" big />
+      </div>
+      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="140+" l="Countries" /><SB v="8,000" l="Moves/Year" /><SB v="96%" l="Satisfaction" /></div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,paddingBottom:16}}><Cd i={"\ud83c\udf0d"} t="Immigration" /><Cd i={"\ud83c\udfe0"} t="Housing" /><Cd i={"\ud83d\udccb"} t="Settling-In" /><Cd i={"\ud83d\udce6"} t="Logistics" /></div>
+    </div>);
+
+    return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
+  }
+
+  return (
+    <div ref={ref} style={{ minWidth:"460px",maxWidth:"500px",flexShrink:0,opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
+      <div onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ borderRadius:"12px",overflow:"hidden",border:"1px solid "+(h?site.color+"44":C.border),transition:"all 0.4s ease",transform:h?"translateY(-6px) scale(1.01)":"translateY(0) scale(1)",boxShadow:h?"0 24px 80px "+site.color+"20":"none" }}>
+        <div style={{ background:"rgba(18,20,28,0.98)",padding:"10px 14px",display:"flex",alignItems:"center",gap:"6px",borderBottom:"1px solid "+C.border }}>
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#ffbd2e"}} />
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#28c840"}} />
+          <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"11px",color:C.textDim,fontFamily:F.mono }}>
+            <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
+          </div>
         </div>
-        <div style={{ fontSize: "12px", color: C.textMid, fontFamily: F.mono }}>{site.year}</div>
+        <div style={{ background:"linear-gradient(180deg, "+site.color+"08 0%, "+BG+" 100%)",minHeight:"420px",position:"relative",overflow:"hidden" }}>
+          <div style={{position:"absolute",top:"-20%",right:"-15%",width:"250px",height:"250px",borderRadius:"50%",background:"radial-gradient(circle, "+site.color+"12, transparent 70%)",filter:"blur(50px)"}} />
+          {renderSite()}
+        </div>
+      </div>
+      <div style={{ padding:"16px 4px 0",display:"flex",justifyContent:"space-between",alignItems:"center" }}>
+        <div>
+          <div style={{ fontSize:"15px",fontWeight:600,color:C.text,fontFamily:F.display }}>{site.name}</div>
+          <div style={{ fontSize:"13px",color:C.textMid,fontFamily:F.body,marginTop:"2px" }}>{site.type}</div>
+        </div>
+        <div style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</div>
       </div>
     </div>
   );
 }
 
 function HoloCard(props) {
-  var project = props.project, index = props.index;
-  var rv = useInView(0.1), ref = rv[0], v = rv[1];
-  var ts = useState({ x: 0, y: 0 }), tilt = ts[0], setTilt = ts[1];
-  var hs = useState(false), h = hs[0], setH = hs[1];
-  var gs = useState({ x: 50, y: 50 }), glow = gs[0], setGlow = gs[1];
+  var project=props.project,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
+  var ts=useState({x:0,y:0}),tilt=ts[0],setTilt=ts[1]; var hs=useState(false),h=hs[0],setH=hs[1];
+  var gs=useState({x:50,y:50}),glow=gs[0],setGlow=gs[1];
   return (
-    <div ref={ref} onMouseMove={function(e) { if (!ref.current) return; var r = ref.current.getBoundingClientRect(); var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; setTilt({ x: y * -10, y: x * 10 }); setGlow({ x: (x + 0.5) * 100, y: (y + 0.5) * 100 }); }}
-      onMouseEnter={function() { setH(true); }} onMouseLeave={function() { setH(false); setTilt({ x: 0, y: 0 }); }}
-      style={{ perspective: "1000px", opacity: v ? 1 : 0, transform: v ? "translateY(0)" : "translateY(40px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1) " + (index * 0.08) + "s" }}>
-      <div style={{ transform: "rotateX(" + tilt.x + "deg) rotateY(" + tilt.y + "deg) scale(" + (h ? 1.01 : 1) + ")", transition: h ? "transform 0.1s" : "transform 0.4s cubic-bezier(0.23,1,0.32,1)", background: C.bgCard, backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid " + (h ? project.color + "44" : C.border), borderRadius: "12px", padding: "32px", position: "relative", overflow: "hidden", cursor: "default", minHeight: "240px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        {h && <div style={{ position: "absolute", inset: 0, background: "radial-gradient(300px circle at " + glow.x + "% " + glow.y + "%, " + project.color + "15, transparent 50%)", pointerEvents: "none" }} />}
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span style={{ fontSize: "20px", color: project.color, filter: "drop-shadow(0 0 6px " + project.color + "55)" }}>{project.icon}</span>
-            <span style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: project.color, fontFamily: F.mono, background: project.color + "0f", padding: "3px 10px", borderRadius: "100px" }}>{project.tag}</span>
+    <div ref={ref} onMouseMove={function(e){if(!ref.current)return;var r=ref.current.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;setTilt({x:y*-8,y:x*8});setGlow({x:(x+0.5)*100,y:(y+0.5)*100});}}
+      onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);setTilt({x:0,y:0});}}
+      style={{ perspective:"1000px",opacity:v?1:0,transform:v?"translateY(0)":"translateY(40px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
+      <div style={{ transform:"rotateX("+tilt.x+"deg) rotateY("+tilt.y+"deg) scale("+(h?1.01:1)+")",transition:h?"transform 0.1s":"transform 0.4s cubic-bezier(0.23,1,0.32,1)",background:C.bgCard,backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",border:"1px solid "+(h?project.color+"44":C.border),borderRadius:"12px",padding:"32px",position:"relative",overflow:"hidden",cursor:"default",minHeight:"240px",display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
+        {h&&<div style={{position:"absolute",inset:0,background:"radial-gradient(300px circle at "+glow.x+"% "+glow.y+"%, "+project.color+"12, transparent 50%)",pointerEvents:"none"}} />}
+        <div style={{position:"relative",zIndex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"6px"}}>
+            <span style={{fontSize:"20px",color:project.color,filter:"drop-shadow(0 0 6px "+project.color+"55)"}}>{project.icon}</span>
+            <span style={{fontSize:"10px",letterSpacing:"2px",textTransform:"uppercase",color:project.color,fontFamily:F.mono,background:project.color+"0f",padding:"3px 10px",borderRadius:"100px"}}>{project.tag}</span>
           </div>
-          <h3 style={{ fontSize: "24px", fontWeight: 600, color: "#fff", margin: "10px 0 8px", fontFamily: F.display }}>{project.title}</h3>
-          <p style={{ fontSize: "15px", lineHeight: 1.7, color: C.textBody, fontFamily: F.body }}>{project.desc}</p>
+          <h3 style={{fontSize:"22px",fontWeight:600,color:"#fff",margin:"10px 0 8px",fontFamily:F.display}}>{project.title}</h3>
+          <p style={{fontSize:"15px",lineHeight:1.7,color:C.textBody,fontFamily:F.body}}>{project.desc}</p>
         </div>
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "18px", position: "relative", zIndex: 1 }}>
-          {project.metrics.map(function(m, i) { return <span key={i} style={{ fontSize: "11px", letterSpacing: "1px", color: C.textMid, border: "1px solid " + C.border, padding: "5px 12px", borderRadius: "100px", fontFamily: F.mono }}>{m}</span>; })}
+        <div style={{display:"flex",gap:"8px",flexWrap:"wrap",marginTop:"18px",position:"relative",zIndex:1}}>
+          {project.metrics.map(function(m,i){return <span key={i} style={{fontSize:"11px",letterSpacing:"1px",color:C.textMid,border:"1px solid "+C.border,padding:"5px 12px",borderRadius:"100px",fontFamily:F.mono}}>{m}</span>;})}
         </div>
       </div>
     </div>
@@ -441,21 +499,17 @@ function ProcessStep(props) {
 }
 
 function CapCard(props) {
-  var cap = props.cap, index = props.index;
-  var rv = useInView(0.1), ref = rv[0], v = rv[1];
-  var hs = useState(false), h = hs[0], setH = hs[1];
-  var color = [C.accent, C.accent2, C.accent3, C.green, C.amber, "#f87171", "#a78bfa", "#34d399"][index % 8];
+  var cap=props.cap,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
+  var hs=useState(false),h=hs[0],setH=hs[1];
+  var color=[C.accent,C.accent2,C.accent3,C.green,C.amber,"#f87171","#a78bfa","#34d399"][index%8];
   return (
-    <div ref={ref} onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ opacity: v?1:0, transform: v?"translateY(0) scale(1)":"translateY(20px) scale(0.97)", transition: "all 0.5s cubic-bezier(0.23,1,0.32,1) "+(index*0.06)+"s", background: h?"rgba(255,255,255,0.03)":"transparent", border: "1px solid "+(h?color+"33":C.border), borderRadius: "12px", padding: "24px", cursor: "default", position: "relative", overflow: "hidden" }}>
-      {h && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, transparent, "+color+", transparent)" }} />}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
-        <span style={{ fontSize: "24px", color: h?color:C.textDim, transition: "color 0.3s" }}>{cap.icon}</span>
-        <span style={{ fontSize: "26px", fontWeight: 700, color: h?color:"rgba(255,255,255,0.1)", fontFamily: F.display, transition: "color 0.3s" }}>{cap.level}</span>
+    <div ref={ref} onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ opacity:v?1:0,transform:v?"translateY(0)":"translateY(20px)",transition:"all 0.5s cubic-bezier(0.23,1,0.32,1) "+(index*0.06)+"s",background:h?"rgba(255,255,255,0.03)":"transparent",border:"1px solid "+(h?color+"33":C.border),borderRadius:"12px",padding:"24px 20px",cursor:"default",position:"relative",overflow:"hidden" }}>
+      {h&&<div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg, transparent, "+color+", transparent)"}} />}
+      <div style={{display:"flex",alignItems:"center",gap:"12px",marginBottom:"10px"}}>
+        <span style={{fontSize:"22px",color:h?color:C.textDim,transition:"color 0.3s"}}>{cap.icon}</span>
+        <div style={{fontSize:"15px",fontWeight:600,color:h?"#fff":C.textBody,fontFamily:F.display,transition:"color 0.3s"}}>{cap.name}</div>
       </div>
-      <div style={{ fontSize: "14px", fontWeight: 600, color: h?"#fff":C.textBody, fontFamily: F.display, transition: "color 0.3s" }}>{cap.name}</div>
-      <div style={{ marginTop: "12px", height: "2px", background: "rgba(255,255,255,0.04)", borderRadius: "1px", overflow: "hidden" }}>
-        <div style={{ height: "100%", width: v?cap.level+"%":"0%", background: "linear-gradient(90deg, "+color+", "+color+"66)", transition: "width 1s cubic-bezier(0.23,1,0.32,1) "+(index*0.06+0.2)+"s", borderRadius: "1px" }} />
-      </div>
+      <p style={{fontSize:"13px",color:C.textMid,fontFamily:F.body,lineHeight:1.6}}>{cap.desc}</p>
     </div>
   );
 }
@@ -530,23 +584,23 @@ export default function DonnyAI() {
   }, []);
 
   var BG = "#06070b";
-  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
+  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
     <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
       <style>{CSS}</style>
       <ParticleHero scrollRef={scrollRef} mouseRef={mouseRef} />
       <CursorGlow mouseRef={mouseRef} />
-      <GridBG />
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
-        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 650px 450px at center, rgba(6,7,11,0.85) 0%, rgba(6,7,11,0.5) 40%, transparent 70%)", padding: "60px 40px", borderRadius: "40px" }}>
-          <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
-          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 60px rgba(6,7,11,1), 0 0 120px rgba(6,7,11,0.8)" }}>
+        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 700px 500px at center, rgba(6,7,11,0.92) 0%, rgba(6,7,11,0.65) 35%, transparent 65%)", padding: "60px 40px", borderRadius: "40px" }}>
+          <div style={{display:"inline-flex",alignItems:"center",gap:"8px",background:"rgba(0,232,255,0.06)",border:"1px solid rgba(0,232,255,0.15)",borderRadius:"100px",padding:"6px 18px 6px 12px",marginBottom:"24px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}><span style={{width:"6px",height:"6px",borderRadius:"50%",background:C.accent,animation:"pulse 2s ease-in-out infinite"}}></span><span style={{fontSize:"12px",fontFamily:F.mono,color:C.accent,fontWeight:500,letterSpacing:"1px"}}>TOP 1% AI USER IN THE U.S.</span></div>
+          <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
+          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
-          <p style={{ fontSize: "18px", color: C.textBody, fontFamily: F.body, maxWidth: "500px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 30px rgba(6,7,11,1)" }}>
+          <p style={{ fontSize: "19px", color: C.textBody, fontFamily: F.body, maxWidth: "500px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 40px rgba(6,7,11,1)" }}>
             I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
@@ -581,7 +635,7 @@ export default function DonnyAI() {
         <Heading tag="About" title="AI Is My Medium" />
         <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
           <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
-          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
+          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
           <p>The AI space moves fast. <span style={{ color: "#fff", fontWeight: 600 }}>I move faster.</span></p>
         </div>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "32px" }}>
@@ -612,7 +666,7 @@ export default function DonnyAI() {
       </section>
 
       <section id="work" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
-        <Heading tag="Case Studies" title="The Work" subtitle="Real products, real clients, real outcomes — all built with AI at the core." />
+        <Heading tag="What I've Built" title="The Work" subtitle="Real products, real clients, real outcomes — Every one of these was built with AI doing the heavy lifting." />
         <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
           {PROJECTS.map(function(p, i) { return <HoloCard key={i} project={p} index={i} />; })}
         </div>
@@ -624,7 +678,7 @@ export default function DonnyAI() {
       </section>
 
       <section id="stack" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
-        <Heading tag="Capabilities" title="The Stack" />
+        <Heading tag="What I Bring" title="The Stack" />
         <div className="rg4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
           {CAPS.map(function(c, i) { return <CapCard key={i} cap={c} index={i} />; })}
         </div>
