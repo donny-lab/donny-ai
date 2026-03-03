@@ -1,23 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 
-const C = {
+var C = {
   accent: "#00e8ff", accent2: "#8b5cf6", accent3: "#f43f5e", green: "#10b981", amber: "#f59e0b",
   bg: "#06070b", bgCard: "rgba(10,12,22,0.8)", text: "#e8eaed",
   textBody: "rgba(232,234,237,0.82)", textMid: "rgba(232,234,237,0.62)", textDim: "rgba(232,234,237,0.42)",
   border: "rgba(255,255,255,0.06)",
 };
-const F = { display: "'Syne', sans-serif", body: "'DM Sans', sans-serif", mono: "'IBM Plex Mono', monospace" };
+var F = { display: "'Syne', sans-serif", body: "'DM Sans', sans-serif", mono: "'IBM Plex Mono', monospace" };
 
-const SITES = [
+var SITES = [
   { name: "Awestruck Agency", type: "Government SaaS & Marketing", year: "2025", color: "#6366f1", gradient: "linear-gradient(135deg, #0f0a2e, #1a1145, #2d1b69)", heroText: "Where Government Meets Innovation", subText: "Full-service marketing for federal, state & local agencies", features: ["NAICS Certified", "508 Compliant", "GSA Schedule"] },
   { name: "FeX Group", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b", gradient: "linear-gradient(135deg, #1a1400, #2d2200, #3d2e00)", heroText: "Source Smarter. Build Faster.", subText: "AI-powered materials procurement for construction & manufacturing", features: ["AI Matching", "Real-time Pricing", "Global Network"] },
   { name: "Gestational.ly", type: "Surrogacy Companion App", year: "2025", color: "#ec4899", gradient: "linear-gradient(135deg, #1a0a14, #2d1224, #3d1a33)", heroText: "Every Journey Deserves a Guide", subText: "The companion app for surrogates and intended parents", features: ["Journey Tracking", "Resources Library", "Community"] },
-  { name: "Baking with Care", type: "Artisan Micro Bakery", year: "2025", color: "#d97706", gradient: "linear-gradient(135deg, #1a1008, #2d1c0e, #3d2812)", heroText: "Handcrafted with Heart", subText: "Small-batch artisan baked goods · Greenville, SC", features: ["Order Online", "Local Delivery", "Custom Orders"] },
+  { name: "Baking with Care", type: "Artisan Micro Bakery", year: "2025", color: "#d97706", gradient: "linear-gradient(135deg, #1a1008, #2d1c0e, #3d2812)", heroText: "Handcrafted with Heart", subText: "Small-batch artisan baked goods \u00b7 Greenville, SC", features: ["Order Online", "Local Delivery", "Custom Orders"] },
   { name: "ProcureTrace", type: "AI Compliance Dashboard", year: "2025", color: "#00e8ff", gradient: "linear-gradient(135deg, #040e12, #0a1a20, #0d252e)", heroText: "AI Compliance. Automated.", subText: "OMB M-25-21 interaction logging across every AI platform", features: ["Chrome Extension", "Auto-Logging", "Export Ready"] },
 ];
 
-const PROJECTS = [
+var PROJECTS = [
   { title: "ProcureTrace", tag: "AI Compliance", desc: "Chrome extension + dashboard auto-logging AI interactions across ChatGPT, Claude, Gemini for federal OMB M-25-21 compliance.", metrics: ["5 Platforms", "Auto-Logged", "Gov-Ready"], color: C.accent, icon: "\u25C8" },
   { title: "AI Web Studio", tag: "Design & Dev", desc: "Premium websites built at impossible speed. AI-assisted design, development, and content. Agency quality in days.", metrics: ["6+ Shipped", "< 1 Week", "Award-Quality"], color: C.accent2, icon: "\u25C7" },
   { title: "SEO Engine", tag: "AI Marketing", desc: "AI-driven SEO generating optimized content, targeting AI Overviews, building visibility for enterprise restaurant brands.", metrics: ["Enterprise", "AI Overviews", "Full Funnel"], color: C.accent3, icon: "\u25C6" },
@@ -26,14 +26,14 @@ const PROJECTS = [
   { title: "Programmatic Video", tag: "AI Creative", desc: "Cinematic product videos generated programmatically with Remotion. AI scripts, auto-rendering, at scale.", metrics: ["Auto-Render", "Cinematic", "Scalable"], color: "#f87171", icon: "\u25B2" },
 ];
 
-const CAPS = [
+var CAPS = [
   { name: "AI Product Design", level: 97, icon: "\u2726" }, { name: "Full-Stack Dev", level: 94, icon: "\u27D0" },
   { name: "AI-Powered SEO", level: 96, icon: "\u25CE" }, { name: "Prompt Engineering", level: 99, icon: "\u2B21" },
   { name: "Rapid Prototyping", level: 95, icon: "\u25B3" }, { name: "Systems Architecture", level: 92, icon: "\u25C8" },
   { name: "3D & Motion", level: 88, icon: "\u25C7" }, { name: "AI Strategy", level: 93, icon: "\u25A3" },
 ];
 
-const STEPS = [
+var STEPS = [
   { num: "01", title: "Discover", desc: "Deep-dive into your goals, audience, and competitive landscape using AI-powered research and analysis.", color: C.accent },
   { num: "02", title: "Design", desc: "AI-accelerated design exploration \u2014 generating and refining concepts at 10x the speed of traditional workflows.", color: C.accent2 },
   { num: "03", title: "Build", desc: "Full-stack development with AI pair programming. Production-grade code, tested and optimized from day one.", color: C.accent3 },
@@ -60,6 +60,7 @@ function useInView(th) {
 function ParticleHero(props) {
   var scrollRef = props.scrollRef, mouseRef = props.mouseRef;
   var mountRef = useRef(null);
+  var opRef = useRef(null);
   useEffect(function() {
     if (!mountRef.current) return;
     var w = window.innerWidth, h = window.innerHeight;
@@ -73,12 +74,14 @@ function ParticleHero(props) {
     var count = 2000;
     var geo = new THREE.BufferGeometry();
     var pos = new Float32Array(count * 3), cols = new Float32Array(count * 3), tgt = new Float32Array(count * 3), sizes = new Float32Array(count);
-    var pal = [new THREE.Color(C.accent), new THREE.Color(C.accent2), new THREE.Color(C.accent3), new THREE.Color("#ffffff")];
+    var pal = [new THREE.Color(C.accent), new THREE.Color(C.accent2), new THREE.Color(C.accent3), new THREE.Color("#4a6070")];
     for (var i = 0; i < count; i++) {
       var i3 = i * 3;
       pos[i3] = (Math.random() - 0.5) * 18; pos[i3 + 1] = (Math.random() - 0.5) * 18; pos[i3 + 2] = (Math.random() - 0.5) * 8;
       var phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2, r = 1.8 + Math.random() * 0.5;
-      tgt[i3] = r * Math.sin(phi) * Math.cos(theta); tgt[i3 + 1] = r * Math.sin(phi) * Math.sin(theta); tgt[i3 + 2] = r * Math.cos(phi);
+      tgt[i3] = r * Math.sin(phi) * Math.cos(theta);
+      tgt[i3 + 1] = r * Math.sin(phi) * Math.sin(theta) + 0.6;
+      tgt[i3 + 2] = r * Math.cos(phi);
       var c = pal[Math.floor(Math.random() * pal.length)];
       cols[i3] = c.r; cols[i3 + 1] = c.g; cols[i3 + 2] = c.b;
       sizes[i] = Math.random() * 2.5 + 1;
@@ -88,7 +91,7 @@ function ParticleHero(props) {
     geo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
     var mat = new THREE.ShaderMaterial({
       vertexShader: "attribute float size; varying vec3 vColor; void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=size*(160.0/-mv.z);gl_Position=projectionMatrix*mv;}",
-      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.05,d);gl_FragColor=vec4(vColor,a*0.7);}",
+      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.05,d);gl_FragColor=vec4(vColor,a*0.45);}",
       transparent: true, vertexColors: true, depthWrite: false, blending: THREE.AdditiveBlending,
     });
     var pts = new THREE.Points(geo, mat);
@@ -128,6 +131,7 @@ function ParticleHero(props) {
       lineGeo.attributes.position.needsUpdate = true;
       pts.rotation.y = sf * 0.35 + t * 0.035; pts.rotation.x = Math.sin(t * 0.06) * 0.06;
       lines.rotation.copy(pts.rotation); camera.position.z = 5 + sf * 2;
+      if (opRef.current) { var fadeOp = Math.max(0, 1 - (scrollRef.current || 0) / 700); opRef.current.style.opacity = fadeOp; }
       renderer.render(scene, camera); requestAnimationFrame(animate);
     }
     animate();
@@ -135,7 +139,7 @@ function ParticleHero(props) {
     window.addEventListener("resize", onR);
     return function() { running = false; window.removeEventListener("resize", onR); if (mountRef.current && renderer.domElement.parentNode === mountRef.current) mountRef.current.removeChild(renderer.domElement); renderer.dispose(); geo.dispose(); mat.dispose(); lineGeo.dispose(); };
   }, []);
-  return <div ref={mountRef} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />;
+  return <div ref={function(el) { mountRef.current = el; opRef.current = el; }} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />;
 }
 
 function CursorGlow(props) {
@@ -143,7 +147,7 @@ function CursorGlow(props) {
   var ref = useRef(null);
   useEffect(function() {
     var go = true;
-    function loop() { if (!go || !ref.current) return; var x = (mouseRef.current?.x || 0.5) * 100, y = (mouseRef.current?.y || 0.5) * 100; ref.current.style.background = "radial-gradient(600px circle at " + x + "% " + y + "%, rgba(0,232,255,0.04), transparent 60%)"; requestAnimationFrame(loop); }
+    function loop() { if (!go || !ref.current) return; var x = (mouseRef.current?.x || 0.5) * 100, y = (mouseRef.current?.y || 0.5) * 100; ref.current.style.background = "radial-gradient(600px circle at " + x + "% " + y + "%, rgba(0,232,255,0.025), transparent 60%)"; requestAnimationFrame(loop); }
     loop(); return function() { go = false; };
   }, []);
   return <div ref={ref} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 1 }} />;
@@ -172,7 +176,7 @@ function MagBtn(props) {
       onMouseMove={function(e) { if (!ref.current) return; var r = ref.current.getBoundingClientRect(); setO({ x: (e.clientX - r.left - r.width / 2) * 0.2, y: (e.clientY - r.top - r.height / 2) * 0.2 }); }}
       onMouseEnter={function() { setH(true); }} onMouseLeave={function() { setH(false); setO({ x: 0, y: 0 }); }}
       onClick={props.onClick}
-      style={Object.assign({ transform: "translate(" + o.x + "px," + o.y + "px)", transition: h ? "transform 0.1s" : "transform 0.4s cubic-bezier(0.23,1,0.32,1)", background: h ? ac + "10" : "transparent", border: "1px solid " + (h ? ac : ac + "55"), color: ac, padding: "16px 40px", fontSize: "13px", letterSpacing: "2.5px", textTransform: "uppercase", cursor: "pointer", fontFamily: F.mono, borderRadius: 0, outline: "none", fontWeight: 500 }, props.style || {})}
+      style={Object.assign({ transform: "translate(" + o.x + "px," + o.y + "px)", transition: h ? "transform 0.1s" : "transform 0.4s cubic-bezier(0.23,1,0.32,1)", background: h ? ac + "10" : "transparent", border: "1px solid " + (h ? ac : ac + "55"), color: ac, padding: "16px 40px", fontSize: "13px", letterSpacing: "2.5px", textTransform: "uppercase", cursor: "pointer", fontFamily: F.mono, borderRadius: 0, outline: "none", fontWeight: 500, textShadow: "0 0 20px rgba(6,7,11,1)" }, props.style || {})}
     >{props.children}</button>
   );
 }
@@ -509,7 +513,7 @@ export default function DonnyAI() {
   var scrollRef = useRef(0), mouseRef = useRef({ x: 0.5, y: 0.5 });
   var hs = useState(1), heroOp = hs[0], setHeroOp = hs[1];
   var ls = useState(false), loaded = ls[0], setLoaded = ls[1];
-  var as = useState("hero"), active = as[0], setActive = as[1];
+  var as2 = useState("hero"), active = as2[0], setActive = as2[1];
 
   useEffect(function() {
     function onScroll() {
@@ -525,10 +529,11 @@ export default function DonnyAI() {
     return function() { window.removeEventListener("scroll", onScroll); window.removeEventListener("mousemove", onMouse); };
   }, []);
 
+  var BG = "#06070b";
   var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
       <style>{CSS}</style>
       <ParticleHero scrollRef={scrollRef} mouseRef={mouseRef} />
       <CursorGlow mouseRef={mouseRef} />
@@ -536,12 +541,12 @@ export default function DonnyAI() {
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
-        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s" }}>
-          <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s" }}>AI Design · Development · Strategy</div>
-          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px" }}>
+        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 650px 450px at center, rgba(6,7,11,0.85) 0%, rgba(6,7,11,0.5) 40%, transparent 70%)", padding: "60px 40px", borderRadius: "40px" }}>
+          <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
+          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 60px rgba(6,7,11,1), 0 0 120px rgba(6,7,11,0.8)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
-          <p style={{ fontSize: "18px", color: C.textBody, fontFamily: F.body, maxWidth: "500px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s" }}>
+          <p style={{ fontSize: "18px", color: C.textBody, fontFamily: F.body, maxWidth: "500px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 30px rgba(6,7,11,1)" }}>
             I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
@@ -555,11 +560,11 @@ export default function DonnyAI() {
         </div>
       </section>
 
-      <section style={{ position: "relative", zIndex: 2, padding: "0 24px", borderTop: "1px solid "+C.border, borderBottom: "1px solid "+C.border }}>
+      <section style={{ position: "relative", zIndex: 2, padding: "0 24px", borderTop: "1px solid "+C.border, borderBottom: "1px solid "+C.border, background: BG }}>
         <LogoTicker />
       </section>
 
-      <section id="reel" style={{ padding: "100px 0 80px", position: "relative", zIndex: 2 }}>
+      <section id="reel" style={{ background: BG, padding: "100px 0 80px", position: "relative", zIndex: 2 }}>
         <div style={{ padding: "0 24px" }}>
           <Heading tag="Portfolio" title="Sites I've Built" subtitle="Every one of these was designed and developed using AI-accelerated workflows. Agency quality at startup speed." />
         </div>
@@ -570,9 +575,9 @@ export default function DonnyAI() {
         </div>
       </section>
 
-      <section id="stats" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2 }}><Stats /></section>
+      <section id="stats" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}><Stats /></section>
 
-      <section id="about" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
+      <section id="about" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
         <Heading tag="About" title="AI Is My Medium" />
         <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
           <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
@@ -584,7 +589,7 @@ export default function DonnyAI() {
         </div>
       </section>
 
-      <section id="lab" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
+      <section id="lab" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
         <Heading tag="Interactive Lab" title="Playground" subtitle="These aren't just demos — they're proof that beautiful, interactive experiences can be built with AI." />
         <div style={{ marginBottom: "20px" }}>
           <div style={{ fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "10px", paddingLeft: "4px", fontWeight: 500 }}>Particle Text — Type anything · Hover to disrupt</div>
@@ -606,26 +611,26 @@ export default function DonnyAI() {
         </div>
       </section>
 
-      <section id="work" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
+      <section id="work" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
         <Heading tag="Case Studies" title="The Work" subtitle="Real products, real clients, real outcomes — all built with AI at the core." />
         <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
           {PROJECTS.map(function(p, i) { return <HoloCard key={i} project={p} index={i} />; })}
         </div>
       </section>
 
-      <section id="process" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "700px", margin: "0 auto" }}>
+      <section id="process" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "700px", margin: "0 auto" }}>
         <Heading tag="How I Work" title="The Process" align="left" />
         {STEPS.map(function(s, i) { return <ProcessStep key={i} step={s} index={i} />; })}
       </section>
 
-      <section id="stack" style={{ padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
+      <section id="stack" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
         <Heading tag="Capabilities" title="The Stack" />
         <div className="rg4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
           {CAPS.map(function(c, i) { return <CapCard key={i} cap={c} index={i} />; })}
         </div>
       </section>
 
-      <section id="contact" style={{ padding: "120px 24px", position: "relative", zIndex: 2, textAlign: "center" }}>
+      <section id="contact" style={{ background: BG, padding: "120px 24px", position: "relative", zIndex: 2, textAlign: "center" }}>
         <div style={{ fontSize: "10px", letterSpacing: "5px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "18px" }}>Ready?</div>
         <h2 style={{ fontSize: "clamp(32px,5vw,64px)", fontWeight: 700, fontFamily: F.display, letterSpacing: "-1px", marginBottom: "14px" }}>
           Let's Build <span style={{ color: C.accent }}>Something</span>
@@ -634,7 +639,7 @@ export default function DonnyAI() {
         <MagBtn style={{ fontSize: "14px", padding: "18px 50px" }}>Get In Touch</MagBtn>
       </section>
 
-      <footer style={{ padding: "32px 24px", borderTop: "1px solid "+C.border, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <footer style={{ padding: "32px 24px", borderTop: "1px solid "+C.border, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <span style={{ fontSize: "11px", color: C.textDim, fontFamily: F.mono }}>© 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
           {["LinkedIn", "GitHub", "Email"].map(function(l) { return <ToolPill key={l} name={l} />; })}
