@@ -675,215 +675,110 @@ function ProcessStep({ step, index }) {
 }
 
 // ============================================================
-// STACK ORBIT (animated constellation of tools)
+// STACK VISUALIZATION (DOM-based, no canvas)
 // ============================================================
 function StackOrbit() {
-  const [ref, vis] = useInView(0.15);
-  const [active, setActive] = useState(null);
-  const canvasRef = useRef(null);
-  const mRef = useRef({x:0.5,y:0.5});
-  const tools = [
-    { name: "Claude", ring: 1, angle: 0, color: "#d4a574", desc: "Primary AI collaborator for code, strategy, writing, and architecture" },
-    { name: "React", ring: 1, angle: 72, color: "#61dafb", desc: "Component framework powering every frontend I ship" },
-    { name: "Next.js", ring: 1, angle: 144, color: "#ffffff", desc: "Full-stack framework with SSR, API routes, and edge functions" },
-    { name: "Three.js", ring: 1, angle: 216, color: "#049ef4", desc: "3D rendering engine for the particle effects on this page" },
-    { name: "Vercel", ring: 1, angle: 288, color: "#ffffff", desc: "Deploy platform — every site goes live in under 60 seconds" },
-    { name: "ChatGPT", ring: 2, angle: 30, color: "#74aa9c", desc: "Research, brainstorming, and second-opinion analysis" },
-    { name: "Cursor", ring: 2, angle: 90, color: "#7c3aed", desc: "AI-native code editor for rapid full-stack development" },
-    { name: "Midjourney", ring: 2, angle: 150, color: "#f0f0f0", desc: "AI image generation for concepts, mockups, and visual assets" },
-    { name: "Node.js", ring: 2, angle: 210, color: "#68a063", desc: "Server runtime for APIs, automation scripts, and tooling" },
-    { name: "Supabase", ring: 2, angle: 270, color: "#3ecf8e", desc: "Database, auth, and real-time subscriptions" },
-    { name: "Remotion", ring: 2, angle: 330, color: "#0b84f3", desc: "Programmatic video — code writes the video" },
-    { name: "Figma", ring: 3, angle: 15, color: "#a259ff", desc: "Design handoff and collaborative prototyping" },
-    { name: "GA4", ring: 3, angle: 75, color: "#e37400", desc: "Analytics, conversion tracking, and performance measurement" },
-    { name: "Tailwind", ring: 3, angle: 135, color: "#38bdf8", desc: "Utility CSS for consistent, rapid UI development" },
-    { name: "SEO", ring: 3, angle: 195, color: "#22c55e", desc: "Technical SEO, schema markup, AI Overview optimization" },
-    { name: "Chrome APIs", ring: 3, angle: 255, color: "#4285f4", desc: "Browser extensions, content scripts, and web platform APIs" },
-    { name: "Stripe", ring: 3, angle: 315, color: "#635bff", desc: "Payments, subscriptions, and checkout flows" },
+  var [ref, vis] = useInView(0.15);
+  var [active, setActive] = useState(null);
+  var tools = [
+    { name: "Claude", ring: 1, color: "#d4a574", desc: "Primary AI collaborator for code, strategy, writing, and architecture" },
+    { name: "React", ring: 1, color: "#61dafb", desc: "Component framework powering every frontend I ship" },
+    { name: "Next.js", ring: 1, color: "#ffffff", desc: "Full-stack framework with SSR, API routes, and edge functions" },
+    { name: "Three.js", ring: 1, color: "#049ef4", desc: "3D rendering engine for the particle effects on this page" },
+    { name: "Vercel", ring: 1, color: "#ffffff", desc: "Deploy platform — every site goes live in under 60 seconds" },
+    { name: "ChatGPT", ring: 2, color: "#74aa9c", desc: "Research, brainstorming, and second-opinion analysis" },
+    { name: "Cursor", ring: 2, color: "#7c3aed", desc: "AI-native code editor for rapid full-stack development" },
+    { name: "Midjourney", ring: 2, color: "#f0f0f0", desc: "AI image generation for concepts, mockups, and visual assets" },
+    { name: "Node.js", ring: 2, color: "#68a063", desc: "Server runtime for APIs, automation scripts, and tooling" },
+    { name: "Supabase", ring: 2, color: "#3ecf8e", desc: "Database, auth, and real-time subscriptions" },
+    { name: "Remotion", ring: 2, color: "#0b84f3", desc: "Programmatic video — code writes the video" },
+    { name: "Figma", ring: 3, color: "#a259ff", desc: "Design handoff and collaborative prototyping" },
+    { name: "GA4", ring: 3, color: "#e37400", desc: "Analytics, conversion tracking, and performance measurement" },
+    { name: "Tailwind", ring: 3, color: "#38bdf8", desc: "Utility CSS for consistent, rapid UI development" },
+    { name: "SEO", ring: 3, color: "#22c55e", desc: "Technical SEO, schema markup, AI Overview optimization" },
+    { name: "Chrome APIs", ring: 3, color: "#4285f4", desc: "Browser extensions, content scripts, and web platform APIs" },
+    { name: "Stripe", ring: 3, color: "#635bff", desc: "Payments, subscriptions, and checkout flows" },
   ];
-  useEffect(() => {
-    const canvas = canvasRef.current; if(!canvas||!vis) return;
-    const ctx = canvas.getContext("2d"); let frame=0, running=true;
-    const resize = () => { canvas.width=canvas.offsetWidth*2; canvas.height=canvas.offsetHeight*2; ctx.setTransform(2,0,0,2,0,0); };
-    resize();
-    const onM = e => { const r=canvas.getBoundingClientRect(); mRef.current={x:(e.clientX-r.left)/r.width, y:(e.clientY-r.top)/r.height}; };
-    canvas.addEventListener("mousemove",onM);
-
-    // Create floating particles for each tool
-    const pts = tools.map((tool,i) => ({
-      tool, angle: tool.angle * Math.PI / 180,
-      speed: (4 - tool.ring) * 0.6 + Math.random() * 0.3,
-      orbit: tool.ring, phase: Math.random() * Math.PI * 2,
-      pulseSpeed: 0.5 + Math.random() * 1.5,
-      trail: [],
-    }));
-
-    // Connection particles that flow between rings
-    const flows = [];
-    for (let i = 0; i < 40; i++) {
-      flows.push({
-        fromRing: 1 + Math.floor(Math.random() * 2),
-        angle: Math.random() * Math.PI * 2,
-        progress: Math.random(),
-        speed: 0.003 + Math.random() * 0.004,
-        color: [C.accent, C.accent2, C.green, "#ffffff"][Math.floor(Math.random() * 4)],
-        size: Math.random() * 1.5 + 0.5,
-      });
-    }
-
-    // Background stars
-    const stars = Array.from({length: 80}, () => ({
-      x: Math.random(), y: Math.random(),
-      s: Math.random() * 1.2 + 0.3,
-      blink: Math.random() * Math.PI * 2,
-      speed: 0.3 + Math.random() * 2,
-    }));
-
-    const animate = () => {
-      if(!running||!canvas.offsetWidth) return; frame++;
-      const t=frame*0.006, w=canvas.offsetWidth, h=canvas.offsetHeight, cx=w/2, cy=h/2;
-      ctx.clearRect(0,0,w,h);
-      const radii=[0, w*0.13, w*0.24, w*0.36];
-      const mx=(mRef.current.x-0.5)*20, my=(mRef.current.y-0.5)*20;
-
-      // Background stars
-      stars.forEach(star => {
-        const a = Math.sin(t * star.speed + star.blink) * 0.5 + 0.5;
-        ctx.beginPath();
-        ctx.arc(star.x * w, star.y * h, star.s * a, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${a * 0.15})`;
-        ctx.fill();
-      });
-
-      // Orbit rings — dashed with glow
-      for(let ri=1;ri<=3;ri++){
-        ctx.beginPath(); ctx.arc(cx,cy,radii[ri],0,Math.PI*2);
-        ctx.strokeStyle=`rgba(255,255,255,${0.04 + Math.sin(t + ri) * 0.01})`;
-        ctx.lineWidth=0.8; ctx.setLineDash([3,6]); ctx.stroke(); ctx.setLineDash([]);
-      }
-
-      // Connection lines from center to each tool (subtle)
-      pts.forEach(p => {
-        const a = p.angle + t * p.speed * 0.15;
-        const r = radii[p.orbit];
-        const x = cx + Math.cos(a) * r + mx * (p.orbit * 0.3);
-        const y = cy + Math.sin(a) * r + my * (p.orbit * 0.3);
-        p.cx = x; p.cy = y;
-
-        // Connection to center
-        const grad = ctx.createLinearGradient(cx, cy, x, y);
-        grad.addColorStop(0, "transparent");
-        grad.addColorStop(0.4, p.tool.color + "08");
-        grad.addColorStop(1, p.tool.color + "15");
-        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
-        ctx.strokeStyle = grad; ctx.lineWidth=0.6; ctx.stroke();
-      });
-
-      // Draw connections between nearby tools
-      for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++) {
-        if(Math.abs(pts[i].orbit - pts[j].orbit) <= 1) {
-          const dx=pts[i].cx-pts[j].cx, dy=pts[i].cy-pts[j].cy;
-          const d=Math.sqrt(dx*dx+dy*dy);
-          if(d < w * 0.22) {
-            ctx.beginPath(); ctx.moveTo(pts[i].cx,pts[i].cy); ctx.lineTo(pts[j].cx,pts[j].cy);
-            ctx.strokeStyle=`rgba(255,255,255,${0.03 * (1 - d/(w*0.22))})`; ctx.lineWidth=0.5; ctx.stroke();
-          }
-        }
-      }
-
-      // Flow particles between rings
-      flows.forEach(fl => {
-        fl.progress += fl.speed;
-        if(fl.progress > 1) { fl.progress = 0; fl.angle += 0.3 + Math.random() * 0.5; }
-        const r1 = radii[fl.fromRing], r2 = radii[fl.fromRing + 1];
-        const r = r1 + (r2 - r1) * fl.progress;
-        const a = fl.angle + t * 0.3;
-        const x = cx + Math.cos(a) * r + mx * 0.2;
-        const y = cy + Math.sin(a) * r + my * 0.2;
-        ctx.beginPath(); ctx.arc(x,y,fl.size,0,Math.PI*2);
-        ctx.fillStyle = fl.color + Math.floor(Math.max(0, Math.min(1, 1-fl.progress))*60).toString(16).padStart(2,"0");
-        ctx.fill();
-      });
-
-      // Tool nodes with labels
-      pts.forEach(p => {
-        var pulse = Math.sin(t * p.pulseSpeed + p.phase) * 0.2 + 0.8;
-        var baseR = 14 + (4 - p.orbit) * 4;
-        var r = baseR * pulse;
-
-        // Outer glow ring
-        ctx.beginPath(); ctx.arc(p.cx,p.cy,r+6,0,Math.PI*2);
-        ctx.fillStyle = p.tool.color + "08"; ctx.fill();
-
-        // Node circle
-        ctx.beginPath(); ctx.arc(p.cx,p.cy,r,0,Math.PI*2);
-        ctx.fillStyle = p.tool.color + "18"; ctx.fill();
-        ctx.strokeStyle = p.tool.color + "44"; ctx.lineWidth = 1; ctx.stroke();
-
-        // Tool name inside or below node
-        ctx.font = (p.orbit===1?"bold ":"") + Math.round(7+(4-p.orbit)*1.5) + "px DM Sans, sans-serif";
-        ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillStyle = p.tool.color + "dd";
-        ctx.fillText(p.tool.name, p.cx, p.cy);
-
-        // Store trail
-        p.trail.push({x:p.cx,y:p.cy});
-        if(p.trail.length > 8) p.trail.shift();
-        if(p.orbit === 1 && p.trail.length > 1) {
-          ctx.beginPath(); ctx.moveTo(p.trail[0].x, p.trail[0].y);
-          for(var ti=1;ti<p.trail.length;ti++) ctx.lineTo(p.trail[ti].x, p.trail[ti].y);
-          ctx.strokeStyle = p.tool.color + "15"; ctx.lineWidth = 1.5; ctx.stroke();
-        }
-      });
-
-      // Center node — pulsing with rings
-      const cPulse = Math.sin(t * 1.5) * 0.15 + 0.85;
-      ctx.beginPath(); ctx.arc(cx,cy,20*cPulse,0,Math.PI*2);
-      ctx.fillStyle = C.accent + "08"; ctx.fill();
-      ctx.beginPath(); ctx.arc(cx,cy,12*cPulse,0,Math.PI*2);
-      ctx.fillStyle = C.accent + "18"; ctx.fill();
-      ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2);
-      ctx.fillStyle = C.accent; ctx.fill();
-      ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
-      ctx.fillStyle = "#ffffff"; ctx.fill();
-
-      requestAnimationFrame(animate);
-    };
-    animate(); window.addEventListener("resize",resize);
-    return () => { running=false; canvas.removeEventListener("mousemove",onM); window.removeEventListener("resize",resize); };
-  },[vis]);
+  var groups = [{ring:1,label:"Core",color:C.accent},{ring:2,label:"Extended",color:C.accent2},{ring:3,label:"Ecosystem",color:C.green}];
+  var at = active ? tools.find(function(t){return t.name===active;}) : null;
 
   return (
-    <div ref={ref} style={{opacity:vis?1:0,transition:"opacity 0.8s"}}>
-      <div className="rg2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"40px",alignItems:"center"}}>
-        <div><canvas ref={canvasRef} style={{width:"100%",height:"480px",borderRadius:16,border:`1px solid ${C.border}`,background:"rgba(0,0,0,0.3)"}} /></div>
-        <div>
-          {[{ring:1,label:"Core Stack",color:C.accent},{ring:2,label:"Extended Tools",color:C.accent2},{ring:3,label:"Ecosystem",color:C.green}].map(group =>
-            <div key={group.ring} style={{marginBottom:16}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
-                <div style={{width:6,height:6,borderRadius:"50%",background:group.color}} />
-                <span style={{fontSize:13,letterSpacing:"2px",textTransform:"uppercase",color:group.color,fontFamily:F.mono,fontWeight:600}}>{group.label}</span>
+    <div ref={ref} style={{opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(20px)",transition:"all 0.8s cubic-bezier(0.23,1,0.32,1)"}}>
+
+      {/* Tool grid — grouped by ring */}
+      <div style={{display:"flex",flexDirection:"column",gap:32}}>
+        {groups.map(function(g) {
+          var ringTools = tools.filter(function(t){return t.ring===g.ring;});
+          return (
+            <div key={g.ring}>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+                <div style={{height:1,flex:1,background:"linear-gradient(90deg,"+g.color+"33,transparent)"}} />
+                <span style={{fontSize:12,letterSpacing:"3px",textTransform:"uppercase",color:g.color,fontFamily:F.mono,fontWeight:600}}>{g.label}</span>
+                <div style={{height:1,flex:1,background:"linear-gradient(270deg,"+g.color+"33,transparent)"}} />
               </div>
-              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                {tools.filter(t => t.ring===group.ring).map(tool =>
-                  <span key={tool.name} onMouseEnter={() => setActive(tool.name)} onMouseLeave={() => setActive(null)}
-                    style={{fontSize:14,padding:"8px 14px",borderRadius:8,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"color 0.2s, background 0.2s, border-color 0.2s",
-                      background:active===tool.name?tool.color+"18":"rgba(255,255,255,0.03)",
-                      color:active===tool.name?tool.color:C.textMid,
-                      border:`1px solid ${active===tool.name?tool.color+"33":"rgba(255,255,255,0.04)"}`
-                    }}>{tool.name}</span>
-                )}
+              <div style={{display:"flex",flexWrap:"wrap",gap:10,justifyContent:"center"}}>
+                {ringTools.map(function(tool,ti) {
+                  var isActive = active === tool.name;
+                  var delay = ti * 0.06 + (g.ring - 1) * 0.2;
+                  return (
+                    <div key={tool.name}
+                      onMouseEnter={function(){setActive(tool.name);}}
+                      onMouseLeave={function(){setActive(null);}}
+                      onClick={function(){setActive(active===tool.name?null:tool.name);}}
+                      style={{
+                        padding: g.ring===1 ? "14px 24px" : "10px 18px",
+                        borderRadius: 10,
+                        background: isActive ? tool.color+"15" : "#0a0c16",
+                        border: "1px solid " + (isActive ? tool.color+"55" : "rgba(255,255,255,0.06)"),
+                        cursor: "pointer",
+                        transition: "transform 0.25s cubic-bezier(0.23,1,0.32,1), background 0.25s, border-color 0.25s, box-shadow 0.25s",
+                        transform: isActive ? "scale(1.05)" : vis ? "scale(1)" : "scale(0.9)",
+                        opacity: vis ? 1 : 0,
+                        transitionDelay: vis ? delay+"s" : "0s",
+                        boxShadow: isActive ? "0 0 24px "+tool.color+"22" : "none",
+                        display: "flex", alignItems: "center", gap: 10,
+                      }}>
+                      <div style={{
+                        width: g.ring===1?10:7, height: g.ring===1?10:7, borderRadius:"50%",
+                        background: tool.color, flexShrink:0,
+                        boxShadow: isActive ? "0 0 12px "+tool.color+"66" : "none",
+                        transition: "box-shadow 0.25s",
+                      }} />
+                      <span style={{
+                        fontSize: g.ring===1 ? 16 : 14,
+                        fontWeight: g.ring===1 ? 700 : 500,
+                        fontFamily: F.display,
+                        color: isActive ? tool.color : C.textMid,
+                        transition: "color 0.25s",
+                        whiteSpace: "nowrap",
+                      }}>{tool.name}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          )}
-          <div style={{minHeight:72,marginTop:20,padding:"14px 16px",background:"rgba(255,255,255,0.02)",borderRadius:8,border:`1px solid ${C.border}`,transition:"all 0.3s"}}>
-            {(() => { var at = active ? tools.find(t => t.name === active) : null; return at ? <div><div style={{fontSize:16,fontWeight:700,color:at.color,fontFamily:F.display,marginBottom:6}}>{at.name}</div><p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{at.desc}</p></div> : <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic"}}>Hover any tool to learn how I use it</p>; })()}
+          );
+        })}
+      </div>
+
+      {/* Description panel */}
+      <div style={{marginTop:32,padding:"20px 24px",background:"rgba(255,255,255,0.02)",borderRadius:12,border:"1px solid "+C.border,minHeight:72,transition:"border-color 0.3s",borderColor:at?at.color+"22":C.border}}>
+        {at ? (
+          <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
+            <div style={{width:12,height:12,borderRadius:"50%",background:at.color,marginTop:4,flexShrink:0,boxShadow:"0 0 12px "+at.color+"44"}} />
+            <div>
+              <div style={{fontSize:17,fontWeight:700,color:at.color,fontFamily:F.display,marginBottom:4}}>{at.name}</div>
+              <p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{at.desc}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic",textAlign:"center"}}>Tap any tool to see how I use it</p>
+        )}
       </div>
     </div>
   );
 }
+
 
 // ============================================================
 // AUTOMATION CAROUSEL (one card at a time, swipeable)
@@ -1205,7 +1100,7 @@ export default function DonnyAI() {
 
       {/* STACK */}
       <section id="stack" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
-        <Heading tag="The Tools" title="My Stack" subtitle="Everything orbits AI. Hover to explore." />
+        <Heading tag="The Tools" title="My Stack" subtitle="Everything I use to ship products, design sites, and automate businesses." />
         <StackOrbit />
       </section>
 
