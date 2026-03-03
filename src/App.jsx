@@ -40,8 +40,8 @@ var SITES = [
 var PROJECTS = [
   { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
   { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each \u2014 including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "\u25C7" },
-  { title: "Restaurant SEO", tag: "Marketing", desc: "Ran AI-powered SEO campaigns for major restaurant chains including Chick-fil-A, Dave & Buster's, and LongHorn Steakhouse. Created content that ranks in Google's AI Overviews and drives real foot traffic.", metrics: ["National Chains", "AI Overview Rankings", "Measurable Traffic"], color: C.accent3, icon: "\u25C6" },
-  { title: "Gestational.ly", tag: "App Development", desc: "Took a personal idea and built it into a full working app \u2014 a companion tool for surrogates and intended parents to track their journey, access resources, and stay connected. Concept to launch, entirely AI-built.", metrics: ["Full React App", "Educational Content", "Live Product"], color: C.green, icon: "\u25C9" },
+  { title: "Fruit Fly Defense", tag: "E-Commerce + SEO", desc: "Built the entire digital presence for a natural pest control brand \u2014 e-commerce site, AI-optimized blog pipeline, Google Ads strategy, and YouTube channel. Serving commercial clients like Chick-fil-A and Dave & Buster's.", metrics: ["Full E-Commerce", "Commercial Clients", "AI Blog Pipeline"], color: C.accent3, icon: "\u25C6" },
+  { title: "Business Automations", tag: "Systems", desc: "Designed and deployed automation workflows that replace hours of manual work \u2014 client intake, invoicing, review collection, social media scheduling. Set-and-forget systems that run 24/7.", metrics: ["Zero Manual Work", "24/7 Running", "Hours Saved Weekly"], color: C.green, icon: "\u25C9" },
   { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies \u2014 three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "\u25A3" },
   { title: "Video Production", tag: "Creative", desc: "Created cinematic product videos that render themselves automatically using code. Write a script, feed in assets, and the system generates broadcast-quality video \u2014 no editor, no timeline, no waiting.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "\u25B2" },
 ];
@@ -206,7 +206,7 @@ function Nav({ active }) {
   return (
     <nav style={{ position: "fixed", top: "50%", right: "20px", transform: "translateY(-50%)", zIndex: 100, display: "flex", flexDirection: "column", gap: "10px", opacity: show ? 1 : 0, transition: "opacity 0.5s" }}>
       {SECTS.map(s => (
-        <button key={s.id} onClick={() => goTo(s.id)} title={s.l} style={{
+        <button key={s.id} onClick={() => goTo(s.id)} title={s.label} style={{
           width: active === s.id ? "20px" : "6px", height: "6px", borderRadius: "3px",
           background: active === s.id ? C.accent : "rgba(255,255,255,0.15)",
           border: "none", cursor: "pointer", transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)", padding: 0,
@@ -258,7 +258,7 @@ function SiteMockup({ site, index }) {
         {[{n:"Spine Care",c:"#f0fdfa",bc:"#0d9488"},{n:"Nerve Blocks",c:"#ecfeff",bc:"#0891b2"},{n:"Regenerative",c:"#fdf4ff",bc:"#a855f7"}].map((s,i) => <div key={i} style={{background:s.c,borderRadius:10,padding:"14px 10px",textAlign:"center"}}><div style={{width:24,height:3,borderRadius:2,background:s.bc,margin:"0 auto 8px"}} /><div style={{fontSize:10,fontWeight:700,color:"#334155",fontFamily:F.display}}>{s.n}</div></div>)}
       </div>
       <div style={{display:"flex",justifyContent:"center",gap:20,padding:"16px 24px 0"}}>
-        {[{v:"4.9",l:"Rating"},{v:"2k+",l:"Patients"},{v:"15yr",l:"Experience"}].map((s,i) => <div key={i} style={{textAlign:"center"}}><div style={{fontSize:18,fontWeight:800,color:"#0f172a",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"#94a3b8",fontFamily:F.mono}}>{s.l}</div></div>)}
+        {[{v:"4.9",l:"Rating"},{v:"2k+",l:"Patients"},{v:"15yr",l:"Experience"}].map((s,i) => <div key={i} style={{textAlign:"center"}}><div style={{fontSize:18,fontWeight:800,color:"#0f172a",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"#94a3b8",fontFamily:F.mono}}>{s.label}</div></div>)}
       </div>
     </div>);
 
@@ -279,7 +279,7 @@ function SiteMockup({ site, index }) {
         <h3 style={{fontSize:22,fontWeight:300,color:"rgba(255,255,255,0.9)",fontFamily:F.display,lineHeight:1.4,maxWidth:280}}>Strategic financial advisory for companies that think in decades.</h3>
       </div>
       <div style={{display:"flex",gap:0,margin:"28px 28px 0",position:"relative",zIndex:1}}>
-        {[{v:"800+",l:"Active Clients"},{v:"22",l:"Years"},{v:"98%",l:"Retention"}].map((s,i) => <div key={i} style={{flex:1,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)",borderRight:i<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.mono,textAlign:"center"}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.15)",fontFamily:F.mono,textAlign:"center",marginTop:4}}>{s.l}</div></div>)}
+        {[{v:"800+",l:"Active Clients"},{v:"22",l:"Years"},{v:"98%",l:"Retention"}].map((s,i) => <div key={i} style={{flex:1,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)",borderRight:i<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.mono,textAlign:"center"}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.15)",fontFamily:F.mono,textAlign:"center",marginTop:4}}>{s.label}</div></div>)}
       </div>
     </div>);
 
@@ -646,7 +646,7 @@ function ProcessStep({ step, index }) {
     <div ref={ref} style={{ opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(30px)", transition: `all 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s`, marginBottom: "16px" }}>
       <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} onClick={() => setExpanded(!expanded)}
         style={{ display: "flex", gap: "24px", alignItems: "flex-start", padding: "24px", cursor: "pointer", background: expanded?"rgba(255,255,255,0.02)":"transparent", border: `1px solid ${expanded?step.color+"22":h?C.border:"transparent"}`, borderRadius: "12px", transition: "all 0.3s" }}>
-        <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.06)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
+        <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.18)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <h3 style={{ fontSize: "20px", fontWeight: 600, color: h||expanded ? "#fff" : C.textMid, fontFamily: F.display, marginBottom: "6px", transition: "color 0.3s" }}>{step.title}</h3>
@@ -700,25 +700,142 @@ function StackOrbit() {
     resize();
     const onM = e => { const r=canvas.getBoundingClientRect(); mRef.current={x:(e.clientX-r.left)/r.width, y:(e.clientY-r.top)/r.height}; };
     canvas.addEventListener("mousemove",onM);
-    const animate = () => {
-      if(!running)return; frame++;
-      const t=frame*0.008, w=canvas.offsetWidth, h=canvas.offsetHeight, cx=w/2, cy=h/2;
-      ctx.clearRect(0,0,w,h);
-      const radii=[0, w*0.16, w*0.28, w*0.39];
-      for(let ri=1;ri<=3;ri++){ ctx.beginPath(); ctx.arc(cx,cy,radii[ri],0,Math.PI*2); ctx.strokeStyle="rgba(255,255,255,0.06)"; ctx.lineWidth=0.5; ctx.stroke(); }
-      const mx=(mRef.current.x-0.5)*12, my=(mRef.current.y-0.5)*12;
-      tools.forEach(tool => {
-        const a=(tool.angle+t*(4-tool.ring)*8)*Math.PI/180;
-        const r=radii[tool.ring];
-        const x=cx+Math.cos(a)*r+mx*(tool.ring*0.4);
-        const y=cy+Math.sin(a)*r+my*(tool.ring*0.4);
-        ctx.beginPath(); ctx.arc(x,y,4+((4-tool.ring)*1),0,Math.PI*2);
-        ctx.fillStyle=tool.color+"88"; ctx.fill();
-        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
-        ctx.strokeStyle="rgba(255,255,255,0.04)"; ctx.lineWidth=0.5; ctx.stroke();
+
+    // Create floating particles for each tool
+    const pts = tools.map((tool,i) => ({
+      tool, angle: tool.angle * Math.PI / 180,
+      speed: (4 - tool.ring) * 0.6 + Math.random() * 0.3,
+      orbit: tool.ring, phase: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.5 + Math.random() * 1.5,
+      trail: [],
+    }));
+
+    // Connection particles that flow between rings
+    const flows = [];
+    for (let i = 0; i < 40; i++) {
+      flows.push({
+        fromRing: 1 + Math.floor(Math.random() * 2),
+        angle: Math.random() * Math.PI * 2,
+        progress: Math.random(),
+        speed: 0.003 + Math.random() * 0.004,
+        color: [C.accent, C.accent2, C.green, "#fff"][Math.floor(Math.random() * 4)],
+        size: Math.random() * 1.5 + 0.5,
       });
-      ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2); ctx.fillStyle=C.accent; ctx.fill();
-      ctx.beginPath(); ctx.arc(cx,cy,14,0,Math.PI*2); ctx.fillStyle=C.accent+"15"; ctx.fill();
+    }
+
+    // Background stars
+    const stars = Array.from({length: 80}, () => ({
+      x: Math.random(), y: Math.random(),
+      s: Math.random() * 1.2 + 0.3,
+      blink: Math.random() * Math.PI * 2,
+      speed: 0.3 + Math.random() * 2,
+    }));
+
+    const animate = () => {
+      if(!running) return; frame++;
+      const t=frame*0.006, w=canvas.offsetWidth, h=canvas.offsetHeight, cx=w/2, cy=h/2;
+      ctx.clearRect(0,0,w,h);
+      const radii=[0, w*0.13, w*0.24, w*0.36];
+      const mx=(mRef.current.x-0.5)*20, my=(mRef.current.y-0.5)*20;
+
+      // Background stars
+      stars.forEach(star => {
+        const a = Math.sin(t * star.speed + star.blink) * 0.5 + 0.5;
+        ctx.beginPath();
+        ctx.arc(star.x * w, star.y * h, star.s * a, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a * 0.15})`;
+        ctx.fill();
+      });
+
+      // Orbit rings — dashed with glow
+      for(let ri=1;ri<=3;ri++){
+        ctx.beginPath(); ctx.arc(cx,cy,radii[ri],0,Math.PI*2);
+        ctx.strokeStyle=`rgba(255,255,255,${0.04 + Math.sin(t + ri) * 0.01})`;
+        ctx.lineWidth=0.8; ctx.setLineDash([3,6]); ctx.stroke(); ctx.setLineDash([]);
+      }
+
+      // Connection lines from center to each tool (subtle)
+      pts.forEach(p => {
+        const a = p.angle + t * p.speed * 0.15;
+        const r = radii[p.orbit];
+        const x = cx + Math.cos(a) * r + mx * (p.orbit * 0.3);
+        const y = cy + Math.sin(a) * r + my * (p.orbit * 0.3);
+        p.cx = x; p.cy = y;
+
+        // Connection to center
+        const grad = ctx.createLinearGradient(cx, cy, x, y);
+        grad.addColorStop(0, "transparent");
+        grad.addColorStop(0.4, p.tool.color + "08");
+        grad.addColorStop(1, p.tool.color + "15");
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+        ctx.strokeStyle = grad; ctx.lineWidth=0.6; ctx.stroke();
+      });
+
+      // Draw connections between nearby tools
+      for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++) {
+        if(Math.abs(pts[i].orbit - pts[j].orbit) <= 1) {
+          const dx=pts[i].cx-pts[j].cx, dy=pts[i].cy-pts[j].cy;
+          const d=Math.sqrt(dx*dx+dy*dy);
+          if(d < w * 0.22) {
+            ctx.beginPath(); ctx.moveTo(pts[i].cx,pts[i].cy); ctx.lineTo(pts[j].cx,pts[j].cy);
+            ctx.strokeStyle=`rgba(255,255,255,${0.03 * (1 - d/(w*0.22))})`; ctx.lineWidth=0.5; ctx.stroke();
+          }
+        }
+      }
+
+      // Flow particles between rings
+      flows.forEach(fl => {
+        fl.progress += fl.speed;
+        if(fl.progress > 1) { fl.progress = 0; fl.angle += 0.3 + Math.random() * 0.5; }
+        const r1 = radii[fl.fromRing], r2 = radii[fl.fromRing + 1];
+        const r = r1 + (r2 - r1) * fl.progress;
+        const a = fl.angle + t * 0.3;
+        const x = cx + Math.cos(a) * r + mx * 0.2;
+        const y = cy + Math.sin(a) * r + my * 0.2;
+        ctx.beginPath(); ctx.arc(x,y,fl.size,0,Math.PI*2);
+        ctx.fillStyle = fl.color + Math.floor((1-fl.progress)*60).toString(16).padStart(2,"0");
+        ctx.fill();
+      });
+
+      // Tool dots with glow and pulse
+      pts.forEach(p => {
+        const pulse = Math.sin(t * p.pulseSpeed + p.phase) * 0.3 + 0.7;
+        const baseSize = 3 + (4 - p.orbit) * 1.5;
+        const sz = baseSize * pulse;
+
+        // Outer glow
+        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz*3,0,Math.PI*2);
+        ctx.fillStyle = p.tool.color + "12"; ctx.fill();
+
+        // Core dot
+        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz,0,Math.PI*2);
+        ctx.fillStyle = p.tool.color + "cc"; ctx.fill();
+
+        // Hot center
+        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz*0.4,0,Math.PI*2);
+        ctx.fillStyle = "#ffffff88"; ctx.fill();
+
+        // Store trail
+        p.trail.push({x:p.cx,y:p.cy});
+        if(p.trail.length > 8) p.trail.shift();
+        if(p.orbit === 1 && p.trail.length > 1) {
+          ctx.beginPath(); ctx.moveTo(p.trail[0].x, p.trail[0].y);
+          for(let ti=1;ti<p.trail.length;ti++) ctx.lineTo(p.trail[ti].x, p.trail[ti].y);
+          ctx.strokeStyle = p.tool.color + "15"; ctx.lineWidth = 1.5; ctx.stroke();
+        }
+      });
+
+      // Center node — pulsing with rings
+      const cPulse = Math.sin(t * 1.5) * 0.15 + 0.85;
+      ctx.beginPath(); ctx.arc(cx,cy,20*cPulse,0,Math.PI*2);
+      ctx.fillStyle = C.accent + "08"; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,12*cPulse,0,Math.PI*2);
+      ctx.fillStyle = C.accent + "18"; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2);
+      ctx.fillStyle = C.accent; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
+      ctx.fillStyle = "#fff"; ctx.fill();
+
       requestAnimationFrame(animate);
     };
     animate(); window.addEventListener("resize",resize);
@@ -728,7 +845,7 @@ function StackOrbit() {
   return (
     <div ref={ref} style={{opacity:vis?1:0,transition:"opacity 0.8s"}}>
       <div className="rg2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"40px",alignItems:"center"}}>
-        <div><canvas ref={canvasRef} style={{width:"100%",height:"420px",borderRadius:16,border:`1px solid ${C.border}`}} /></div>
+        <div><canvas ref={canvasRef} style={{width:"100%",height:"480px",borderRadius:16,border:`1px solid ${C.border}`,background:"rgba(0,0,0,0.3)"}} /></div>
         <div>
           {[{ring:1,label:"Core Stack",color:C.accent},{ring:2,label:"Extended Tools",color:C.accent2},{ring:3,label:"Ecosystem",color:C.green}].map(group =>
             <div key={group.ring} style={{marginBottom:16}}>
@@ -759,46 +876,87 @@ function StackOrbit() {
 }
 
 // ============================================================
-// AUTOMATION CARD (before/after toggle + animated flow)
+// AUTOMATION CAROUSEL (one card at a time, swipeable)
 // ============================================================
-function AutomationCard({ automation: a, index }) {
+function AutomationCarousel() {
   const [ref, vis] = useInView(0.1);
-  const [h, setH] = useState(false);
-  const [showAfter, setShowAfter] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [dir, setDir] = useState(1);
   const [activeStep, setActiveStep] = useState(-1);
+  const [showAfter, setShowAfter] = useState(false);
+  const a = AUTOMATIONS[idx];
 
   useEffect(() => {
-    if(!h){setActiveStep(-1);return;}
-    let step=0;
-    const interval=setInterval(() => { step=(step+1)%a.steps.length; setActiveStep(step); },700);
+    setShowAfter(false);
+    setActiveStep(-1);
+    let step = 0;
+    const interval = setInterval(() => { step = (step + 1) % a.steps.length; setActiveStep(step); }, 800);
     setActiveStep(0);
-    return () => {clearInterval(interval);setActiveStep(-1);};
-  },[h]);
+    return () => clearInterval(interval);
+  }, [idx]);
+
+  const go = (d) => { setDir(d); setIdx((idx + d + AUTOMATIONS.length) % AUTOMATIONS.length); };
 
   return (
-    <div ref={ref} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
-      style={{opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:`all 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s`,background:C.bgCard,border:`1px solid ${h?a.color+"33":C.border}`,borderRadius:"14px",padding:"28px",cursor:"default",position:"relative",overflow:"hidden"}}>
-      {h&&<div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:`linear-gradient(90deg, transparent, ${a.color}, transparent)`,opacity:0.6}} />}
-      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
-        <span style={{fontSize:24}}>{a.icon}</span>
-        <div style={{flex:1}}><h3 style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display,marginBottom:2}}>{a.title}</h3><span style={{fontSize:12,fontFamily:F.mono,color:a.color,letterSpacing:"1px"}}>{a.time}</span></div>
+    <div ref={ref} style={{maxWidth:"680px",margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
+      {/* Progress dots */}
+      <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:28}}>
+        {AUTOMATIONS.map((auto,i) => <button key={i} onClick={() => {setDir(i>idx?1:-1);setIdx(i);}} style={{width:i===idx?32:8,height:8,borderRadius:4,background:i===idx?a.color:"rgba(255,255,255,0.1)",border:"none",cursor:"pointer",transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)"}} />)}
       </div>
-      <p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.7,marginBottom:20}}>{a.desc}</p>
-      <div style={{display:"flex",gap:8,marginBottom:16}}>
-        <button onClick={() => setShowAfter(false)} style={{flex:1,padding:"12px 8px",background:!showAfter?"rgba(255,255,255,0.06)":"transparent",border:`1px solid ${!showAfter?"rgba(255,255,255,0.1)":"transparent"}`,borderRadius:6,color:!showAfter?C.accent3:"rgba(255,255,255,0.25)",fontSize:13,fontFamily:F.mono,fontWeight:600,letterSpacing:"1.5px",cursor:"pointer",transition:"all 0.2s"}}>WITHOUT</button>
-        <button onClick={() => setShowAfter(true)} style={{flex:1,padding:"12px 8px",background:showAfter?a.color+"15":"transparent",border:`1px solid ${showAfter?a.color+"33":"transparent"}`,borderRadius:6,color:showAfter?a.color:"rgba(255,255,255,0.25)",fontSize:13,fontFamily:F.mono,fontWeight:600,letterSpacing:"1.5px",cursor:"pointer",transition:"all 0.2s"}}>WITH AI</button>
+
+      {/* Card */}
+      <div style={{background:C.bgCard,border:`1px solid ${a.color}22`,borderRadius:20,padding:"44px 40px",position:"relative",overflow:"hidden",minHeight:420}}>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg, transparent, ${a.color}, transparent)`,opacity:0.5}} />
+
+        {/* Header */}
+        <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24}}>
+          <div style={{fontSize:40,width:64,height:64,display:"flex",alignItems:"center",justifyContent:"center",background:a.color+"11",borderRadius:16,border:`1px solid ${a.color}22`}}>{a.icon}</div>
+          <div style={{flex:1}}>
+            <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,marginBottom:4,letterSpacing:"-0.5px"}}>{a.title}</h3>
+            <span style={{fontSize:14,fontFamily:F.mono,color:a.color,letterSpacing:"1px",fontWeight:500}}>{a.time}</span>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p style={{fontSize:17,color:C.textBody,fontFamily:F.body,lineHeight:1.75,marginBottom:28}}>{a.desc}</p>
+
+        {/* Before / After toggle */}
+        <div style={{display:"flex",gap:12,marginBottom:20}}>
+          <button onClick={() => setShowAfter(false)} style={{flex:1,padding:"14px",background:!showAfter?"rgba(255,255,255,0.06)":"transparent",border:`1px solid ${!showAfter?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.04)"}`,borderRadius:10,color:!showAfter?"#fff":"rgba(255,255,255,0.3)",fontSize:14,fontFamily:F.body,fontWeight:600,cursor:"pointer",transition:"all 0.25s",textAlign:"left"}}>
+            <div style={{fontSize:11,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.2)",marginBottom:6,fontWeight:500}}>WITHOUT AUTOMATION</div>
+            {!showAfter && <span style={{color:C.textBody,fontSize:14,lineHeight:1.6}}>{a.before}</span>}
+          </button>
+          <button onClick={() => setShowAfter(true)} style={{flex:1,padding:"14px",background:showAfter?a.color+"12":"transparent",border:`1px solid ${showAfter?a.color+"33":"rgba(255,255,255,0.04)"}`,borderRadius:10,color:showAfter?"#fff":"rgba(255,255,255,0.3)",fontSize:14,fontFamily:F.body,fontWeight:600,cursor:"pointer",transition:"all 0.25s",textAlign:"left"}}>
+            <div style={{fontSize:11,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.2)",marginBottom:6,fontWeight:500}}>WITH AI AUTOMATION</div>
+            {showAfter && <span style={{color:C.textBody,fontSize:14,lineHeight:1.6}}>{a.after}</span>}
+          </button>
+        </div>
+
+        {/* Animated flow */}
+        <div style={{padding:"20px 0 0",borderTop:`1px solid ${C.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:0}}>
+            {a.steps.map((step,si) => <div key={si} style={{display:"flex",alignItems:"center",flex:si<a.steps.length-1?1:"none"}}>
+              <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
+                <div style={{width:activeStep===si?14:8,height:activeStep===si?14:8,borderRadius:"50%",background:activeStep===si?a.color:activeStep>si?a.color+"66":"rgba(255,255,255,0.1)",transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)",boxShadow:activeStep===si?`0 0 20px ${a.color}66`:"none"}} />
+                <span style={{fontSize:11,color:activeStep===si?a.color:activeStep>si?C.textMid:"rgba(255,255,255,0.2)",fontFamily:F.mono,letterSpacing:"0.3px",transition:"all 0.3s",whiteSpace:"nowrap",fontWeight:activeStep===si?600:400}}>{step}</span>
+              </div>
+              {si<a.steps.length-1&&<div style={{flex:1,height:2,background:activeStep>si?a.color+"44":"rgba(255,255,255,0.04)",transition:"background 0.4s",margin:"0 6px 22px 6px",borderRadius:1,position:"relative"}}>
+                {activeStep===si&&<div style={{position:"absolute",right:-1,top:-3,width:8,height:8,borderRadius:"50%",background:a.color,animation:"pulse 0.6s ease-in-out infinite"}} />}
+              </div>}
+            </div>)}
+          </div>
+        </div>
       </div>
-      <div style={{padding:"14px 16px",background:showAfter?"rgba(255,255,255,0.02)":"rgba(255,255,255,0.01)",borderRadius:8,border:`1px solid ${showAfter?a.color+"11":"rgba(255,255,255,0.03)"}`,transition:"all 0.3s",minHeight:44}}>
-        <p style={{fontSize:14,color:showAfter?a.color:C.textMid,fontFamily:F.body,lineHeight:1.7,transition:"color 0.3s"}}>{showAfter?a.after:a.before}</p>
-      </div>
-      <div style={{display:"flex",alignItems:"center",gap:0,paddingTop:16,marginTop:16,borderTop:`1px solid ${C.border}`}}>
-        {a.steps.map((step,si) => <div key={si} style={{display:"flex",alignItems:"center",flex:si<a.steps.length-1?1:"none"}}>
-          <div style={{width:activeStep===si?10:6,height:activeStep===si?10:6,borderRadius:"50%",background:activeStep===si?a.color:activeStep>si?a.color+"66":"rgba(255,255,255,0.08)",transition:"all 0.3s",flexShrink:0,boxShadow:activeStep===si?`0 0 10px ${a.color}55`:"none"}} title={step} />
-          {si<a.steps.length-1&&<div style={{flex:1,height:1,background:activeStep>si?a.color+"33":"rgba(255,255,255,0.04)",transition:"background 0.3s",margin:"0 3px"}} />}
-        </div>)}
-      </div>
-      <div style={{display:"flex",justifyContent:"space-between",paddingTop:6}}>
-        {a.steps.map((step,si) => <span key={si} style={{fontSize:10,color:activeStep===si?a.color:"rgba(255,255,255,0.3)",fontFamily:F.mono,letterSpacing:"0.3px",transition:"color 0.3s",textAlign:"center",flex:1}}>{step}</span>)}
+
+      {/* Navigation arrows */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:24,padding:"0 8px"}}>
+        <button onClick={() => go(-1)} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 20px",color:C.textMid,fontSize:14,fontFamily:F.mono,cursor:"pointer",transition:"all 0.2s",display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:18}}>\u2190</span> Previous
+        </button>
+        <span style={{fontSize:13,color:C.textMid,fontFamily:F.mono}}>{idx + 1} / {AUTOMATIONS.length}</span>
+        <button onClick={() => go(1)} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 20px",color:C.textMid,fontSize:14,fontFamily:F.mono,cursor:"pointer",transition:"all 0.2s",display:"flex",alignItems:"center",gap:8}}>
+          Next <span style={{fontSize:18}}>\u2192</span>
+        </button>
       </div>
     </div>
   );
@@ -819,9 +977,9 @@ function Counter({ end, suffix = "", prefix = "", vis }) {
 function Stats() {
   const [ref, vis] = useInView(0.2);
   const stats = [
-    { value: 15, suffix: "+", label: "AI Products Built", color: C.accent },
-    { value: 98, suffix: "%", label: "AI-Assisted Workflow", color: C.accent2 },
-    { value: 6, suffix: "", label: "Industries Served", color: C.accent3 },
+    { value: 15, suffix: "+", label: "Products Shipped", color: C.accent },
+    { value: 5, suffix: "+", label: "Websites Launched", color: C.accent2 },
+    { value: 6, suffix: "", label: "Industries", color: C.accent3 },
     { value: 1, suffix: "%", label: "Top AI Users (US)", prefix: "Top ", color: C.green },
   ];
   return (
@@ -836,7 +994,7 @@ function Stats() {
           <div style={{ fontSize: "42px", fontWeight: 800, color: "#fff", fontFamily: F.display, lineHeight: 1 }}>
             <Counter end={s.value} suffix={s.suffix} prefix={s.prefix || ""} vis={vis} />
           </div>
-          <div style={{ fontSize: "13px", color: C.textMid, letterSpacing: "2px", textTransform: "uppercase", marginTop: "10px", fontFamily: F.mono }}>{s.l}</div>
+          <div style={{ fontSize: "13px", color: C.textMid, letterSpacing: "2px", textTransform: "uppercase", marginTop: "10px", fontFamily: F.mono }}>{s.label}</div>
         </div>
       ))}
     </div>
@@ -945,11 +1103,13 @@ export default function DonnyAI() {
       </section>
 
       {/* STATS */}
-      <section id="stats" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}><Stats /></section>
+      <section id="stats" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
+        <Heading tag="By the Numbers" title="The Impact" />
+        <Stats /></section>
 
       {/* PLAYGROUND */}
-      <section id="lab" style={{ position: "relative", zIndex: 2, padding: "80px 0", overflow: "hidden" }}>
-        <div style={{position:"absolute",inset:0,background:`linear-gradient(180deg, ${BG} 0%, rgba(0,232,255,0.02) 30%, rgba(139,92,246,0.02) 70%, ${BG} 100%)`,pointerEvents:"none"}} />
+      <section id="lab" style={{ position: "relative", zIndex: 2, padding: "80px 0", overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        
         <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
           <div style={{textAlign:"center",marginBottom:"56px"}}>
             <div style={{fontSize:"12px",letterSpacing:"4px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500}}>Interactive Lab</div>
@@ -982,10 +1142,8 @@ export default function DonnyAI() {
 
       {/* AUTOMATIONS */}
       <section id="automations" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2 }}>
-        <Heading tag="Automation" title="Set It and Forget It" subtitle="Real workflows I build for small businesses. Toggle WITHOUT vs WITH AI. Hover to watch the flow." />
-        <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
-          {AUTOMATIONS.map((a, i) => <AutomationCard key={i} automation={a} index={i} />)}
-        </div>
+        <Heading tag="Automation" title="Set It and Forget It" subtitle="Real workflows I build for small businesses. Click a card to see the before and after." />
+        <AutomationCarousel />
       </section>
 
       {/* ABOUT */}
@@ -1024,7 +1182,7 @@ export default function DonnyAI() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: "32px 24px", borderTop: `1px solid ${C.border}`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <footer style={{ padding: "32px 24px", borderTop: `2px solid ${s.color}22`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <span style={{ fontSize: "12px", color: C.textDim, fontFamily: F.mono }}>\u00a9 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
           {[{n:"LinkedIn",u:"https://linkedin.com"},{n:"GitHub",u:"https://github.com"},{n:"Email",u:"mailto:hello@donny.ai"}].map(l => <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ToolPill name={l.n} /></a>)}
