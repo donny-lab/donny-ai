@@ -11,13 +11,13 @@ var F = { display: "'Syne', sans-serif", body: "'DM Sans', sans-serif", mono: "'
 var BG = "#06070b";
 
 var SITES = [
-  { id: "awestruck", name: "Awestruck Agency", url: "awestruckagency.com", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
-  { id: "fex", name: "FeX Group", url: "fexgroup.com", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
-  { id: "gestational", name: "Gestational.ly", url: "gestational.ly", type: "Surrogacy Companion App", year: "2025", color: "#ec4899" },
-  { id: "bakery", name: "Baking with Care", url: "bakingwithcare.co", type: "Artisan Micro Bakery", year: "2025", color: "#d97706" },
-  { id: "procure", name: "ProcureTrace", url: "procuretrace.io", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
-  { id: "synergy", name: "Sourcing Synergies", url: "sourcingsynergies.com", type: "Procurement Consultancy", year: "2025", color: "#10b981" },
-  { id: "continuum", name: "Continuum Intl", url: "continuumintl.com", type: "Global Relocation", year: "2025", color: "#a78bfa" },
+  { id: "fex", name: "FeX Group", url: "fexgroup.com", liveUrl: "https://fexgroup.vercel.app", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
+  { id: "procure", name: "ProcureTrace", url: "procuretrace.io", liveUrl: "https://proceduretrace-site.vercel.app", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
+  { id: "awestruck", name: "Awestruck Agency", url: "awestruckagency.com", liveUrl: "https://awestruck-ai-visibility.vercel.app", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
+  { id: "gestational", name: "Gestational.ly", url: "gestational.ly", liveUrl: null, type: "Surrogacy Companion App", year: "2025", color: "#ec4899" },
+  { id: "continuum", name: "Continuum Intl", url: "continuumintl.com", liveUrl: null, type: "Global Relocation Management", year: "2025", color: "#a78bfa" },
+  { id: "synergy", name: "Sourcing Synergies", url: "sourcingsynergies.com", liveUrl: null, type: "Procurement Consultancy", year: "2025", color: "#10b981" },
+  { id: "bakery", name: "Baking with Care", url: "bakingwithcare.co", liveUrl: null, type: "Artisan Micro Bakery", year: "2025", color: "#d97706" },
 ];
 var PROJECTS = [
   { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
@@ -130,6 +130,59 @@ function CursorGlow(props) {
   return <div ref={ref} style={{ position:"fixed",top:0,left:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1 }} />;
 }
 
+function SpiralWave(props) {
+  var scrollRef=props.scrollRef,mouseRef=props.mouseRef;
+  var canvasRef=useRef(null);
+  useEffect(function() {
+    var canvas=canvasRef.current; if(!canvas)return;
+    var ctx=canvas.getContext("2d"); var running=true; var frame=0;
+    var particles=[];var count=150;
+    var colors=[C.accent+"55",C.accent2+"44",C.accent3+"33",C.green+"33"];
+    for(var i=0;i<count;i++){
+      particles.push({phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.3,radius:80+Math.random()*120,size:Math.random()*2+0.5,color:colors[Math.floor(Math.random()*colors.length)],ySpeed:0.5+Math.random()*0.5});
+    }
+    function resize(){var dpr=Math.min(window.devicePixelRatio,2);var h=Math.max(document.documentElement.scrollHeight,window.innerHeight*5);canvas.width=window.innerWidth*dpr;canvas.height=h*dpr;canvas.style.width=window.innerWidth+"px";canvas.style.height=h+"px";ctx.setTransform(dpr,0,0,dpr,0,0);}
+    resize();
+    var rto; function onR(){clearTimeout(rto);rto=setTimeout(resize,300);}
+    window.addEventListener("resize",onR);
+    function animate(){
+      if(!running)return; frame++;
+      var t=frame*0.01;var w=window.innerWidth;var pageH=parseInt(canvas.style.height);
+      var scroll=scrollRef.current||0;var viewTop=scroll-200;var viewBot=scroll+window.innerHeight+200;
+      ctx.clearRect(0,0,w,pageH);
+      var mx=((mouseRef.current?.x||0.5)-0.5)*40;
+      for(var i=0;i<count;i++){
+        var p=particles[i];
+        var yBase=(i/count)*pageH;
+        if(yBase<viewTop||yBase>viewBot)continue;
+        var spiralX=w*0.5+Math.sin(t*p.speed+p.phase+yBase*0.0008)*p.radius+mx*0.2;
+        var spiralY=yBase+Math.cos(t*p.ySpeed+p.phase)*15;
+        var distFromCenter=Math.abs(spiralY-scroll-window.innerHeight*0.5);
+        var vFade=Math.max(0,1-distFromCenter/(window.innerHeight*0.8));
+        if(vFade<0.02)continue;
+        ctx.globalAlpha=vFade*0.6;
+        ctx.beginPath();ctx.arc(spiralX,spiralY,p.size*(0.5+vFade*0.5),0,Math.PI*2);
+        ctx.fillStyle=p.color;ctx.fill();
+        if(vFade>0.2){
+          var ni=(i+3)%count;
+          var nyBase=(ni/count)*pageH;
+          if(nyBase>viewTop&&nyBase<viewBot){
+            var nx=w*0.5+Math.sin(t*particles[ni].speed+particles[ni].phase+nyBase*0.0008)*particles[ni].radius+mx*0.2;
+            var ny=nyBase+Math.cos(t*particles[ni].ySpeed+particles[ni].phase)*15;
+            var d=Math.sqrt((nx-spiralX)*(nx-spiralX)+(ny-spiralY)*(ny-spiralY));
+            if(d<300){ctx.globalAlpha=vFade*0.05*(1-d/300);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny);ctx.strokeStyle=C.accent;ctx.lineWidth=0.4;ctx.stroke();}
+          }
+        }
+      }
+      ctx.globalAlpha=1;
+      requestAnimationFrame(animate);
+    }
+    animate();
+    return function(){running=false;window.removeEventListener("resize",onR);};
+  },[]);
+  return <canvas ref={canvasRef} style={{position:"absolute",top:0,left:0,width:"100%",pointerEvents:"none",zIndex:1}} />;
+}
+
 function Nav(props) {
   var active=props.active; var s=useState(false),show=s[0],setShow=s[1];
   useEffect(function(){var t=setTimeout(function(){setShow(true);},2000);return function(){clearTimeout(t);};}, []);
@@ -164,117 +217,34 @@ function ToolPill(props) {
 }
 
 function SiteMockup(props) {
-  var site=props.site,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
+  var site=props.site,index=props.index; var rv=useInView(0.08),ref=rv[0],v=rv[1];
   var hs=useState(false),h=hs[0],setH=hs[1];
+  var ls=useState(true),loading=ls[0],setLoading=ls[1];
+  var es=useState(false),err=es[0],setErr=es[1];
 
-  function Bar(p){return <div style={{height:p.h||8,borderRadius:4,background:p.c||"rgba(255,255,255,0.08)",width:p.w||"100%",flexShrink:0}} />;}
-  function Pill(p){return <span style={{fontSize:9,padding:"3px 10px",borderRadius:100,border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{p.t}</span>;}
-  function Btn(p){return <div style={{display:"inline-block",padding:p.big?"12px 28px":"9px 20px",background:p.outline?"transparent":site.color,border:p.outline?"1px solid "+site.color+"55":"none",borderRadius:6,fontSize:p.big?13:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>{p.t}</div>;}
-  function SB(p){return <div style={{textAlign:"center",flex:1}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.35)",fontFamily:F.mono,marginTop:3}}>{p.l}</div></div>;}
-  function Cd(p){return <div style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:16,marginBottom:6}}>{p.i}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:4}}>{p.t}</div><Bar h={4} w="80%" /><Bar h={4} w="60%" /></div>;}
-  function NM(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:14,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:16}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.45)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
+  function FakeBar(p){return <div style={{height:p.h||6,borderRadius:3,background:p.c||"rgba(255,255,255,0.06)",width:p.w||"100%"}} />;}
+  function FakePill(p){return <span style={{fontSize:9,padding:"3px 10px",borderRadius:100,border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{p.t}</span>;}
+  function FakeBtn(p){return <div style={{display:"inline-block",padding:p.big?"11px 26px":"8px 18px",background:p.outline?"transparent":site.color,border:p.outline?"1px solid "+site.color+"55":"none",borderRadius:6,fontSize:p.big?12:10,fontWeight:600,color:"#fff",fontFamily:F.body}}>{p.t}</div>;}
+  function FakeStat(p){return <div style={{textAlign:"center",flex:1}}><div style={{fontSize:18,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginTop:2}}>{p.l}</div></div>;}
+  function FakeCard(p){return <div style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:8,padding:"12px 10px"}}><div style={{fontSize:15,marginBottom:5}}>{p.i}</div><div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:5}}>{p.t}</div><FakeBar h={3} w="75%" /><FakeBar h={3} w="55%" /></div>;}
+  function FakeNav(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:14}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
 
-  function renderSite() {
-    var id = site.id;
-    if (id === "awestruck") return (<div style={{padding:"0 24px"}}>
-      <NM l={["Services","Contracts","Case Studies","Contact"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{display:"flex",gap:6,marginBottom:14}}><Pill t="NAICS 541810" /><Pill t="GSA Schedule" /><Pill t="SDVOSB" /></div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Where Government<br/>Meets <span style={{color:site.color}}>Innovation</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Full-service digital marketing agency serving federal, state, and local government clients.</p>
-        <div style={{display:"flex",gap:10}}><Btn t="View Capabilities" big /><Btn t="Past Performance" outline /></div>
-      </div>
-      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="200+" l="Gov Contracts" /><SB v="12" l="Agencies" /><SB v="98%" l="Retention" /><SB v="$45M" l="Managed" /></div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,paddingBottom:16}}><Cd i={"\ud83c\udfdb\ufe0f"} t="Federal" /><Cd i={"\ud83c\udfe2"} t="State & Local" /><Cd i={"\ud83d\udcca"} t="Analytics" /></div>
-    </div>);
+  function renderFakeSite() {
+    if (site.id==="gestational") return (<div style={{padding:"0 22px"}}><FakeNav l={["Features","For Surrogates","For Parents","Download"]} /><div style={{padding:"38px 0 16px"}}><div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>SURROGACY COMPANION APP</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Every Journey<br/>Deserves a <span style={{color:site.color}}>Guide</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>Track milestones, access resources, and stay connected throughout your surrogacy journey.</p><div style={{display:"flex",gap:10}}><FakeBtn t="Download Free" big /><FakeBtn t="Learn More" outline /></div></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"14px 0"}}><FakeCard i={"\ud83d\udcc5"} t="Journey Tracker" /><FakeCard i={"\ud83d\udcda"} t="Resources" /><FakeCard i={"\ud83d\udcac"} t="Messaging" /><FakeCard i={"\ud83d\udd14"} t="Milestones" /></div><div style={{display:"flex",gap:10,padding:"12px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="2,800+" l="Families" /><FakeStat v="4.9" l="Rating" /><FakeStat v="24/7" l="Support" /></div></div>);
 
-    if (id === "fex") return (<div style={{padding:"0 24px"}}>
-      <NM l={["Platform","Suppliers","Pricing","Demo"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>AI-Powered Sourcing</div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Source Smarter.<br/><span style={{color:site.color}}>Build Faster.</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>AI-powered materials procurement connecting contractors with verified suppliers worldwide.</p>
-        <div style={{display:"flex",gap:10}}><Btn t="Request Demo" big /><Btn t="See Pricing" outline /></div>
-      </div>
-      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="4,200+" l="Suppliers" /><SB v="$2.1B" l="Sourced" /><SB v="48hr" l="Avg Delivery" /></div>
-      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:14,marginBottom:16}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><span style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display}}>Live Price Feed</span><span style={{fontSize:9,color:site.color,fontFamily:F.mono}}>UPDATING</span></div>
-        <div style={{display:"flex",gap:6}}>{["Steel","Lumber","Concrete","Copper"].map(function(m,mi){return <div key={m} style={{flex:1,textAlign:"center"}}><div style={{height:[35,22,28,40][mi],borderRadius:3,background:site.color+"44",marginBottom:4}} /><div style={{fontSize:8,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>{m}</div></div>;})}</div>
-      </div>
-    </div>);
+    if (site.id==="continuum") return (<div style={{padding:"0 22px"}}><FakeNav n="Continuum International" l={["Services","Destinations","Companies","Contact"]} /><div style={{padding:"38px 0 16px"}}><div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>GLOBAL RELOCATION</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Moving People.<br/><span style={{color:site.color}}>Moving Business.</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>End-to-end relocation management for global enterprises. Immigration, housing, and settling-in services.</p><FakeBtn t="Get Started" big /></div><div style={{display:"flex",gap:10,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="140+" l="Countries" /><FakeStat v="8,000" l="Moves/Year" /><FakeStat v="96%" l="Satisfaction" /></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,paddingBottom:14}}><FakeCard i={"\ud83c\udf0d"} t="Immigration" /><FakeCard i={"\ud83c\udfe0"} t="Housing" /><FakeCard i={"\ud83d\udccb"} t="Settling-In" /><FakeCard i={"\ud83d\udce6"} t="Logistics" /></div></div>);
 
-    if (id === "gestational") return (<div style={{padding:"0 24px"}}>
-      <NM l={["Features","For Surrogates","For Parents","Download"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>THE SURROGACY COMPANION APP</div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Every Journey<br/>Deserves a <span style={{color:site.color}}>Guide</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Track milestones, access resources, and stay connected throughout your surrogacy journey.</p>
-        <div style={{display:"flex",gap:10}}><Btn t="Download Free" big /><Btn t="Learn More" outline /></div>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"16px 0"}}><Cd i={"\ud83d\udcc5"} t="Journey Tracker" /><Cd i={"\ud83d\udcda"} t="Resources" /><Cd i={"\ud83d\udcac"} t="Messaging" /><Cd i={"\ud83d\udd14"} t="Milestones" /></div>
-      <div style={{display:"flex",gap:12,padding:"14px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="2,800+" l="Families" /><SB v="4.9" l="Rating" /><SB v="24/7" l="Support" /></div>
-    </div>);
+    if (site.id==="synergy") return (<div style={{padding:"0 22px"}}><FakeNav n="Sourcing Synergies" l={["Services","Industries","About","Contact"]} /><div style={{padding:"38px 0 16px"}}><div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>Strategic Procurement</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Procurement<br/><span style={{color:site.color}}>Reimagined</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>Expert consultancy helping organizations optimize sourcing strategy and vendor relationships.</p><div style={{display:"flex",gap:10}}><FakeBtn t="Schedule Consultation" big /><FakeBtn t="Our Approach" outline /></div></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"14px 0"}}><FakeCard i={"\ud83d\udd0d"} t="Spend Analysis" /><FakeCard i={"\ud83d\udcb0"} t="Cost Reduction" /><FakeCard i={"\ud83e\udd1d"} t="Vendor Mgmt" /></div><div style={{display:"flex",gap:10,padding:"12px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="$180M" l="Savings" /><FakeStat v="60+" l="Clients" /><FakeStat v="35%" l="Avg Reduction" /></div></div>);
 
-    if (id === "bakery") return (<div style={{padding:"0 24px"}}>
-      <NM l={["Menu","Custom Orders","Catering","Order Now"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <h3 style={{fontSize:32,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Handcrafted<br/>with <span style={{color:site.color}}>Heart</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:8}}>Small-batch artisan baked goods made with locally sourced ingredients.</p>
-        <p style={{fontSize:11,color:"rgba(255,255,255,0.35)",fontFamily:F.mono,marginBottom:20}}>Greenville, SC &middot; Est. 2024</p>
-        <Btn t="Order Now" big />
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0"}}>
-        {["Sourdough","Croissants","Custom Cakes","Cookies","Scones","Seasonal"].map(function(item){return <div key={item} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"16px 8px",textAlign:"center"}}><div style={{width:32,height:32,borderRadius:"50%",background:site.color+"15",margin:"0 auto 8px"}} /><div style={{fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{item}</div></div>;})}
-      </div>
-      <div style={{display:"flex",gap:8,padding:"10px 0"}}><Pill t="Local Ingredients" /><Pill t="Same-Day Pickup" /><Pill t="Delivery" /></div>
-    </div>);
-
-    if (id === "procure") return (<div style={{padding:"0 24px"}}>
-      <NM l={["Product","Compliance","Pricing","Install"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{display:"flex",gap:6,marginBottom:14}}><Pill t="OMB M-25-21" /><Pill t="SOC 2" /></div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>AI Compliance.<br/><span style={{color:site.color}}>Automated.</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Auto-log every AI interaction across ChatGPT, Claude, Gemini, Copilot, and Perplexity.</p>
-        <Btn t="Install Chrome Extension" big />
-      </div>
-      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:14,marginBottom:12}}>
-        <div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:10}}>Dashboard Preview</div>
-        <div style={{display:"flex",gap:6,marginBottom:8}}>
-          {[{n:"ChatGPT",v:"247"},{n:"Claude",v:"183"},{n:"Gemini",v:"94"},{n:"Copilot",v:"156"},{n:"Perplexity",v:"72"}].map(function(p){return <div key={p.n} style={{flex:1,textAlign:"center",padding:"8px 0",background:"rgba(255,255,255,0.03)",borderRadius:4}}><div style={{fontSize:8,color:site.color,fontFamily:F.mono}}>{p.n}</div><div style={{fontSize:14,fontWeight:700,color:"#fff",fontFamily:F.display,marginTop:2}}>{p.v}</div><div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>logs</div></div>;})}
-        </div>
-      </div>
-      <div style={{display:"flex",gap:12,padding:"10px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="5" l="AI Platforms" /><SB v="100%" l="Auto-Logged" /><SB v="SOC 2" l="Compliant" /></div>
-    </div>);
-
-    if (id === "synergy") return (<div style={{padding:"0 24px"}}>
-      <NM n="Sourcing Synergies" l={["Services","Industries","About","Contact"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>Strategic Procurement</div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Procurement<br/><span style={{color:site.color}}>Reimagined</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>Expert consultancy helping organizations optimize sourcing strategy and vendor relationships.</p>
-        <div style={{display:"flex",gap:10}}><Btn t="Schedule Consultation" big /><Btn t="Our Approach" outline /></div>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0"}}><Cd i={"\ud83d\udd0d"} t="Spend Analysis" /><Cd i={"\ud83d\udcb0"} t="Cost Reduction" /><Cd i={"\ud83e\udd1d"} t="Vendor Mgmt" /></div>
-      <div style={{display:"flex",gap:12,padding:"10px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="$180M" l="Savings Found" /><SB v="60+" l="Clients" /><SB v="35%" l="Avg Reduction" /></div>
-    </div>);
-
-    if (id === "continuum") return (<div style={{padding:"0 24px"}}>
-      <NM n="Continuum Intl" l={["Services","Destinations","For Companies","Contact"]} />
-      <div style={{padding:"44px 0 20px"}}>
-        <div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>GLOBAL RELOCATION</div>
-        <h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Moving People.<br/><span style={{color:site.color}}>Moving Business.</span></h3>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:F.body,lineHeight:1.6,marginBottom:20,maxWidth:300}}>End-to-end relocation management for global enterprises. Immigration, housing, settling-in.</p>
-        <Btn t="Get Started" big />
-      </div>
-      <div style={{display:"flex",gap:12,padding:"20px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><SB v="140+" l="Countries" /><SB v="8,000" l="Moves/Year" /><SB v="96%" l="Satisfaction" /></div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,paddingBottom:16}}><Cd i={"\ud83c\udf0d"} t="Immigration" /><Cd i={"\ud83c\udfe0"} t="Housing" /><Cd i={"\ud83d\udccb"} t="Settling-In" /><Cd i={"\ud83d\udce6"} t="Logistics" /></div>
-    </div>);
+    if (site.id==="bakery") return (<div style={{padding:"0 22px"}}><FakeNav l={["Menu","Custom Orders","Catering","Order Now"]} /><div style={{padding:"38px 0 16px"}}><h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Handcrafted<br/>with <span style={{color:site.color}}>Heart</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:6}}>Small-batch artisan baked goods made with locally sourced ingredients.</p><p style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginBottom:18}}>Greenville, SC \u00b7 Est. 2024</p><FakeBtn t="Order Now" big /></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"14px 0"}}>{["Sourdough","Croissants","Custom Cakes","Cookies","Scones","Seasonal"].map(function(item){return <div key={item} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"14px 6px",textAlign:"center"}}><div style={{width:28,height:28,borderRadius:"50%",background:site.color+"15",margin:"0 auto 6px"}} /><div style={{fontSize:9,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.body}}>{item}</div></div>;})}</div><div style={{display:"flex",gap:6,padding:"8px 0"}}><FakePill t="Local Ingredients" /><FakePill t="Same-Day Pickup" /><FakePill t="Delivery" /></div></div>);
 
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
 
+  var hasLive = !!site.liveUrl;
+
   return (
-    <div ref={ref} style={{ minWidth:"460px",maxWidth:"500px",flexShrink:0,opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
+    <div ref={ref} style={{ minWidth:"500px",maxWidth:"540px",flexShrink:0,opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
       <div onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ borderRadius:"12px",overflow:"hidden",border:"1px solid "+(h?site.color+"44":C.border),transition:"all 0.4s ease",transform:h?"translateY(-6px) scale(1.01)":"translateY(0) scale(1)",boxShadow:h?"0 24px 80px "+site.color+"20":"none" }}>
         <div style={{ background:"rgba(18,20,28,0.98)",padding:"10px 14px",display:"flex",alignItems:"center",gap:"6px",borderBottom:"1px solid "+C.border }}>
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
@@ -283,10 +253,22 @@ function SiteMockup(props) {
           <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"11px",color:C.textDim,fontFamily:F.mono }}>
             <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
           </div>
+          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:9,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"3px 8px",border:"1px solid "+site.color+"33",borderRadius:4}}>LIVE \u2192</a>}
         </div>
-        <div style={{ background:"linear-gradient(180deg, "+site.color+"08 0%, "+BG+" 100%)",minHeight:"420px",position:"relative",overflow:"hidden" }}>
-          <div style={{position:"absolute",top:"-20%",right:"-15%",width:"250px",height:"250px",borderRadius:"50%",background:"radial-gradient(circle, "+site.color+"12, transparent 70%)",filter:"blur(50px)"}} />
-          {renderSite()}
+        <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"linear-gradient(180deg, "+site.color+"08 0%, "+BG+" 100%)",overflow:"hidden" }}>
+          {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
+            <div style={{width:24,height:24,border:"2px solid "+site.color+"33",borderTop:"2px solid "+site.color,borderRadius:"50%",animation:"spin 0.8s linear infinite"}} />
+            <span style={{fontSize:10,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
+          </div>}
+          {hasLive && !err && <iframe
+            src={site.liveUrl}
+            title={site.name}
+            onLoad={function(){setLoading(false);}}
+            onError={function(){setErr(true);setLoading(false);}}
+            style={{width:"200%",height:"200%",transform:"scale(0.5)",transformOrigin:"top left",border:"none",background:"#fff",opacity:loading?0:1,transition:"opacity 0.4s ease",pointerEvents:h?"auto":"none"}}
+          />}
+          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:11,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live \u2192</a></div>}
+          {!hasLive && <div style={{position:"relative",height:"100%",overflow:"hidden"}}><div style={{position:"absolute",top:"-20%",right:"-15%",width:"250px",height:"250px",borderRadius:"50%",background:"radial-gradient(circle, "+site.color+"12, transparent 70%)",filter:"blur(50px)"}} />{renderFakeSite()}</div>}
         </div>
       </div>
       <div style={{ padding:"16px 4px 0",display:"flex",justifyContent:"space-between",alignItems:"center" }}>
@@ -294,7 +276,10 @@ function SiteMockup(props) {
           <div style={{ fontSize:"15px",fontWeight:600,color:C.text,fontFamily:F.display }}>{site.name}</div>
           <div style={{ fontSize:"13px",color:C.textMid,fontFamily:F.body,marginTop:"2px" }}>{site.type}</div>
         </div>
-        <div style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</div>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          {hasLive && <span style={{fontSize:8,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}}></span>LIVE</span>}
+          <span style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</span>
+        </div>
       </div>
     </div>
   );
@@ -584,13 +569,14 @@ export default function DonnyAI() {
   }, []);
 
   var BG = "#06070b";
-  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
+  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
     <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
       <style>{CSS}</style>
       <ParticleHero scrollRef={scrollRef} mouseRef={mouseRef} />
       <CursorGlow mouseRef={mouseRef} />
+      <div style={{position:"absolute",top:0,left:0,width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:1}}><SpiralWave scrollRef={scrollRef} mouseRef={mouseRef} /></div>
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
