@@ -44,8 +44,15 @@ var STEPS = [
   { num: "04", title: "Launch", desc: "Deploy, measure, iterate. AI-powered analytics and optimization ensure your product keeps getting better.", color: C.green },
 ];
 
+var AUTOMATIONS = [
+  { title: "Procurement Compliance Pipeline", desc: "Auto-captures every AI interaction across federal procurement teams, flags anomalies in real-time, generates audit-ready compliance reports for OMB M-25-21.", flow: ["AI Interaction","Capture Engine","Risk Scoring","Compliance Report","Audit Trail"], tags: ["Government","Compliance","Real-Time"], color: C.accent, status: "Live" },
+  { title: "Multi-Channel SEO Engine", desc: "Monitors search rankings, generates AI Overview-optimized content, auto-publishes across blog, YouTube, and social — tracks ROI down to the foot traffic.", flow: ["Rank Monitor","Content Gen","Multi-Publish","Analytics","ROI Dashboard"], tags: ["Marketing","Content","Analytics"], color: C.accent2, status: "Active" },
+  { title: "Vendor Intelligence System", desc: "Scrapes state and local bid boards, scores opportunities against capability matrices, auto-generates proposal outlines with win probability estimates.", flow: ["Bid Scraper","Opportunity Score","Proposal Draft","Win Probability","CRM Sync"], tags: ["Enterprise","Procurement","AI"], color: C.green, status: "Active" },
+  { title: "Client Onboarding Orchestrator", desc: "End-to-end client intake: form submission triggers contract generation, schedules kickoff, provisions project workspace, sends branded welcome sequence.", flow: ["Form Submit","Contract Gen","Auto-Schedule","Workspace Setup","Welcome Flow"], tags: ["Operations","Workflow","Scale"], color: C.amber, status: "Live" },
+];
+
 var LOGOS = ["Chick-fil-A", "Dave & Buster's", "LongHorn Steakhouse", "U.S. Government", "GSA Schedule"];
-var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "about", l: "About" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "process", l: "Process" }, { id: "stack", l: "Stack" }, { id: "contact", l: "Contact" }];
+var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "about", l: "About" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "automations", l: "Auto" }, { id: "process", l: "Process" }, { id: "stack", l: "Stack" }, { id: "contact", l: "Contact" }];
 
 function goTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }
 function useInView(th) {
@@ -235,42 +242,46 @@ function SiteMockup(props) {
   function FakeNav(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:14}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
 
   function renderFakeSite() {
-    if (site.id==="physician") return (<div style={{padding:"0 24px",height:"100%",display:"flex",flexDirection:"column"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
-        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:28,height:28,borderRadius:6,background:"linear-gradient(135deg, "+site.color+", "+site.color+"88)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,color:"#fff"}}>M</div><span style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>Meridian</span></div>
-        <div style={{display:"flex",gap:16}}>{["Services","Providers","Patients","Contact"].map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.35)",fontFamily:F.body}}>{n}</span>;})}</div>
+    if (site.id==="physician") return (<div style={{padding:0,height:"100%",background:"linear-gradient(175deg, #f0fdf4 0%, #ecfeff 40%, #ffffff 100%)",color:"#1a1a2e",overflow:"hidden"}}>
+      <div style={{padding:"14px 22px 10px",display:"flex",justifyContent:"space-between",alignItems:"center",borderBottom:"1px solid #e0f2fe"}}>
+        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:30,height:30,borderRadius:8,background:"linear-gradient(135deg, #0891b2, #06b6d4)",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:"#fff",fontSize:13,fontWeight:800}}>M</span></div><div><div style={{fontSize:13,fontWeight:700,color:"#0f172a",fontFamily:F.display}}>Meridian</div><div style={{fontSize:8,color:"#64748b",fontFamily:F.body,letterSpacing:"0.5px"}}>Pain & Spine Institute</div></div></div>
+        <div style={{display:"flex",gap:16}}>{["Services","Providers","Patients","Contact"].map(function(n){return <span key={n} style={{fontSize:10,color:"#64748b",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div>
       </div>
-      <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",gap:14,paddingBottom:20}}>
-        <div style={{display:"flex",gap:6}}><span style={{fontSize:9,padding:"4px 10px",background:site.color+"15",color:site.color,borderRadius:4,fontFamily:F.mono,fontWeight:500}}>Board Certified</span><span style={{fontSize:9,padding:"4px 10px",background:"rgba(255,255,255,0.04)",color:"rgba(255,255,255,0.5)",borderRadius:4,fontFamily:F.mono}}>Now Accepting Patients</span></div>
-        <div><h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.08,letterSpacing:"-0.5px"}}>Advanced Pain Relief.</h3><h3 style={{fontSize:30,fontWeight:800,color:site.color,fontFamily:F.display,lineHeight:1.08,letterSpacing:"-0.5px"}}>Restored Life.</h3></div>
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.45)",fontFamily:F.body,lineHeight:1.65,maxWidth:320}}>Comprehensive interventional pain management with minimally invasive, evidence-based treatments.</p>
-        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 22px",background:site.color,borderRadius:6,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Request Appointment</div><div style={{padding:"10px 22px",border:"1px solid rgba(255,255,255,0.12)",borderRadius:6,fontSize:11,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{"(864) 555-0134"}</div></div>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginTop:4}}>{[{i:"\u2695\ufe0f",t:"Spine"},{i:"\u26a1",t:"Nerve Blocks"},{i:"\ud83c\udfaf",t:"Joint"},{i:"\ud83e\udeb7",t:"Regenerative"},{i:"\ud83e\ude7a",t:"Spinal Stim"},{i:"\ud83d\udcca",t:"Assessment"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.02)",borderRadius:6,padding:"10px 6px",textAlign:"center"}}><div style={{fontSize:14,marginBottom:2}}>{s.i}</div><div style={{fontSize:8,color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{s.t}</div></div>;})}</div>
-        <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"10px 12px",display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:32,height:32,borderRadius:"50%",background:site.color+"22",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:site.color}}>RM</div>
-          <div style={{flex:1}}><div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:8,color:"rgba(255,255,255,0.35)",fontFamily:F.body}}>Interventional Pain Medicine</div></div>
-          <div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#fbbf24",fontSize:8}}>{"\u2605"}</span>;})}</div>
-        </div>
+      <div style={{padding:"28px 22px 0"}}>
+        <div style={{display:"flex",gap:6,marginBottom:14}}><span style={{fontSize:9,padding:"4px 10px",background:"#dcfce7",color:"#16a34a",borderRadius:100,fontFamily:F.mono,fontWeight:600}}>Accepting Patients</span><span style={{fontSize:9,padding:"4px 10px",background:"#e0f2fe",color:"#0284c7",borderRadius:100,fontFamily:F.mono,fontWeight:500}}>Board Certified</span></div>
+        <h3 style={{fontSize:28,fontWeight:800,color:"#0f172a",fontFamily:F.display,lineHeight:1.1,marginBottom:8}}>Advanced Pain Relief.</h3>
+        <h3 style={{fontSize:28,fontWeight:800,color:"#0891b2",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Restored Quality of Life.</h3>
+        <p style={{fontSize:12,color:"#64748b",fontFamily:F.body,lineHeight:1.7,maxWidth:300,marginBottom:16}}>Minimally invasive, evidence-based interventional pain management in the Upstate.</p>
+        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 22px",background:"#0891b2",borderRadius:8,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Request Appointment</div><div style={{padding:"10px 22px",border:"1px solid #cbd5e1",borderRadius:8,fontSize:11,color:"#475569",fontFamily:F.body}}>{"(864) 555-0134"}</div></div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,padding:"18px 22px 0"}}>{[{i:"\u2695\ufe0f",t:"Spine",c:"#dcfce7"},{i:"\u26a1",t:"Nerve Block",c:"#e0f2fe"},{i:"\ud83c\udfaf",t:"Joint",c:"#fef3c7"},{i:"\ud83e\udeb7",t:"Regenerative",c:"#fce7f3"},{i:"\ud83e\ude7a",t:"Stimulator",c:"#ede9fe"},{i:"\ud83d\udcca",t:"Assessment",c:"#f0fdf4"}].map(function(s,si){return <div key={si} style={{background:s.c,borderRadius:8,padding:"10px 6px",textAlign:"center"}}><div style={{fontSize:14,marginBottom:2}}>{s.i}</div><div style={{fontSize:8,fontWeight:600,color:"#334155",fontFamily:F.body}}>{s.t}</div></div>;})}</div>
+      <div style={{margin:"14px 22px",background:"#f8fafc",borderRadius:10,padding:"10px 12px",display:"flex",alignItems:"center",gap:10,border:"1px solid #e2e8f0"}}>
+        <div style={{width:34,height:34,borderRadius:"50%",background:"linear-gradient(135deg, #0891b2, #22d3ee)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#fff"}}>RM</div>
+        <div style={{flex:1}}><div style={{fontSize:11,fontWeight:600,color:"#0f172a",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:8,color:"#94a3b8",fontFamily:F.body}}>Interventional Pain Medicine</div></div>
+        <div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#f59e0b",fontSize:9}}>{"\u2605"}</span>;})}</div>
       </div>
     </div>);
 
-    if (site.id==="accountant") return (<div style={{padding:"0 24px",height:"100%",display:"flex",flexDirection:"column"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
-        <span style={{fontSize:14,fontWeight:300,color:"#fff",fontFamily:F.display,letterSpacing:"2px",textTransform:"uppercase"}}>Hargrave <span style={{color:site.color}}>&amp;</span> Cole</span>
-        <div style={{display:"flex",gap:16}}>{["Services","Team","Insights","Portal"].map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.body}}>{n}</span>;})}</div>
+    if (site.id==="accountant") return (<div style={{padding:0,height:"100%",background:"#0a0f1c",overflow:"hidden"}}>
+      <div style={{padding:"16px 24px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <div style={{borderBottom:"2px solid #6ee7b7",paddingBottom:4}}><span style={{fontSize:16,fontWeight:300,color:"#fff",fontFamily:F.display,letterSpacing:"3px",textTransform:"uppercase"}}>HC</span></div>
+        <div style={{display:"flex",gap:18}}>{["Services","Team","Insights","Portal"].map(function(n){return <span key={n} style={{fontSize:9,color:"rgba(255,255,255,0.3)",fontFamily:F.body,letterSpacing:"1px",textTransform:"uppercase"}}>{n}</span>;})}</div>
       </div>
-      <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",paddingBottom:10}}>
-        <div style={{fontSize:10,letterSpacing:3,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:14,fontWeight:500}}>Certified Public Accountants</div>
-        <h3 style={{fontSize:32,fontWeight:300,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:12,letterSpacing:"-0.3px"}}>Your Numbers.<br/><span style={{fontWeight:800}}>Our Expertise.</span></h3>
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.7,marginBottom:20,maxWidth:300}}>Strategic tax planning, audit preparation, and advisory for growing businesses. Serving the Upstate since 2003.</p>
-        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 24px",background:site.color,borderRadius:4,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Schedule Consultation</div><div style={{padding:"10px 24px",border:"1px solid "+site.color+"44",borderRadius:4,fontSize:11,color:site.color,fontFamily:F.body}}>Client Portal</div></div>
-        <div style={{display:"flex",gap:0,marginTop:20,borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:16}}>{[{v:"800+",l:"Clients Served"},{v:"$2.4M",l:"Tax Saved 2024"},{v:"22yr",l:"Experience"}].map(function(s,si){return <div key={si} style={{flex:1,textAlign:"center",borderRight:si<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.25)",fontFamily:F.mono,marginTop:3}}>{s.l}</div></div>;})}</div>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginTop:14}}>{[{i:"\ud83d\udcb0",t:"Tax Planning",d:"Year-round strategy"},{i:"\ud83d\udcc8",t:"Advisory",d:"CFO-level insights"},{i:"\ud83d\udccb",t:"Audit Prep",d:"Clean audit ready"},{i:"\ud83c\udfe2",t:"Entity Setup",d:"LLC & S-Corp"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.015)",borderRadius:6,padding:"10px",display:"flex",gap:8,alignItems:"center"}}><span style={{fontSize:14}}>{s.i}</span><div><div style={{fontSize:9,fontWeight:600,color:"rgba(255,255,255,0.7)",fontFamily:F.display}}>{s.t}</div><div style={{fontSize:8,color:"rgba(255,255,255,0.25)",fontFamily:F.body}}>{s.d}</div></div></div>;})}</div>
+      <div style={{padding:"20px 24px 0"}}>
+        <div style={{width:40,height:1,background:"#6ee7b7",marginBottom:20}} />
+        <h3 style={{fontSize:36,fontWeight:200,color:"#fff",fontFamily:F.display,lineHeight:1.1,letterSpacing:"-0.5px"}}>Your Numbers.</h3>
+        <h3 style={{fontSize:36,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:14,letterSpacing:"-0.5px"}}>Our Expertise.</h3>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.35)",fontFamily:F.body,lineHeight:1.75,maxWidth:300,marginBottom:20}}>Strategic tax planning and business advisory for companies that refuse to leave money on the table.</p>
+        <div style={{display:"flex",gap:8}}><div style={{padding:"11px 28px",background:"#6ee7b7",borderRadius:0,fontSize:10,fontWeight:700,color:"#0a0f1c",fontFamily:F.mono,letterSpacing:"1px",textTransform:"uppercase"}}>Consult</div><div style={{padding:"11px 28px",border:"1px solid rgba(255,255,255,0.1)",borderRadius:0,fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.mono,letterSpacing:"1px",textTransform:"uppercase"}}>Portal</div></div>
       </div>
+      <div style={{display:"flex",gap:0,margin:"24px 24px 0",borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:18}}>{[{v:"800+",l:"Clients"},{v:"$2.4M",l:"Tax Saved"},{v:"22yr",l:"Track Record"}].map(function(s,si){return <div key={si} style={{flex:1,textAlign:"center",borderRight:si<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:22,fontWeight:800,color:"#6ee7b7",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.2)",fontFamily:F.mono,marginTop:3}}>{s.l}</div></div>;})}</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,margin:"18px 24px 0",background:"rgba(255,255,255,0.04)"}}>{[{i:"\ud83d\udcb0",t:"Tax Strategy"},{i:"\ud83d\udcc8",t:"Advisory"},{i:"\ud83d\udccb",t:"Audit Prep"},{i:"\ud83c\udfe2",t:"Entity Setup"}].map(function(s,si){return <div key={si} style={{background:"#0a0f1c",padding:"14px 12px",display:"flex",gap:8,alignItems:"center"}}><span style={{fontSize:14}}>{s.i}</span><div style={{fontSize:10,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.display,letterSpacing:"0.5px"}}>{s.t}</div></div>;})}</div>
+      <div style={{margin:"14px 24px",display:"flex",alignItems:"center",gap:8}}><div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#6ee7b7",fontSize:8}}>{"\u2605"}</span>;})}</div><span style={{fontSize:8,color:"rgba(255,255,255,0.2)",fontFamily:F.mono}}>4.9 / 5 (127 reviews)</span><span style={{marginLeft:"auto",fontSize:8,color:"rgba(255,255,255,0.15)",fontFamily:F.mono}}>QuickBooks Pro Advisor</span></div>
     </div>);
 
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
+
 
 
   var hasLive = !!site.liveUrl;
@@ -570,6 +581,44 @@ function Stats() {
   );
 }
 
+function AutomationCard(props) {
+  var a=props.automation,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
+  var hs=useState(false),h=hs[0],setH=hs[1];
+  var ps=useState(-1),activeStep=ps[0],setActiveStep=ps[1];
+
+  useEffect(function(){
+    if(!h)return;
+    var step=0;
+    var interval=setInterval(function(){
+      step=(step+1)%a.flow.length;
+      setActiveStep(step);
+    },600);
+    setActiveStep(0);
+    return function(){clearInterval(interval);setActiveStep(-1);};
+  },[h]);
+
+  return (
+    <div ref={ref} onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}}
+      style={{opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.1)+"s",background:h?"rgba(255,255,255,0.02)":C.bgCard,border:"1px solid "+(h?a.color+"33":C.border),borderRadius:"14px",padding:"28px",cursor:"default",position:"relative",overflow:"hidden"}}>
+      {h&&<div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg, transparent, "+a.color+", transparent)",opacity:0.6}} />}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"16px"}}>
+        <div>
+          <div style={{display:"flex",gap:6,marginBottom:8}}>{a.tags.map(function(t){return <span key={t} style={{fontSize:9,letterSpacing:"1px",color:a.color,fontFamily:F.mono,background:a.color+"0d",padding:"3px 8px",borderRadius:4}}>{t}</span>;})}</div>
+          <h3 style={{fontSize:"18px",fontWeight:700,color:"#fff",fontFamily:F.display,lineHeight:1.3}}>{a.title}</h3>
+        </div>
+        <span style={{fontSize:9,fontFamily:F.mono,color:a.status==="Live"?C.green:C.textDim,letterSpacing:"1px",padding:"3px 8px",border:"1px solid "+(a.status==="Live"?C.green+"33":C.border),borderRadius:4,flexShrink:0}}>{a.status}</span>
+      </div>
+      <p style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,lineHeight:1.7,marginBottom:"20px"}}>{a.desc}</p>
+      <div style={{display:"flex",alignItems:"center",gap:0,padding:"12px 0",borderTop:"1px solid "+C.border}}>
+        {a.flow.map(function(step,si){return (<div key={si} style={{display:"flex",alignItems:"center",flex:si<a.flow.length-1?1:"none"}}>
+          <div style={{padding:"6px 10px",borderRadius:6,fontSize:9,fontFamily:F.mono,letterSpacing:"0.5px",fontWeight:activeStep===si?600:400,color:activeStep===si?"#fff":C.textDim,background:activeStep===si?a.color+"22":"transparent",border:"1px solid "+(activeStep===si?a.color+"44":"rgba(255,255,255,0.04)"),transition:"all 0.3s",whiteSpace:"nowrap",transform:activeStep===si?"scale(1.05)":"scale(1)"}}>{step}</div>
+          {si<a.flow.length-1&&<div style={{flex:1,height:1,background:activeStep>si?a.color+"44":"rgba(255,255,255,0.04)",transition:"background 0.3s",margin:"0 4px",position:"relative"}}>{activeStep===si&&<div style={{position:"absolute",right:0,top:-2,width:5,height:5,borderRadius:"50%",background:a.color,animation:"pulse 0.6s ease-in-out infinite"}} />}</div>}
+        </div>);})}
+      </div>
+    </div>
+  );
+}
+
 function Glitch(props) {
   var hs = useState(false), h = hs[0], setH = hs[1];
   return (
@@ -614,7 +663,7 @@ export default function DonnyAI() {
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
-          <div style={{display:"inline-flex",alignItems:"center",gap:"8px",background:"rgba(0,232,255,0.06)",border:"1px solid rgba(0,232,255,0.15)",borderRadius:"100px",padding:"6px 18px 6px 12px",marginBottom:"24px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}><span style={{width:"6px",height:"6px",borderRadius:"50%",background:C.accent,animation:"pulse 2s ease-in-out infinite"}}></span><span style={{fontSize:"12px",fontFamily:F.mono,color:C.accent,fontWeight:500,letterSpacing:"1px"}}>TOP 1% AI USER IN THE U.S.</span></div>
+          <div style={{display:"flex",justifyContent:"center",gap:"24px",marginBottom:"28px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map(function(t,i){return <span key={i} style={{fontSize:"11px",fontFamily:F.mono,color:i===2?C.accent:C.textMid,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>;})}</div>
           <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
@@ -623,8 +672,8 @@ export default function DonnyAI() {
             I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
-            <MagBtn onClick={function(){goTo("work");}}>See the Work</MagBtn>
-            <MagBtn onClick={function(){goTo("contact");}} accent={C.accent2}>Get in Touch</MagBtn>
+            <button onClick={function(){goTo("work");}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,transition:"all 0.3s",borderRadius:"2px"}}>See the Work</button>
+            <button onClick={function(){goTo("contact");}} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,transition:"all 0.3s",borderRadius:"2px"}}>Get in Touch</button>
           </div>
         </div>
         <div style={{ position: "absolute", bottom: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", opacity: loaded?0.35:0, transition: "opacity 0.6s 2s", animation: "float 2.5s ease-in-out infinite" }}>
@@ -633,9 +682,8 @@ export default function DonnyAI() {
         </div>
       </section>
 
-      <section style={{ position: "relative", zIndex: 2, padding: "0 24px", borderTop: "1px solid "+C.border, borderBottom: "1px solid "+C.border, background: BG }}>
-        <LogoTicker />
-      </section>
+      
+
 
       <section id="reel" style={{ background: BG, padding: "100px 0 80px", position: "relative", zIndex: 2 }}>
         <div style={{ padding: "0 24px" }}>
@@ -690,6 +738,14 @@ export default function DonnyAI() {
           {PROJECTS.map(function(p, i) { return <HoloCard key={i} project={p} index={i} />; })}
         </div>
       </section>
+
+      <section id="automations" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2 }}>
+        <Heading tag="Enterprise Automation" title="Systems That Run Themselves" subtitle="Production automation pipelines I've designed and deployed. Hover to see the data flow." />
+        <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
+          {AUTOMATIONS.map(function(a, i) { return <AutomationCard key={i} automation={a} index={i} />; })}
+        </div>
+      </section>
+
 
       <section id="process" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "700px", margin: "0 auto" }}>
         <Heading tag="How I Work" title="The Process" align="left" />
