@@ -19,7 +19,7 @@ var SITES = [
 ];
 var PROJECTS = [
   { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
-  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each \u2014 including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["6+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "\u25C7" },
+  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each \u2014 including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "\u25C7" },
   { title: "Restaurant SEO", tag: "Marketing", desc: "Ran AI-powered SEO campaigns for major restaurant chains including Chick-fil-A, Dave & Buster's, and LongHorn Steakhouse. Created content that ranks in Google's AI Overviews and drives real foot traffic.", metrics: ["National Chains", "AI Overview Rankings", "Measurable Traffic"], color: C.accent3, icon: "\u25C6" },
   { title: "Gestational.ly", tag: "App Development", desc: "Took a personal idea and built it into a full working app \u2014 a companion tool for surrogates and intended parents to track their journey, access resources, and stay connected. Concept to launch, entirely AI-built.", metrics: ["Full React App", "Educational Content", "Live Product"], color: C.green, icon: "\u25C9" },
   { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies \u2014 three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "\u25A3" },
@@ -38,12 +38,11 @@ var CAPS = [
 ];
 
 var STEPS = [
-  { num: "01", title: "Discover", desc: "Deep-dive into your goals, audience, and competitive landscape using AI-powered research and analysis.", color: C.accent },
-  { num: "02", title: "Design", desc: "AI-accelerated design exploration \u2014 generating and refining concepts at 10x the speed of traditional workflows.", color: C.accent2 },
-  { num: "03", title: "Build", desc: "Full-stack development with AI pair programming. Production-grade code, tested and optimized from day one.", color: C.accent3 },
-  { num: "04", title: "Launch", desc: "Deploy, measure, iterate. AI-powered analytics and optimization ensure your product keeps getting better.", color: C.green },
-];
-
+  { num: "01", title: "Discover", desc: "AI-powered research into your market, competitors, and audience. I map the landscape before writing a single line.", color: C.accent, example: { label: "Competitive Analysis", lines: ["Scanned 47 competitor sites in 3 minutes", "Identified 12 keyword gaps worth 34K monthly searches", "Mapped pricing tiers across market", "Generated SWOT matrix with citations"] } },
+  { num: "02", title: "Design", desc: "Rapid concept generation — I explore more directions in a day than most agencies do in a month. Every option is production-ready, not a napkin sketch.", color: C.accent2, example: { label: "Design Sprint Output", lines: ["3 complete homepage concepts in 4 hours", "Mobile + desktop responsive from first draft", "Motion prototypes with real interactions", "Brand system: colors, type, spacing tokens"] } },
+  { num: "03", title: "Build", desc: "Full-stack development with AI pair programming. Tested, optimized, deployed — not handed off to someone else to finish.", color: C.accent3, example: { label: "Delivery Package", lines: ["React/Next.js codebase, production-deployed", "SEO meta, schema markup, sitemap generated", "Lighthouse: 95+ performance, 100 accessibility", "CI/CD pipeline, staging + production environments"] } },
+  { num: "04", title: "Launch & Scale", desc: "Deployment is day one, not the finish line. AI-driven analytics, content pipelines, and optimization systems that compound.", color: C.green, example: { label: "Growth Engine", lines: ["Auto-generated blog pipeline (2x/week)", "Rank tracking across 200+ keywords", "Conversion event monitoring + alerts", "Monthly AI-generated performance reports"] } },
+]
 var AUTOMATIONS = [
   { title: "Procurement Compliance Pipeline", desc: "Auto-captures every AI interaction across federal procurement teams, flags anomalies in real-time, generates audit-ready compliance reports for OMB M-25-21.", flow: ["AI Interaction","Capture Engine","Risk Scoring","Compliance Report","Audit Trail"], tags: ["Government","Compliance","Real-Time"], color: C.accent, status: "Live" },
   { title: "Multi-Channel SEO Engine", desc: "Monitors search rankings, generates AI Overview-optimized content, auto-publishes across blog, YouTube, and social — tracks ROI down to the foot traffic.", flow: ["Rank Monitor","Content Gen","Multi-Publish","Analytics","ROI Dashboard"], tags: ["Marketing","Content","Analytics"], color: C.accent2, status: "Active" },
@@ -51,8 +50,7 @@ var AUTOMATIONS = [
   { title: "Client Onboarding Orchestrator", desc: "End-to-end client intake: form submission triggers contract generation, schedules kickoff, provisions project workspace, sends branded welcome sequence.", flow: ["Form Submit","Contract Gen","Auto-Schedule","Workspace Setup","Welcome Flow"], tags: ["Operations","Workflow","Scale"], color: C.amber, status: "Live" },
 ];
 
-var LOGOS = ["Chick-fil-A", "Dave & Buster's", "LongHorn Steakhouse", "U.S. Government", "GSA Schedule"];
-var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "about", l: "About" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "automations", l: "Auto" }, { id: "process", l: "Process" }, { id: "stack", l: "Stack" }, { id: "contact", l: "Contact" }];
+var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "automations", l: "Auto" }, { id: "about", l: "About" }, { id: "process", l: "Process" }, { id: "stack", l: "Stack" }, { id: "contact", l: "Contact" }];
 
 function goTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }
 function useInView(th) {
@@ -135,83 +133,12 @@ function CursorGlow(props) {
   return <div ref={ref} style={{ position:"fixed",top:0,left:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1 }} />;
 }
 
-function SpiralWave(props) {
-  var scrollRef=props.scrollRef,mouseRef=props.mouseRef;
-  var canvasRef=useRef(null);
-  useEffect(function() {
-    var canvas=canvasRef.current; if(!canvas)return;
-    var ctx=canvas.getContext("2d"); var running=true; var frame=0;
-    var particles=[];var count=220;
-    var colors=[C.accent+"88",C.accent2+"66",C.accent3+"55",C.green+"55","#ffffff44"];
-    for(var i=0;i<count;i++){
-      particles.push({phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.3,radius:100+Math.random()*200,size:Math.random()*2.5+0.8,color:colors[Math.floor(Math.random()*colors.length)],ySpeed:0.5+Math.random()*0.5});
-    }
-    function resize(){var dpr=Math.min(window.devicePixelRatio,2);canvas.width=window.innerWidth*dpr;canvas.height=window.innerHeight*dpr;canvas.style.width=window.innerWidth+"px";canvas.style.height=window.innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);}
-    resize();
-    var rto; function onR(){clearTimeout(rto);rto=setTimeout(resize,300);}
-    window.addEventListener("resize",onR);
-    function animate(){
-      if(!running)return; frame++;
-      var t=frame*0.01;var w=window.innerWidth;var vh=window.innerHeight;var pageH=Math.max(document.documentElement.scrollHeight,vh*5);
-      var scroll=scrollRef.current||0;
-      ctx.clearRect(0,0,w,vh);
-      var mx=((mouseRef.current?.x||0.5)-0.5)*50;
-      var my=((mouseRef.current?.y||0.5)-0.5)*30;
-      for(var i=0;i<count;i++){
-        var p=particles[i];
-        var yPage=(i/count)*pageH;
-        var yScreen=yPage-scroll;
-        if(yScreen<-80||yScreen>vh+80)continue;
-        var wave=Math.sin(t*p.speed+p.phase+yPage*0.0006);
-        var wave2=Math.cos(t*p.speed*0.7+p.phase*1.3+yPage*0.001);
-        var spiralX=w*0.5+wave*p.radius*0.6+wave2*p.radius*0.4+mx*0.15;
-        var spiralY=yScreen+Math.cos(t*p.ySpeed+p.phase)*12+my*0.08;
-        var edgeFade=1-Math.pow(Math.abs(spiralX-w*0.5)/(w*0.45),2);
-        var yFade=Math.min(spiralY/120,1)*Math.min((vh-spiralY)/120,1);
-        var alpha=Math.max(0,edgeFade*yFade);
-        if(alpha<0.02)continue;
-        ctx.globalAlpha=alpha*0.7;
-        ctx.beginPath();ctx.arc(spiralX,spiralY,p.size,0,Math.PI*2);
-        ctx.fillStyle=p.color;ctx.fill();
-        if(alpha>0.12&&i%2===0){
-          var ni=(i+5)%count;
-          var nyPage=(ni/count)*pageH;var nyScreen=nyPage-scroll;
-          if(nyScreen>-80&&nyScreen<vh+80){
-            var nw=Math.sin(t*particles[ni].speed+particles[ni].phase+nyPage*0.0006);
-            var nw2=Math.cos(t*particles[ni].speed*0.7+particles[ni].phase*1.3+nyPage*0.001);
-            var nx=w*0.5+nw*particles[ni].radius*0.6+nw2*particles[ni].radius*0.4+mx*0.15;
-            var ny2=nyScreen+Math.cos(t*particles[ni].ySpeed+particles[ni].phase)*12+my*0.08;
-            var d=Math.sqrt((nx-spiralX)*(nx-spiralX)+(ny2-spiralY)*(ny2-spiralY));
-            if(d<220){ctx.globalAlpha=alpha*0.12*(1-d/220);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny2);ctx.strokeStyle=C.accent;ctx.lineWidth=0.5;ctx.stroke();}
-          }
-        }
-      }
-      ctx.globalAlpha=1;
-      requestAnimationFrame(animate);
-    }
-    animate();
-    return function(){running=false;window.removeEventListener("resize",onR);};
-  },[]);
-  return <canvas ref={canvasRef} style={{position:"fixed",top:0,left:0,width:"100vw",height:"100vh",pointerEvents:"none",zIndex:3}} />;
-}
-
 function Nav(props) {
   var active=props.active; var s=useState(false),show=s[0],setShow=s[1];
   useEffect(function(){var t=setTimeout(function(){setShow(true);},2000);return function(){clearTimeout(t);};}, []);
   return (<nav style={{ position:"fixed",top:"50%",right:"20px",transform:"translateY(-50%)",zIndex:100,display:"flex",flexDirection:"column",gap:"10px",opacity:show?1:0,transition:"opacity 0.5s" }}>
     {SECTS.map(function(sec){return <button key={sec.id} onClick={function(){goTo(sec.id);}} title={sec.l} style={{ width:active===sec.id?"20px":"6px",height:"6px",borderRadius:"3px",background:active===sec.id?C.accent:"rgba(255,255,255,0.15)",border:"none",cursor:"pointer",transition:"all 0.3s cubic-bezier(0.23,1,0.32,1)",padding:0,boxShadow:active===sec.id?"0 0 10px rgba(0,232,255,0.25)":"none" }} />;})}
   </nav>);
-}
-
-function MagBtn(props) {
-  var ac=props.accent||C.accent; var ref=useRef(null);
-  var os=useState({x:0,y:0}),o=os[0],setO=os[1]; var hs=useState(false),h=hs[0],setH=hs[1];
-  return (<button ref={ref}
-    onMouseMove={function(e){if(!ref.current)return;var r=ref.current.getBoundingClientRect();setO({x:(e.clientX-r.left-r.width/2)*0.2,y:(e.clientY-r.top-r.height/2)*0.2});}}
-    onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);setO({x:0,y:0});}}
-    onClick={props.onClick}
-    style={Object.assign({transform:"translate("+o.x+"px,"+o.y+"px)",transition:h?"transform 0.1s":"transform 0.4s cubic-bezier(0.23,1,0.32,1)",background:h?ac+"15":"transparent",border:"1px solid "+(h?ac:ac+"55"),color:ac,padding:"16px 40px",fontSize:"13px",letterSpacing:"2.5px",textTransform:"uppercase",cursor:"pointer",fontFamily:F.mono,borderRadius:0,outline:"none",fontWeight:500},props.style||{})}
-  >{props.children}</button>);
 }
 
 function Heading(props) {
@@ -233,7 +160,6 @@ function SiteMockup(props) {
   var hs=useState(false),h=hs[0],setH=hs[1];
   var ls=useState(true),loading=ls[0],setLoading=ls[1];
   var es=useState(false),err=es[0],setErr=es[1];
-
 
   function renderFakeSite() {
     if (site.id==="physician") return (<div style={{height:"100%",background:"#fafaf8",overflow:"hidden",position:"relative"}}>
@@ -296,9 +222,6 @@ function SiteMockup(props) {
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
 
-
-
-
   var hasLive = !!site.liveUrl;
 
   return (
@@ -313,7 +236,7 @@ function SiteMockup(props) {
           </div>
           {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:9,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"3px 8px",border:"1px solid "+site.color+"33",borderRadius:4}}>LIVE \u2192</a>}
         </div>
-        <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"linear-gradient(180deg, "+site.color+"08 0%, "+BG+" 100%)",overflow:"hidden" }}>
+        <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"transparent",overflow:"hidden" }}>
           {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
             <div style={{width:24,height:24,border:"2px solid "+site.color+"33",borderTop:"2px solid "+site.color,borderRadius:"50%",animation:"spin 0.8s linear infinite"}} />
             <span style={{fontSize:10,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
@@ -528,19 +451,32 @@ function WaveformToy() {
 
 function ProcessStep(props) {
   var step = props.step, index = props.index;
-  var rv = useInView(0.15), ref = rv[0], v = rv[1];
+  var rv = useInView(0.12), ref = rv[0], v = rv[1];
   var hs = useState(false), h = hs[0], setH = hs[1];
+  var es = useState(false), expanded = es[0], setExpanded = es[1];
   return (
-    <div ref={ref} onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ opacity: v?1:0, transform: v?"translateX(0)":"translateX(-30px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.12)+"s", display: "flex", gap: "28px", alignItems: "flex-start", padding: "30px 0", borderBottom: "1px solid "+C.border, cursor: "default" }}>
-      <div style={{ fontSize: "44px", fontWeight: 800, fontFamily: F.display, color: h ? step.color : "rgba(255,255,255,0.08)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "75px" }}>{step.num}</div>
-      <div>
-        <h3 style={{ fontSize: "22px", fontWeight: 600, color: h ? "#fff" : C.textBody, fontFamily: F.display, marginBottom: "8px", transition: "color 0.3s" }}>{step.title}</h3>
-        <p style={{ fontSize: "15px", color: C.textBody, fontFamily: F.body, lineHeight: 1.75 }}>{step.desc}</p>
+    <div ref={ref} style={{ opacity: v?1:0, transform: v?"translateY(0)":"translateY(30px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.12)+"s", marginBottom: "16px" }}>
+      <div onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} onClick={function(){setExpanded(!expanded);}}
+        style={{ display: "flex", gap: "24px", alignItems: "flex-start", padding: "24px", cursor: "pointer", background: expanded?"rgba(255,255,255,0.02)":"transparent", border: "1px solid "+(expanded?step.color+"22":h?C.border:"transparent"), borderRadius: "12px", transition: "all 0.3s" }}>
+        <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.06)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
+        <div style={{flex:1}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+            <h3 style={{ fontSize: "20px", fontWeight: 600, color: h||expanded ? "#fff" : C.textBody, fontFamily: F.display, marginBottom: "6px", transition: "color 0.3s" }}>{step.title}</h3>
+            <div style={{fontSize:10,fontFamily:F.mono,color:step.color,letterSpacing:"1px",opacity:h||expanded?1:0,transition:"opacity 0.3s"}}>{expanded?"COLLAPSE":"SEE EXAMPLE"}</div>
+          </div>
+          <p style={{ fontSize: "15px", color: C.textBody, fontFamily: F.body, lineHeight: 1.7 }}>{step.desc}</p>
+        </div>
       </div>
+      {expanded && step.example && <div style={{margin:"0 0 0 89px",padding:"20px 24px",borderLeft:"2px solid "+step.color+"33",background:"rgba(255,255,255,0.01)",borderRadius:"0 8px 8px 0",animation:"fadeSlide 0.3s ease"}}>
+        <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:step.color,fontFamily:F.mono,marginBottom:14,fontWeight:500}}>{step.example.label}</div>
+        {step.example.lines.map(function(line,li){return <div key={li} style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10,opacity:0,animation:"fadeSlide 0.3s ease forwards",animationDelay:(li*0.08)+"s"}}>
+          <div style={{width:4,height:4,borderRadius:"50%",background:step.color,marginTop:7,flexShrink:0}} />
+          <span style={{fontSize:13,color:C.textBody,fontFamily:F.body,lineHeight:1.6}}>{line}</span>
+        </div>;})}
+      </div>}
     </div>
   );
 }
-
 function CapCard(props) {
   var cap=props.cap,index=props.index; var rv=useInView(0.1),ref=rv[0],v=rv[1];
   var hs=useState(false),h=hs[0],setH=hs[1];
@@ -553,18 +489,6 @@ function CapCard(props) {
         <div style={{fontSize:"15px",fontWeight:600,color:h?"#fff":C.textBody,fontFamily:F.display,transition:"color 0.3s"}}>{cap.name}</div>
       </div>
       <p style={{fontSize:"13px",color:C.textMid,fontFamily:F.body,lineHeight:1.6}}>{cap.desc}</p>
-    </div>
-  );
-}
-
-function LogoTicker() {
-  var rv = useInView(0.2), ref = rv[0], v = rv[1];
-  var all = LOGOS.concat(LOGOS).concat(LOGOS);
-  return (
-    <div ref={ref} style={{ overflow: "hidden", opacity: v?1:0, transition: "opacity 0.6s", padding: "22px 0" }}>
-      <div style={{ display: "flex", animation: "tickerScroll 20s linear infinite", gap: "60px", whiteSpace: "nowrap" }}>
-        {all.map(function(logo, i) { return <span key={i} style={{ fontSize: "13px", letterSpacing: "3px", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", fontFamily: F.mono, flexShrink: 0, fontWeight: 500 }}>{logo}</span>; })}
-      </div>
     </div>
   );
 }
@@ -665,7 +589,7 @@ export default function DonnyAI() {
   }, []);
 
   var BG = "#06070b";
-  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
+  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}.reel-wrap::-webkit-scrollbar{display:none}.reel-wrap{scrollbar-width:none;-ms-overflow-style:none}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
     <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
@@ -677,7 +601,7 @@ export default function DonnyAI() {
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
-          <div style={{display:"flex",justifyContent:"center",gap:"24px",marginBottom:"28px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map(function(t,i){return <span key={i} style={{fontSize:"11px",fontFamily:F.mono,color:i===2?C.accent:C.textMid,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>;})}</div>
+          <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map(function(t,i){return <span key={i} style={{fontSize:"11px",fontFamily:F.mono,color:i===2?C.accent:C.textMid,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>;})}</div>
           
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
@@ -686,8 +610,8 @@ export default function DonnyAI() {
             I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
-            <button onClick={function(){goTo("work");}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,transition:"all 0.3s",borderRadius:"2px"}}>See the Work</button>
-            <button onClick={function(){goTo("contact");}} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,transition:"all 0.3s",borderRadius:"2px"}}>Get in Touch</button>
+            <button onClick={function(){goTo("work");}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,transition:"all 0.3s",borderRadius:"2px"}} onMouseEnter={function(e){e.target.style.transform="translateY(-2px)";e.target.style.boxShadow="0 8px 30px rgba(0,232,255,0.3)";}} onMouseLeave={function(e){e.target.style.transform="";e.target.style.boxShadow="";}}>See the Work</button>
+            <button onClick={function(){goTo("contact");}} onMouseEnter={function(e){e.target.style.transform="translateY(-2px)";e.target.style.background="rgba(255,255,255,0.14)";}} onMouseLeave={function(e){e.target.style.transform="";e.target.style.background="rgba(255,255,255,0.08)";}} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,transition:"all 0.3s",borderRadius:"2px"}}>Get in Touch</button>
           </div>
         </div>
         <div style={{ position: "absolute", bottom: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", opacity: loaded?0.35:0, transition: "opacity 0.6s 2s", animation: "float 2.5s ease-in-out infinite" }}>
@@ -698,12 +622,11 @@ export default function DonnyAI() {
 
       
 
-
       <section id="reel" style={{ background: BG, padding: "100px 0 80px", position: "relative", zIndex: 2 }}>
         <div style={{ padding: "0 24px" }}>
           <Heading tag="Portfolio" title="Sites I've Built" subtitle="Every one of these was designed and developed using AI-accelerated workflows. Agency quality at startup speed." />
         </div>
-        <div style={{ overflowX: "auto", padding: "0 0 20px", WebkitOverflowScrolling: "touch" }}>
+        <div className="reel-wrap" style={{ overflowX: "auto", padding: "0 0 20px", WebkitOverflowScrolling: "touch" }}>
           <div className="reel-scroll" style={{ display: "flex", gap: "24px", padding: "0 max(24px, calc((100vw - 1120px)/2))", width: "fit-content" }}>
             {SITES.map(function(s, i) { return <SiteMockup key={i} site={s} index={i} />; })}
           </div>
@@ -715,25 +638,52 @@ export default function DonnyAI() {
 
       
 
-      <section id="lab" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
-        <Heading tag="Interactive Lab" title="Playground" subtitle="These aren't just demos — they're proof that beautiful, interactive experiences can be built with AI." />
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "10px", paddingLeft: "4px", fontWeight: 500 }}>Particle Text — Type anything · Hover to disrupt</div>
-          <ParticleTextToy />
-        </div>
-        <div className="rg2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "20px" }}>
-          <div>
-            <div style={{ fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", color: C.accent2, fontFamily: F.mono, marginBottom: "10px", paddingLeft: "4px", fontWeight: 500 }}>Neural Network — Hover to activate</div>
-            <NeuralNetToy />
+      <section id="lab" style={{ position: "relative", zIndex: 2, padding: "80px 0", overflow: "hidden" }}>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg, "+BG+" 0%, rgba(0,232,255,0.02) 30%, rgba(139,92,246,0.02) 70%, "+BG+" 100%)",pointerEvents:"none"}} />
+        <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
+          <div style={{textAlign:"center",marginBottom:"56px"}}>
+            <div style={{fontSize:"10px",letterSpacing:"5px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500}}>Interactive Lab</div>
+            <h2 style={{fontSize:"clamp(36px,5vw,56px)",fontWeight:800,fontFamily:F.display,letterSpacing:"-1px",marginBottom:"14px"}}>Go Ahead, <span style={{color:C.accent}}>Play.</span></h2>
+            <p style={{fontSize:"17px",color:C.textBody,fontFamily:F.body,maxWidth:"480px",margin:"0 auto",lineHeight:1.7}}>Every one of these is running live in your browser right now. Built with AI. Touch them.</p>
           </div>
-          <div>
-            <div style={{ fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", color: C.accent3, fontFamily: F.mono, marginBottom: "10px", paddingLeft: "4px", fontWeight: 500 }}>Gravity Field — Click & hold</div>
-            <GravityToy />
+
+          <div style={{position:"relative",marginBottom:"28px"}}>
+            <div style={{position:"absolute",top:"-1px",left:0,right:0,height:"2px",background:"linear-gradient(90deg, transparent, "+C.accent+", transparent)",opacity:0.3}} />
+            <div style={{display:"flex",alignItems:"center",gap:"12px",padding:"16px 0 14px"}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.accent,boxShadow:"0 0 12px "+C.accent+"66"}} />
+              <span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Particle Text</span>
+              <span style={{fontSize:"11px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Type anything below, then hover to scatter</span>
+            </div>
+            <ParticleTextToy />
           </div>
-        </div>
-        <div>
-          <div style={{ fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", color: C.green, fontFamily: F.mono, marginBottom: "10px", paddingLeft: "4px", fontWeight: 500 }}>Waveform — Drag left/right to modulate</div>
-          <WaveformToy />
+
+          <div className="rg2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginBottom: "28px" }}>
+            <div style={{position:"relative"}}>
+              <div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:C.accent2,boxShadow:"0 0 12px "+C.accent2+"66"}} />
+                <span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Neural Net</span>
+                <span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Hover to fire neurons</span>
+              </div>
+              <NeuralNetToy />
+            </div>
+            <div style={{position:"relative"}}>
+              <div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:C.accent3,boxShadow:"0 0 12px "+C.accent3+"66"}} />
+                <span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Gravity Well</span>
+                <span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Click & hold to attract</span>
+              </div>
+              <GravityToy />
+            </div>
+          </div>
+
+          <div style={{position:"relative"}}>
+            <div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.green,boxShadow:"0 0 12px "+C.green+"66"}} />
+              <span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Waveform</span>
+              <span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Drag left/right to modulate frequency</span>
+            </div>
+            <WaveformToy />
+          </div>
         </div>
       </section>
 
@@ -763,10 +713,8 @@ export default function DonnyAI() {
         </div>
       </section>
 
-
-
-      <section id="process" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "700px", margin: "0 auto" }}>
-        <Heading tag="How I Work" title="The Process" align="left" />
+      <section id="process" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2, maxWidth: "800px", margin: "0 auto" }}>
+        <Heading tag="How I Work" title="The Process" subtitle="Click any step to see a real example of what gets delivered." align="left" />
         {STEPS.map(function(s, i) { return <ProcessStep key={i} step={s} index={i} />; })}
       </section>
 
