@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 
 // ============================================================
@@ -12,7 +12,7 @@ var C = {
   green: "#10b981",
   amber: "#f59e0b",
   bg: "#06070b",
-  bgCard: "rgba(10,12,22,0.9)",
+  bgCard: "#0a0c16",
   text: "#e8eaed",
   textBody: "rgba(232,234,237,0.85)", textMid: "rgba(232,234,237,0.6)",
   textDim: "rgba(232,234,237,0.4)",
@@ -208,7 +208,7 @@ function Nav({ active }) {
   return (
     <nav style={{ position: "fixed", top: "50%", right: "20px", transform: "translateY(-50%)", zIndex: 100, display: "flex", flexDirection: "column", gap: "10px", opacity: show ? 1 : 0, transition: "opacity 0.5s" }}>
       {SECTS.map(s => (
-        <button key={s.id} onClick={() => goTo(s.id)} title={s.label} style={{
+        <button key={s.id} onClick={() => goTo(s.id)} title={s.l} style={{
           width: active === s.id ? "20px" : "6px", height: "6px", borderRadius: "3px",
           background: active === s.id ? C.accent : "rgba(255,255,255,0.15)",
           border: "none", cursor: "pointer", transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)", padding: 0,
@@ -260,7 +260,7 @@ function SiteMockup({ site, index }) {
         {[{n:"Spine Care",c:"#f0fdfa",bc:"#0d9488"},{n:"Nerve Blocks",c:"#ecfeff",bc:"#0891b2"},{n:"Regenerative",c:"#fdf4ff",bc:"#a855f7"}].map((s,i) => <div key={i} style={{background:s.c,borderRadius:10,padding:"14px 10px",textAlign:"center"}}><div style={{width:24,height:3,borderRadius:2,background:s.bc,margin:"0 auto 8px"}} /><div style={{fontSize:10,fontWeight:700,color:"#334155",fontFamily:F.display}}>{s.n}</div></div>)}
       </div>
       <div style={{display:"flex",justifyContent:"center",gap:20,padding:"16px 24px 0"}}>
-        {[{v:"4.9",l:"Rating"},{v:"2k+",l:"Patients"},{v:"15yr",l:"Experience"}].map((s,i) => <div key={i} style={{textAlign:"center"}}><div style={{fontSize:18,fontWeight:800,color:"#0f172a",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"#94a3b8",fontFamily:F.mono}}>{s.label}</div></div>)}
+        {[{v:"4.9",l:"Rating"},{v:"2k+",l:"Patients"},{v:"15yr",l:"Experience"}].map((s,i) => <div key={i} style={{textAlign:"center"}}><div style={{fontSize:18,fontWeight:800,color:"#0f172a",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"#94a3b8",fontFamily:F.mono}}>{s.l}</div></div>)}
       </div>
     </div>);
 
@@ -281,7 +281,7 @@ function SiteMockup({ site, index }) {
         <h3 style={{fontSize:22,fontWeight:300,color:"rgba(255,255,255,0.9)",fontFamily:F.display,lineHeight:1.4,maxWidth:280}}>Strategic financial advisory for companies that think in decades.</h3>
       </div>
       <div style={{display:"flex",gap:0,margin:"28px 28px 0",position:"relative",zIndex:1}}>
-        {[{v:"800+",l:"Active Clients"},{v:"22",l:"Years"},{v:"98%",l:"Retention"}].map((s,i) => <div key={i} style={{flex:1,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)",borderRight:i<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.mono,textAlign:"center"}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.15)",fontFamily:F.mono,textAlign:"center",marginTop:4}}>{s.label}</div></div>)}
+        {[{v:"800+",l:"Active Clients"},{v:"22",l:"Years"},{v:"98%",l:"Retention"}].map((s,i) => <div key={i} style={{flex:1,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)",borderRight:i<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.mono,textAlign:"center"}}>{s.v}</div><div style={{fontSize:7,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(255,255,255,0.15)",fontFamily:F.mono,textAlign:"center",marginTop:4}}>{s.l}</div></div>)}
       </div>
     </div>);
 
@@ -299,15 +299,15 @@ function SiteMockup({ site, index }) {
           <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"12px",color:C.textDim,fontFamily:F.mono }}>
             <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
           </div>
-          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE \u2192</a>}
+          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE \u2192</a>}
         </div>
         <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"transparent",overflow:"hidden" }}>
           {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
             <div style={{width:24,height:24,border:`2px solid ${site.color}33`,borderTop:`2px solid ${site.color}`,borderRadius:"50%",animation:"spin 0.8s linear infinite"}} />
-            <span style={{fontSize:10,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
+            <span style={{fontSize:12,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
           </div>}
           {hasLive && !err && <iframe src={site.liveUrl} title={site.name} onLoad={() => setLoading(false)} onError={() => {setErr(true);setLoading(false);}} style={{width:"200%",height:"200%",transform:"scale(0.5)",transformOrigin:"top left",border:"none",background:"#fff",opacity:loading?0:1,transition:"opacity 0.4s ease",pointerEvents:h?"auto":"none"}} />}
-          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:11,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live \u2192</a></div>}
+          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:12,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live \u2192</a></div>}
           {!hasLive && <div style={{position:"relative",height:"100%",overflow:"hidden"}}>{renderFakeSite()}</div>}
         </div>
       </div>
@@ -317,7 +317,7 @@ function SiteMockup({ site, index }) {
           <div style={{ fontSize:"13px",color:C.textMid,fontFamily:F.body,marginTop:"2px" }}>{site.type}</div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          {hasLive && <span style={{fontSize:10,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}} />LIVE</span>}
+          {hasLive && <span style={{fontSize:12,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}} />LIVE</span>}
           <span style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</span>
         </div>
       </div>
@@ -394,7 +394,7 @@ function ParticleTextToy() {
     const data = tCtx.getImageData(0, 0, w, h).data;
     const newParticles = [];
     const gap = 3;
-    const colors = [C.accent, C.accent2, C.accent3, "#fff"];
+    const colors = [C.accent, C.accent2, C.accent3, "#ffffff"];
     for (let y = 0; y < h; y += gap) {
       for (let x = 0; x < w; x += gap) {
         if (data[(y * w + x) * 4 + 3] > 128) {
@@ -441,7 +441,7 @@ function ParticleTextToy() {
 
       particlesRef.current.forEach(p => {
         const dx = mx - p.x, dy = my - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
         if (dist < 60) {
           const force = (60 - dist) / 60;
           p.vx -= (dx / dist) * force * 3;
@@ -678,7 +678,7 @@ function StackOrbit() {
     { name: "React", ring: 1, angle: 72, color: "#61dafb", desc: "Component framework powering every frontend I ship" },
     { name: "Next.js", ring: 1, angle: 144, color: "#ffffff", desc: "Full-stack framework with SSR, API routes, and edge functions" },
     { name: "Three.js", ring: 1, angle: 216, color: "#049ef4", desc: "3D rendering engine for the particle effects on this page" },
-    { name: "Vercel", ring: 1, angle: 288, color: "#fff", desc: "Deploy platform \u2014 every site goes live in under 60 seconds" },
+    { name: "Vercel", ring: 1, angle: 288, color: "#ffffff", desc: "Deploy platform \u2014 every site goes live in under 60 seconds" },
     { name: "ChatGPT", ring: 2, angle: 30, color: "#74aa9c", desc: "Research, brainstorming, and second-opinion analysis" },
     { name: "Cursor", ring: 2, angle: 90, color: "#7c3aed", desc: "AI-native code editor for rapid full-stack development" },
     { name: "Midjourney", ring: 2, angle: 150, color: "#f0f0f0", desc: "AI image generation for concepts, mockups, and visual assets" },
@@ -717,7 +717,7 @@ function StackOrbit() {
         angle: Math.random() * Math.PI * 2,
         progress: Math.random(),
         speed: 0.003 + Math.random() * 0.004,
-        color: [C.accent, C.accent2, C.green, "#fff"][Math.floor(Math.random() * 4)],
+        color: [C.accent, C.accent2, C.green, "#ffffff"][Math.floor(Math.random() * 4)],
         size: Math.random() * 1.5 + 0.5,
       });
     }
@@ -731,7 +731,7 @@ function StackOrbit() {
     }));
 
     const animate = () => {
-      if(!running) return; frame++;
+      if(!running||!canvas.offsetWidth) return; frame++;
       const t=frame*0.006, w=canvas.offsetWidth, h=canvas.offsetHeight, cx=w/2, cy=h/2;
       ctx.clearRect(0,0,w,h);
       const radii=[0, w*0.13, w*0.24, w*0.36];
@@ -792,7 +792,7 @@ function StackOrbit() {
         const x = cx + Math.cos(a) * r + mx * 0.2;
         const y = cy + Math.sin(a) * r + my * 0.2;
         ctx.beginPath(); ctx.arc(x,y,fl.size,0,Math.PI*2);
-        ctx.fillStyle = fl.color + Math.floor((1-fl.progress)*60).toString(16).padStart(2,"0");
+        ctx.fillStyle = fl.color + Math.floor(Math.max(0, Math.min(1, 1-fl.progress))*60).toString(16).padStart(2,"0");
         ctx.fill();
       });
 
@@ -833,7 +833,7 @@ function StackOrbit() {
       ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2);
       ctx.fillStyle = C.accent; ctx.fill();
       ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
-      ctx.fillStyle = "#fff"; ctx.fill();
+      ctx.fillStyle = "#ffffff"; ctx.fill();
 
       requestAnimationFrame(animate);
     };
@@ -854,19 +854,18 @@ function StackOrbit() {
               </div>
               <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                 {tools.filter(t => t.ring===group.ring).map(tool =>
-                  <span key={tool.name} onMouseEnter={() => setActive(tool)} onMouseLeave={() => setActive(null)}
+                  <span key={tool.name} onMouseEnter={() => setActive(tool.name)} onMouseLeave={() => setActive(null)}
                     style={{fontSize:14,padding:"8px 14px",borderRadius:8,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"all 0.2s",
-                      background:active&&active.name===tool.name?tool.color+"18":"rgba(255,255,255,0.03)",
-                      color:active&&active.name===tool.name?tool.color:C.textMid,
-                      border:`1px solid ${active&&active.name===tool.name?tool.color+"33":"rgba(255,255,255,0.04)"}`
+                      background:active===tool.name?tool.color+"18":"rgba(255,255,255,0.03)",
+                      color:active===tool.name?tool.color:C.textMid,
+                      border:`1px solid ${active===tool.name?tool.color+"33":"rgba(255,255,255,0.04)"}`
                     }}>{tool.name}</span>
                 )}
               </div>
             </div>
           )}
           <div style={{minHeight:56,marginTop:20,padding:"14px 16px",background:"rgba(255,255,255,0.02)",borderRadius:8,border:`1px solid ${C.border}`,transition:"all 0.3s"}}>
-            {active ? <div><div style={{fontSize:16,fontWeight:700,color:active.color,fontFamily:F.display,marginBottom:6}}>{active.name}</div><p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{active.desc}</p></div>
-            : <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic"}}>Hover any tool to learn how I use it</p>}
+            {(() => { var at = active ? tools.find(t => t.name === active) : null; return at ? <div><div style={{fontSize:16,fontWeight:700,color:at.color,fontFamily:F.display,marginBottom:6}}>{at.name}</div><p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{at.desc}</p></div> : <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic"}}>Hover any tool to learn how I use it</p>; })()}
           </div>
         </div>
       </div>
@@ -907,7 +906,7 @@ function AutomationCarousel() {
               cursor:"pointer",transition:"all 0.3s",position:"relative",
             }}>
               <div style={{fontSize:13,fontWeight:isActive?700:500,color:isActive?"#fff":C.textDim,fontFamily:F.display,transition:"all 0.3s",marginBottom:2}}>{auto.title}</div>
-              <div style={{fontSize:11,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px",transition:"all 0.3s"}}>{auto.time}</div>
+              <div style={{fontSize:12,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px",transition:"all 0.3s"}}>{auto.time}</div>
             </button>
           );
         })}
