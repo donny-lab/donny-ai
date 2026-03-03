@@ -224,9 +224,9 @@ function Heading({ tag, title, subtitle, align = "center" }) {
   const [ref, vis] = useInView(0.15);
   return (
     <div ref={ref} style={{ textAlign: align, marginBottom: "48px", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1)" }}>
-      <div style={{ fontSize: "11px", letterSpacing: "5px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "12px" }}>{tag}</div>
+      <div style={{ fontSize: "12px", letterSpacing: "4px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "12px" }}>{tag}</div>
       <h2 style={{ fontSize: "clamp(28px,4.5vw,50px)", fontWeight: 700, color: "#fff", fontFamily: F.display, letterSpacing: "-0.5px", margin: "0 0 14px" }}>{title}</h2>
-      {subtitle && <p style={{ fontSize: "16px", color: C.textMid, fontFamily: F.body, maxWidth: align === "center" ? "580px" : "none", margin: align === "center" ? "0 auto" : 0, lineHeight: 1.7 }}>{subtitle}</p>}
+      {subtitle && <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, maxWidth: align === "center" ? "580px" : "none", margin: align === "center" ? "0 auto" : 0, lineHeight: 1.7 }}>{subtitle}</p>}
     </div>
   );
 }
@@ -294,10 +294,10 @@ function SiteMockup({ site, index }) {
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ffbd2e"}} />
           <div style={{width:8,height:8,borderRadius:"50%",background:"#28c840"}} />
-          <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"11px",color:C.textDim,fontFamily:F.mono }}>
+          <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"12px",color:C.textDim,fontFamily:F.mono }}>
             <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
           </div>
-          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:9,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"3px 8px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE \u2192</a>}
+          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE \u2192</a>}
         </div>
         <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"transparent",overflow:"hidden" }}>
           {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
@@ -315,7 +315,7 @@ function SiteMockup({ site, index }) {
           <div style={{ fontSize:"13px",color:C.textMid,fontFamily:F.body,marginTop:"2px" }}>{site.type}</div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          {hasLive && <span style={{fontSize:8,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}} />LIVE</span>}
+          {hasLive && <span style={{fontSize:10,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}} />LIVE</span>}
           <span style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</span>
         </div>
       </div>
@@ -348,13 +348,13 @@ function HoloCard({ project, index }) {
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
             <span style={{ fontSize: "20px", color: project.color, filter: `drop-shadow(0 0 6px ${project.color}55)` }}>{project.icon}</span>
-            <span style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: project.color, fontFamily: F.mono, background: project.color+"0f", padding: "3px 10px", borderRadius: "100px" }}>{project.tag}</span>
+            <span style={{ fontSize: "12px", letterSpacing: "1.5px", textTransform: "uppercase", color: project.color, fontFamily: F.mono, background: project.color+"0f", padding: "4px 12px", borderRadius: "100px" }}>{project.tag}</span>
           </div>
           <h3 style={{ fontSize: "22px", fontWeight: 600, color: "#fff", margin: "10px 0 8px", fontFamily: F.display }}>{project.title}</h3>
-          <p style={{ fontSize: "14px", lineHeight: 1.7, color: C.textMid, fontFamily: F.body }}>{project.desc}</p>
+          <p style={{ fontSize: "15px", lineHeight: 1.7, color: C.textBody, fontFamily: F.body }}>{project.desc}</p>
         </div>
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "16px", position: "relative", zIndex: 1 }}>
-          {project.metrics.map((m,i) => <span key={i} style={{ fontSize: "10px", letterSpacing: "1px", color: C.textDim, border: `1px solid ${C.border}`, padding: "4px 10px", borderRadius: "100px", fontFamily: F.mono }}>{m}</span>)}
+          {project.metrics.map((m,i) => <span key={i} style={{ fontSize: "12px", letterSpacing: "1px", color: C.textMid, border: `1px solid ${C.border}`, padding: "5px 12px", borderRadius: "100px", fontFamily: F.mono }}>{m}</span>)}
         </div>
       </div>
     </div>
@@ -488,7 +488,7 @@ function ParticleTextToy() {
           placeholder="TYPE HERE"
           style={{
             background: "rgba(255,255,255,0.05)", border: `1px solid ${C.border}`, borderRadius: "4px",
-            padding: "6px 14px", color: C.text, fontFamily: F.mono, fontSize: "11px",
+            padding: "6px 14px", color: C.text, fontFamily: F.mono, fontSize: "13px",
             letterSpacing: "2px", textAlign: "center", width: "160px", outline: "none",
           }}
         />
@@ -594,7 +594,7 @@ function GravityToy() {
   return (
     <div style={{ position: "relative" }}>
       <canvas ref={canvasRef} style={{ width: "100%", height: "280px", borderRadius: "12px", border: `1px solid ${C.border}`, cursor: "pointer", background: C.bg, opacity: vis?1:0, transition: "opacity 0.6s" }} />
-      <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "9px", color: C.textDim, fontFamily: F.mono, letterSpacing: "2px", pointerEvents: "none", textTransform: "uppercase" }}>Click & hold to attract</div>
+      <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "12px", color: C.textMid, fontFamily: F.mono, letterSpacing: "1.5px", pointerEvents: "none", textTransform: "uppercase" }}>Click & hold to attract</div>
     </div>
   );
 }
@@ -650,16 +650,16 @@ function ProcessStep({ step, index }) {
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <h3 style={{ fontSize: "20px", fontWeight: 600, color: h||expanded ? "#fff" : C.textMid, fontFamily: F.display, marginBottom: "6px", transition: "color 0.3s" }}>{step.title}</h3>
-            <div style={{fontSize:10,fontFamily:F.mono,color:step.color,letterSpacing:"1px",opacity:h||expanded?1:0,transition:"opacity 0.3s"}}>{expanded?"COLLAPSE":"SEE EXAMPLE"}</div>
+            <div style={{fontSize:12,fontFamily:F.mono,color:step.color,letterSpacing:"1px",fontWeight:500,opacity:h||expanded?1:0,transition:"opacity 0.3s"}}>{expanded?"COLLAPSE":"SEE EXAMPLE"}</div>
           </div>
           <p style={{ fontSize: "15px", color: C.textBody, fontFamily: F.body, lineHeight: 1.7 }}>{step.desc}</p>
         </div>
       </div>
       {expanded && step.example && <div style={{margin:"0 0 0 89px",padding:"20px 24px",borderLeft:`2px solid ${step.color}33`,background:"rgba(255,255,255,0.01)",borderRadius:"0 8px 8px 0",animation:"fadeSlide 0.3s ease"}}>
-        <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:step.color,fontFamily:F.mono,marginBottom:14,fontWeight:500}}>{step.example.label}</div>
+        <div style={{fontSize:12,letterSpacing:"2px",textTransform:"uppercase",color:step.color,fontFamily:F.mono,marginBottom:14,fontWeight:600}}>{step.example.label}</div>
         {step.example.lines.map((line,li) => <div key={li} style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10,opacity:0,animation:"fadeSlide 0.3s ease forwards",animationDelay:`${li*0.08}s`}}>
           <div style={{width:4,height:4,borderRadius:"50%",background:step.color,marginTop:7,flexShrink:0}} />
-          <span style={{fontSize:13,color:C.textBody,fontFamily:F.body,lineHeight:1.6}}>{line}</span>
+          <span style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{line}</span>
         </div>)}
       </div>}
     </div>
@@ -705,20 +705,20 @@ function StackOrbit() {
       const t=frame*0.008, w=canvas.offsetWidth, h=canvas.offsetHeight, cx=w/2, cy=h/2;
       ctx.clearRect(0,0,w,h);
       const radii=[0, w*0.16, w*0.28, w*0.39];
-      for(let ri=1;ri<=3;ri++){ ctx.beginPath(); ctx.arc(cx,cy,radii[ri],0,Math.PI*2); ctx.strokeStyle="rgba(255,255,255,0.03)"; ctx.lineWidth=0.5; ctx.stroke(); }
+      for(let ri=1;ri<=3;ri++){ ctx.beginPath(); ctx.arc(cx,cy,radii[ri],0,Math.PI*2); ctx.strokeStyle="rgba(255,255,255,0.06)"; ctx.lineWidth=0.5; ctx.stroke(); }
       const mx=(mRef.current.x-0.5)*12, my=(mRef.current.y-0.5)*12;
       tools.forEach(tool => {
         const a=(tool.angle+t*(4-tool.ring)*8)*Math.PI/180;
         const r=radii[tool.ring];
         const x=cx+Math.cos(a)*r+mx*(tool.ring*0.4);
         const y=cy+Math.sin(a)*r+my*(tool.ring*0.4);
-        ctx.beginPath(); ctx.arc(x,y,2.5+((4-tool.ring)*0.5),0,Math.PI*2);
-        ctx.fillStyle=tool.color+"55"; ctx.fill();
+        ctx.beginPath(); ctx.arc(x,y,4+((4-tool.ring)*1),0,Math.PI*2);
+        ctx.fillStyle=tool.color+"88"; ctx.fill();
         ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
-        ctx.strokeStyle="rgba(255,255,255,0.015)"; ctx.lineWidth=0.5; ctx.stroke();
+        ctx.strokeStyle="rgba(255,255,255,0.04)"; ctx.lineWidth=0.5; ctx.stroke();
       });
-      ctx.beginPath(); ctx.arc(cx,cy,4,0,Math.PI*2); ctx.fillStyle=C.accent; ctx.fill();
-      ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fillStyle=C.accent+"15"; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2); ctx.fillStyle=C.accent; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,14,0,Math.PI*2); ctx.fillStyle=C.accent+"15"; ctx.fill();
       requestAnimationFrame(animate);
     };
     animate(); window.addEventListener("resize",resize);
@@ -734,12 +734,12 @@ function StackOrbit() {
             <div key={group.ring} style={{marginBottom:16}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
                 <div style={{width:6,height:6,borderRadius:"50%",background:group.color}} />
-                <span style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:group.color,fontFamily:F.mono,fontWeight:500}}>{group.label}</span>
+                <span style={{fontSize:13,letterSpacing:"2px",textTransform:"uppercase",color:group.color,fontFamily:F.mono,fontWeight:600}}>{group.label}</span>
               </div>
               <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                 {tools.filter(t => t.ring===group.ring).map(tool =>
                   <span key={tool.name} onMouseEnter={() => setActive(tool)} onMouseLeave={() => setActive(null)}
-                    style={{fontSize:12,padding:"6px 12px",borderRadius:6,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"all 0.2s",
+                    style={{fontSize:14,padding:"8px 14px",borderRadius:8,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"all 0.2s",
                       background:active&&active.name===tool.name?tool.color+"18":"rgba(255,255,255,0.03)",
                       color:active&&active.name===tool.name?tool.color:C.textMid,
                       border:`1px solid ${active&&active.name===tool.name?tool.color+"33":"rgba(255,255,255,0.04)"}`
@@ -749,8 +749,8 @@ function StackOrbit() {
             </div>
           )}
           <div style={{minHeight:56,marginTop:20,padding:"14px 16px",background:"rgba(255,255,255,0.02)",borderRadius:8,border:`1px solid ${C.border}`,transition:"all 0.3s"}}>
-            {active ? <div><div style={{fontSize:14,fontWeight:600,color:active.color,fontFamily:F.display,marginBottom:4}}>{active.name}</div><p style={{fontSize:13,color:C.textBody,fontFamily:F.body,lineHeight:1.6}}>{active.desc}</p></div>
-            : <p style={{fontSize:12,color:C.textDim,fontFamily:F.mono,letterSpacing:"0.5px"}}>Hover a tool to see how I use it</p>}
+            {active ? <div><div style={{fontSize:16,fontWeight:700,color:active.color,fontFamily:F.display,marginBottom:6}}>{active.name}</div><p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{active.desc}</p></div>
+            : <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic"}}>Hover any tool to learn how I use it</p>}
           </div>
         </div>
       </div>
@@ -781,24 +781,24 @@ function AutomationCard({ automation: a, index }) {
       {h&&<div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:`linear-gradient(90deg, transparent, ${a.color}, transparent)`,opacity:0.6}} />}
       <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
         <span style={{fontSize:24}}>{a.icon}</span>
-        <div style={{flex:1}}><h3 style={{fontSize:18,fontWeight:700,color:"#fff",fontFamily:F.display}}>{a.title}</h3><span style={{fontSize:10,fontFamily:F.mono,color:a.color,letterSpacing:"1px"}}>{a.time}</span></div>
+        <div style={{flex:1}}><h3 style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display,marginBottom:2}}>{a.title}</h3><span style={{fontSize:12,fontFamily:F.mono,color:a.color,letterSpacing:"1px"}}>{a.time}</span></div>
       </div>
-      <p style={{fontSize:13,color:C.textBody,fontFamily:F.body,lineHeight:1.7,marginBottom:18}}>{a.desc}</p>
+      <p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.7,marginBottom:20}}>{a.desc}</p>
       <div style={{display:"flex",gap:8,marginBottom:16}}>
-        <button onClick={() => setShowAfter(false)} style={{flex:1,padding:"8px",background:!showAfter?"rgba(255,255,255,0.06)":"transparent",border:`1px solid ${!showAfter?"rgba(255,255,255,0.1)":"transparent"}`,borderRadius:6,color:!showAfter?C.accent3:"rgba(255,255,255,0.25)",fontSize:10,fontFamily:F.mono,letterSpacing:"1px",cursor:"pointer",transition:"all 0.2s"}}>WITHOUT</button>
-        <button onClick={() => setShowAfter(true)} style={{flex:1,padding:"8px",background:showAfter?a.color+"15":"transparent",border:`1px solid ${showAfter?a.color+"33":"transparent"}`,borderRadius:6,color:showAfter?a.color:"rgba(255,255,255,0.25)",fontSize:10,fontFamily:F.mono,letterSpacing:"1px",cursor:"pointer",transition:"all 0.2s"}}>WITH AI</button>
+        <button onClick={() => setShowAfter(false)} style={{flex:1,padding:"12px 8px",background:!showAfter?"rgba(255,255,255,0.06)":"transparent",border:`1px solid ${!showAfter?"rgba(255,255,255,0.1)":"transparent"}`,borderRadius:6,color:!showAfter?C.accent3:"rgba(255,255,255,0.25)",fontSize:13,fontFamily:F.mono,fontWeight:600,letterSpacing:"1.5px",cursor:"pointer",transition:"all 0.2s"}}>WITHOUT</button>
+        <button onClick={() => setShowAfter(true)} style={{flex:1,padding:"12px 8px",background:showAfter?a.color+"15":"transparent",border:`1px solid ${showAfter?a.color+"33":"transparent"}`,borderRadius:6,color:showAfter?a.color:"rgba(255,255,255,0.25)",fontSize:13,fontFamily:F.mono,fontWeight:600,letterSpacing:"1.5px",cursor:"pointer",transition:"all 0.2s"}}>WITH AI</button>
       </div>
       <div style={{padding:"14px 16px",background:showAfter?"rgba(255,255,255,0.02)":"rgba(255,255,255,0.01)",borderRadius:8,border:`1px solid ${showAfter?a.color+"11":"rgba(255,255,255,0.03)"}`,transition:"all 0.3s",minHeight:44}}>
-        <p style={{fontSize:12,color:showAfter?a.color:C.textDim,fontFamily:F.body,lineHeight:1.7,transition:"color 0.3s"}}>{showAfter?a.after:a.before}</p>
+        <p style={{fontSize:14,color:showAfter?a.color:C.textMid,fontFamily:F.body,lineHeight:1.7,transition:"color 0.3s"}}>{showAfter?a.after:a.before}</p>
       </div>
       <div style={{display:"flex",alignItems:"center",gap:0,paddingTop:16,marginTop:16,borderTop:`1px solid ${C.border}`}}>
         {a.steps.map((step,si) => <div key={si} style={{display:"flex",alignItems:"center",flex:si<a.steps.length-1?1:"none"}}>
-          <div style={{width:activeStep===si?8:5,height:activeStep===si?8:5,borderRadius:"50%",background:activeStep===si?a.color:activeStep>si?a.color+"66":"rgba(255,255,255,0.08)",transition:"all 0.3s",flexShrink:0,boxShadow:activeStep===si?`0 0 10px ${a.color}55`:"none"}} title={step} />
+          <div style={{width:activeStep===si?10:6,height:activeStep===si?10:6,borderRadius:"50%",background:activeStep===si?a.color:activeStep>si?a.color+"66":"rgba(255,255,255,0.08)",transition:"all 0.3s",flexShrink:0,boxShadow:activeStep===si?`0 0 10px ${a.color}55`:"none"}} title={step} />
           {si<a.steps.length-1&&<div style={{flex:1,height:1,background:activeStep>si?a.color+"33":"rgba(255,255,255,0.04)",transition:"background 0.3s",margin:"0 3px"}} />}
         </div>)}
       </div>
       <div style={{display:"flex",justifyContent:"space-between",paddingTop:6}}>
-        {a.steps.map((step,si) => <span key={si} style={{fontSize:7,color:activeStep===si?a.color:"rgba(255,255,255,0.15)",fontFamily:F.mono,letterSpacing:"0.3px",transition:"color 0.3s",textAlign:"center",flex:1}}>{step}</span>)}
+        {a.steps.map((step,si) => <span key={si} style={{fontSize:10,color:activeStep===si?a.color:"rgba(255,255,255,0.3)",fontFamily:F.mono,letterSpacing:"0.3px",transition:"color 0.3s",textAlign:"center",flex:1}}>{step}</span>)}
       </div>
     </div>
   );
@@ -836,7 +836,7 @@ function Stats() {
           <div style={{ fontSize: "42px", fontWeight: 800, color: "#fff", fontFamily: F.display, lineHeight: 1 }}>
             <Counter end={s.value} suffix={s.suffix} prefix={s.prefix || ""} vis={vis} />
           </div>
-          <div style={{ fontSize: "11px", color: C.textDim, letterSpacing: "2px", textTransform: "uppercase", marginTop: "10px", fontFamily: F.mono }}>{s.l}</div>
+          <div style={{ fontSize: "13px", color: C.textMid, letterSpacing: "2px", textTransform: "uppercase", marginTop: "10px", fontFamily: F.mono }}>{s.l}</div>
         </div>
       ))}
     </div>
@@ -861,7 +861,7 @@ function Glitch({ text, style }) {
 // ============================================================
 function ToolPill({ name }) {
   const [h, setH] = useState(false);
-  return <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ fontSize: "11px", letterSpacing: "1.5px", color: h?C.accent:C.textDim, fontFamily: F.mono, border: `1px solid ${h?C.accent+"33":C.border}`, padding: "6px 14px", borderRadius: "100px", transition: "all 0.3s", cursor: "default", display: "inline-block" }}>{name}</span>;
+  return <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ fontSize: "13px", letterSpacing: "1px", color: h?C.accent:C.textMid, fontFamily: F.mono, border: `1px solid ${h?C.accent+"33":C.border}`, padding: "7px 16px", borderRadius: "100px", transition: "all 0.3s", cursor: "default", display: "inline-block" }}>{name}</span>;
 }
 
 export default function DonnyAI() {
@@ -913,7 +913,7 @@ export default function DonnyAI() {
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
-          <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map((t,i) => <span key={i} style={{fontSize:"11px",fontFamily:F.mono,color:i===2?C.accent:C.textMid,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>)}</div>
+          <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map((t,i) => <span key={i} style={{fontSize:"13px",fontFamily:F.mono,color:i===2?C.accent:C.textBody,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>)}</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
@@ -927,7 +927,7 @@ export default function DonnyAI() {
         </div>
         <div style={{ position: "absolute", bottom: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", opacity: loaded?0.35:0, transition: "opacity 0.6s 2s", animation: "float 2.5s ease-in-out infinite" }}>
           <div style={{ width: "1px", height: "32px", background: `linear-gradient(to bottom, transparent, ${C.accent})` }} />
-          <span style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", fontFamily: F.mono, color: C.accent }}>Scroll</span>
+          <span style={{ fontSize: "12px", letterSpacing: "3px", textTransform: "uppercase", fontFamily: F.mono, color: C.accent }}>Scroll</span>
         </div>
       </section>
 
@@ -941,7 +941,7 @@ export default function DonnyAI() {
             {SITES.map((s, i) => <SiteMockup key={i} site={s} index={i} />)}
           </div>
         </div>
-        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:9,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore \u2192</span></div>
+        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:12,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore \u2192</span></div>
       </section>
 
       {/* STATS */}
@@ -952,23 +952,23 @@ export default function DonnyAI() {
         <div style={{position:"absolute",inset:0,background:`linear-gradient(180deg, ${BG} 0%, rgba(0,232,255,0.02) 30%, rgba(139,92,246,0.02) 70%, ${BG} 100%)`,pointerEvents:"none"}} />
         <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
           <div style={{textAlign:"center",marginBottom:"56px"}}>
-            <div style={{fontSize:"10px",letterSpacing:"5px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500}}>Interactive Lab</div>
+            <div style={{fontSize:"12px",letterSpacing:"4px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500}}>Interactive Lab</div>
             <h2 style={{fontSize:"clamp(36px,5vw,56px)",fontWeight:800,fontFamily:F.display,letterSpacing:"-1px",marginBottom:"14px"}}>Go Ahead, <span style={{color:C.accent}}>Play.</span></h2>
             <p style={{fontSize:"17px",color:C.textBody,fontFamily:F.body,maxWidth:"480px",margin:"0 auto",lineHeight:1.7}}>Every one of these is running live in your browser right now. Built with AI. Touch them.</p>
           </div>
           <div style={{position:"relative",marginBottom:"28px"}}>
             <div style={{display:"flex",alignItems:"center",gap:"12px",padding:"16px 0 14px"}}>
-              <div style={{width:8,height:8,borderRadius:"50%",background:C.accent,boxShadow:`0 0 12px ${C.accent}66`}} />
-              <span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Particle Text</span>
-              <span style={{fontSize:"11px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Type anything below, then hover to scatter</span>
+              <div style={{width:10,height:10,borderRadius:"50%",background:C.accent,boxShadow:`0 0 14px ${C.accent}88`,animation:"pulse 2s ease-in-out infinite"}} />
+              <span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Particle Text</span>
+              <span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Type anything, then hover to scatter</span>
             </div>
             <ParticleTextToy />
           </div>
           <div className="rg2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginBottom: "28px" }}>
-            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:8,height:8,borderRadius:"50%",background:C.accent2,boxShadow:`0 0 12px ${C.accent2}66`}} /><span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Neural Net</span><span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Hover to fire neurons</span></div><NeuralNetToy /></div>
-            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:8,height:8,borderRadius:"50%",background:C.accent3,boxShadow:`0 0 12px ${C.accent3}66`}} /><span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Gravity Well</span><span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Click & hold to attract</span></div><GravityToy /></div>
+            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent2,boxShadow:`0 0 14px ${C.accent2}88`,animation:"pulse 2s ease-in-out infinite 0.3s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Neural Net</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Hover to fire neurons</span></div><NeuralNetToy /></div>
+            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent3,boxShadow:`0 0 14px ${C.accent3}88`,animation:"pulse 2s ease-in-out infinite 0.6s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Gravity Well</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Click & hold to attract</span></div><GravityToy /></div>
           </div>
-          <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:8,height:8,borderRadius:"50%",background:C.green,boxShadow:`0 0 12px ${C.green}66`}} /><span style={{fontSize:"14px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Waveform</span><span style={{fontSize:"10px",color:C.textDim,fontFamily:F.body,marginLeft:"auto"}}>Drag left/right to modulate frequency</span></div><WaveformToy /></div>
+          <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.green,boxShadow:`0 0 14px ${C.green}88`,animation:"pulse 2s ease-in-out infinite 0.9s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Waveform</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Drag to modulate</span></div><WaveformToy /></div>
         </div>
       </section>
 
@@ -1015,7 +1015,7 @@ export default function DonnyAI() {
 
       {/* CONTACT */}
       <section id="contact" style={{ background: BG, padding: "120px 24px", position: "relative", zIndex: 2, textAlign: "center" }}>
-        <div style={{ fontSize: "10px", letterSpacing: "5px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "18px" }}>Ready?</div>
+        <div style={{ fontSize: "12px", letterSpacing: "4px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "18px" }}>Ready?</div>
         <h2 style={{ fontSize: "clamp(32px,5vw,64px)", fontWeight: 700, fontFamily: F.display, letterSpacing: "-1px", marginBottom: "14px" }}>
           Let's Build <span style={{ color: C.accent }}>Something</span>
         </h2>
@@ -1025,7 +1025,7 @@ export default function DonnyAI() {
 
       {/* FOOTER */}
       <footer style={{ padding: "32px 24px", borderTop: `1px solid ${C.border}`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
-        <span style={{ fontSize: "11px", color: C.textDim, fontFamily: F.mono }}>\u00a9 2026 DONNY</span>
+        <span style={{ fontSize: "12px", color: C.textDim, fontFamily: F.mono }}>\u00a9 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
           {[{n:"LinkedIn",u:"https://linkedin.com"},{n:"GitHub",u:"https://github.com"},{n:"Email",u:"mailto:hello@donny.ai"}].map(l => <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ToolPill name={l.n} /></a>)}
         </div>
