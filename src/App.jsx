@@ -206,7 +206,7 @@ function Nav({ active }) {
   const [show, setShow] = useState(false);
   useEffect(() => { const t = setTimeout(() => setShow(true), 2000); return () => clearTimeout(t); }, []);
   return (
-    <nav style={{ position: "fixed", top: "50%", right: "20px", transform: "translateY(-50%)", zIndex: 100, display: "flex", flexDirection: "column", gap: "10px", opacity: show ? 1 : 0, transition: "opacity 0.5s" }}>
+    <nav className="side-nav" style={{ position: "fixed", top: "50%", right: "20px", transform: "translateY(-50%)", zIndex: 100, display: "flex", flexDirection: "column", gap: "10px", opacity: show ? 1 : 0, transition: "opacity 0.5s" }}>
       {SECTS.map(s => (
         <button key={s.id} onClick={() => goTo(s.id)} title={s.l} style={{
           width: active === s.id ? "20px" : "6px", height: "6px", borderRadius: "3px",
@@ -432,6 +432,9 @@ function ParticleTextToy() {
     };
     canvas.addEventListener("mousemove", onMouse);
     canvas.addEventListener("mouseleave", () => { mouseRef.current = { x: -100, y: -100 }; });
+    const onTouch = (e) => { e.preventDefault(); const r = canvas.getBoundingClientRect(); const t = e.touches[0]; mouseRef.current = { x: t.clientX - r.left, y: t.clientY - r.top }; };
+    canvas.addEventListener("touchmove", onTouch, { passive: false });
+    canvas.addEventListener("touchend", () => { mouseRef.current = { x: -100, y: -100 }; });
 
     const animate = () => {
       if (!running) return;
@@ -519,7 +522,9 @@ function NeuralNetToy() {
       layers.forEach((c, li) => { const ns = h / (c + 1); for (let ni = 0; ni < c; ni++) nodes.push({ x: ls*(li+1), y: ns*(ni+1), layer: li, bx: ls*(li+1), by: ns*(ni+1), a: 0 }); });
     };
     resize();
-    canvas.addEventListener("mousemove", e => { const r = canvas.getBoundingClientRect(); mouseRef.current = { x: (e.clientX-r.left)/r.width, y: (e.clientY-r.top)/r.height }; });
+    const onNM = e => { const r = canvas.getBoundingClientRect(); mouseRef.current = { x: (e.clientX-r.left)/r.width, y: (e.clientY-r.top)/r.height }; };
+    canvas.addEventListener("mousemove", onNM);
+    canvas.addEventListener("touchmove", e => { e.preventDefault(); const r = canvas.getBoundingClientRect(); const t = e.touches[0]; mouseRef.current = { x: (t.clientX-r.left)/r.width, y: (t.clientY-r.top)/r.height }; }, { passive: false });
 
     const animate = () => {
       if (!running) return;
@@ -568,6 +573,9 @@ function GravityToy() {
     canvas.addEventListener("mousedown", () => mouseRef.current.down = true);
     canvas.addEventListener("mouseup", () => mouseRef.current.down = false);
     canvas.addEventListener("mouseleave", () => mouseRef.current.down = false);
+    canvas.addEventListener("touchstart", (e) => { e.preventDefault(); mouseRef.current.down = true; const r = canvas.getBoundingClientRect(); const t = e.touches[0]; mouseRef.current.x = (t.clientX-r.left)/r.width; mouseRef.current.y = (t.clientY-r.top)/r.height; }, { passive: false });
+    canvas.addEventListener("touchmove", (e) => { e.preventDefault(); const r = canvas.getBoundingClientRect(); const t = e.touches[0]; mouseRef.current.x = (t.clientX-r.left)/r.width; mouseRef.current.y = (t.clientY-r.top)/r.height; }, { passive: false });
+    canvas.addEventListener("touchend", () => { mouseRef.current.down = false; });
 
     const animate = () => {
       if (!running) return;
@@ -593,7 +601,7 @@ function GravityToy() {
   return (
     <div style={{ position: "relative" }}>
       <canvas ref={canvasRef} style={{ width: "100%", height: "280px", borderRadius: "12px", border: `1px solid ${C.border}`, cursor: "pointer", background: C.bg, opacity: vis?1:0, transition: "opacity 0.6s" }} />
-      <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "12px", color: C.textMid, fontFamily: F.mono, letterSpacing: "1.5px", pointerEvents: "none", textTransform: "uppercase" }}>Click & hold to attract</div>
+      <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "12px", color: C.textMid, fontFamily: F.mono, letterSpacing: "1.5px", pointerEvents: "none", textTransform: "uppercase" }}>Touch & hold to attract</div>
     </div>
   );
 }
@@ -612,6 +620,7 @@ function WaveformToy() {
     const resize = () => { const dpr = 2; canvas.width = canvas.offsetWidth*dpr; canvas.height = canvas.offsetHeight*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
     resize();
     canvas.addEventListener("mousemove", e => { const r = canvas.getBoundingClientRect(); mouseRef.current.x = (e.clientX-r.left)/r.width; });
+    canvas.addEventListener("touchmove", (e) => { e.preventDefault(); const r = canvas.getBoundingClientRect(); mouseRef.current.x = (e.touches[0].clientX-r.left)/r.width; }, { passive: false });
     const animate = () => {
       if (!running) return;
       frame++; const t = frame*0.018, w = canvas.offsetWidth, h = canvas.offsetHeight;
@@ -796,30 +805,33 @@ function StackOrbit() {
         ctx.fill();
       });
 
-      // Tool dots with glow and pulse
+      // Tool nodes with labels
       pts.forEach(p => {
-        const pulse = Math.sin(t * p.pulseSpeed + p.phase) * 0.3 + 0.7;
-        const baseSize = 3 + (4 - p.orbit) * 1.5;
-        const sz = baseSize * pulse;
+        var pulse = Math.sin(t * p.pulseSpeed + p.phase) * 0.2 + 0.8;
+        var baseR = 14 + (4 - p.orbit) * 4;
+        var r = baseR * pulse;
 
-        // Outer glow
-        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz*3,0,Math.PI*2);
-        ctx.fillStyle = p.tool.color + "12"; ctx.fill();
+        // Outer glow ring
+        ctx.beginPath(); ctx.arc(p.cx,p.cy,r+6,0,Math.PI*2);
+        ctx.fillStyle = p.tool.color + "08"; ctx.fill();
 
-        // Core dot
-        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz,0,Math.PI*2);
-        ctx.fillStyle = p.tool.color + "cc"; ctx.fill();
+        // Node circle
+        ctx.beginPath(); ctx.arc(p.cx,p.cy,r,0,Math.PI*2);
+        ctx.fillStyle = p.tool.color + "18"; ctx.fill();
+        ctx.strokeStyle = p.tool.color + "44"; ctx.lineWidth = 1; ctx.stroke();
 
-        // Hot center
-        ctx.beginPath(); ctx.arc(p.cx,p.cy,sz*0.4,0,Math.PI*2);
-        ctx.fillStyle = "#ffffff88"; ctx.fill();
+        // Tool name inside or below node
+        ctx.font = (p.orbit===1?"bold ":"") + Math.round(7+(4-p.orbit)*1.5) + "px DM Sans, sans-serif";
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillStyle = p.tool.color + "dd";
+        ctx.fillText(p.tool.name, p.cx, p.cy);
 
         // Store trail
         p.trail.push({x:p.cx,y:p.cy});
         if(p.trail.length > 8) p.trail.shift();
         if(p.orbit === 1 && p.trail.length > 1) {
           ctx.beginPath(); ctx.moveTo(p.trail[0].x, p.trail[0].y);
-          for(let ti=1;ti<p.trail.length;ti++) ctx.lineTo(p.trail[ti].x, p.trail[ti].y);
+          for(var ti=1;ti<p.trail.length;ti++) ctx.lineTo(p.trail[ti].x, p.trail[ti].y);
           ctx.strokeStyle = p.tool.color + "15"; ctx.lineWidth = 1.5; ctx.stroke();
         }
       });
@@ -855,7 +867,7 @@ function StackOrbit() {
               <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                 {tools.filter(t => t.ring===group.ring).map(tool =>
                   <span key={tool.name} onMouseEnter={() => setActive(tool.name)} onMouseLeave={() => setActive(null)}
-                    style={{fontSize:14,padding:"8px 14px",borderRadius:8,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"all 0.2s",
+                    style={{fontSize:14,padding:"8px 14px",borderRadius:8,fontFamily:F.body,fontWeight:500,cursor:"default",transition:"color 0.2s, background 0.2s, border-color 0.2s",
                       background:active===tool.name?tool.color+"18":"rgba(255,255,255,0.03)",
                       color:active===tool.name?tool.color:C.textMid,
                       border:`1px solid ${active===tool.name?tool.color+"33":"rgba(255,255,255,0.04)"}`
@@ -864,7 +876,7 @@ function StackOrbit() {
               </div>
             </div>
           )}
-          <div style={{minHeight:56,marginTop:20,padding:"14px 16px",background:"rgba(255,255,255,0.02)",borderRadius:8,border:`1px solid ${C.border}`,transition:"all 0.3s"}}>
+          <div style={{minHeight:72,marginTop:20,padding:"14px 16px",background:"rgba(255,255,255,0.02)",borderRadius:8,border:`1px solid ${C.border}`,transition:"all 0.3s"}}>
             {(() => { var at = active ? tools.find(t => t.name === active) : null; return at ? <div><div style={{fontSize:16,fontWeight:700,color:at.color,fontFamily:F.display,marginBottom:6}}>{at.name}</div><p style={{fontSize:15,color:C.textBody,fontFamily:F.body,lineHeight:1.65}}>{at.desc}</p></div> : <p style={{fontSize:14,color:C.textMid,fontFamily:F.body,fontStyle:"italic"}}>Hover any tool to learn how I use it</p>; })()}
           </div>
         </div>
@@ -896,7 +908,7 @@ function AutomationCarousel() {
     <div ref={ref} style={{maxWidth:760,margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
 
       {/* Tab navigation with actual names */}
-      <div style={{display:"flex",gap:4,marginBottom:0,borderRadius:"14px 14px 0 0",overflow:"hidden",background:"rgba(255,255,255,0.02)",border:`1px solid ${C.border}`,borderBottom:"none"}}>
+      <div style={{display:"flex",gap:4,marginBottom:0,borderRadius:"14px 14px 0 0",overflow:"hidden",background:"rgba(255,255,255,0.02)",flexWrap:"wrap",border:`1px solid ${C.border}`,borderBottom:"none"}}>
         {AUTOMATIONS.map(function(auto,i) {
           var isActive = i === idx;
           return (
@@ -916,7 +928,7 @@ function AutomationCarousel() {
       <div style={{background:C.bgCard,border:`1px solid ${C.border}`,borderRadius:"0 0 14px 14px",overflow:"hidden"}}>
 
         {/* Flow visualization — THE HERO, at the top */}
-        <div style={{padding:"32px 40px 24px",background:`linear-gradient(180deg, ${a.color}08, transparent)`,borderBottom:`1px solid ${C.border}`}}>
+        <div style={{padding:"24px clamp(16px,4vw,40px) 20px",background:`linear-gradient(180deg, ${a.color}08, transparent)`,borderBottom:`1px solid ${C.border}`}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:0}}>
             {a.steps.map(function(step,si) {
               var isActive = activeStep === si;
@@ -954,7 +966,7 @@ function AutomationCarousel() {
         </div>
 
         {/* Content */}
-        <div style={{padding:"32px 40px 36px"}}>
+        <div style={{padding:"24px clamp(16px,4vw,40px) 28px"}}>
           <p style={{fontSize:17,color:C.textBody,fontFamily:F.body,lineHeight:1.75,marginBottom:28}}>{a.desc}</p>
 
           {/* Before / After */}
@@ -1081,6 +1093,11 @@ export default function DonnyAI() {
         @keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}
         @media(max-width:900px){.rg2{grid-template-columns:1fr!important}}
         @media(max-width:600px){.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}
+        @media(max-width:768px){.side-nav{display:none!important}
+          
+          .auto-tabs{flex-wrap:wrap!important}
+          .auto-tabs button{font-size:12px!important;padding:12px 8px!important}
+        }
         input:focus{border-color:${C.accent}44!important}
       `}</style>
 
@@ -1141,15 +1158,15 @@ export default function DonnyAI() {
             <div style={{display:"flex",alignItems:"center",gap:"12px",padding:"16px 0 14px"}}>
               <div style={{width:10,height:10,borderRadius:"50%",background:C.accent,boxShadow:`0 0 14px ${C.accent}88`,animation:"pulse 2s ease-in-out infinite"}} />
               <span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Particle Text</span>
-              <span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Type anything, then hover to scatter</span>
+              <span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Type anything, then touch to scatter</span>
             </div>
             <ParticleTextToy />
           </div>
           <div className="rg2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginBottom: "28px" }}>
-            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent2,boxShadow:`0 0 14px ${C.accent2}88`,animation:"pulse 2s ease-in-out infinite 0.3s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Neural Net</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Hover to fire neurons</span></div><NeuralNetToy /></div>
-            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent3,boxShadow:`0 0 14px ${C.accent3}88`,animation:"pulse 2s ease-in-out infinite 0.6s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Gravity Well</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Click & hold to attract</span></div><GravityToy /></div>
+            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent2,boxShadow:`0 0 14px ${C.accent2}88`,animation:"pulse 2s ease-in-out infinite 0.3s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Neural Net</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Touch to fire neurons</span></div><NeuralNetToy /></div>
+            <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.accent3,boxShadow:`0 0 14px ${C.accent3}88`,animation:"pulse 2s ease-in-out infinite 0.6s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Gravity Well</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Touch & hold to attract</span></div><GravityToy /></div>
           </div>
-          <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.green,boxShadow:`0 0 14px ${C.green}88`,animation:"pulse 2s ease-in-out infinite 0.9s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Waveform</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Drag to modulate</span></div><WaveformToy /></div>
+          <div><div style={{display:"flex",alignItems:"center",gap:"10px",padding:"0 0 12px"}}><div style={{width:10,height:10,borderRadius:"50%",background:C.green,boxShadow:`0 0 14px ${C.green}88`,animation:"pulse 2s ease-in-out infinite 0.9s"}} /><span style={{fontSize:"16px",fontWeight:700,color:"#fff",fontFamily:F.display}}>Waveform</span><span style={{fontSize:"13px",color:C.textBody,fontFamily:F.body,marginLeft:"auto",fontStyle:"italic"}}>Touch & drag to modulate</span></div><WaveformToy /></div>
         </div>
       </section>
 
