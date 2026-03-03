@@ -38,27 +38,27 @@ var SITES = [
 ];
 
 var PROJECTS = [
-  { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
-  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each \u2014 including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "\u25C7" },
-  { title: "Fruit Fly Defense", tag: "E-Commerce + SEO", desc: "Built the entire digital presence for a natural pest control brand \u2014 e-commerce site, AI-optimized blog pipeline, Google Ads strategy, and YouTube channel. Serving commercial clients like Chick-fil-A and Dave & Buster's.", metrics: ["Full E-Commerce", "Commercial Clients", "AI Blog Pipeline"], color: C.accent3, icon: "\u25C6" },
-  { title: "Business Automations", tag: "Systems", desc: "Designed and deployed automation workflows that replace hours of manual work \u2014 client intake, invoicing, review collection, social media scheduling. Set-and-forget systems that run 24/7.", metrics: ["Zero Manual Work", "24/7 Running", "Hours Saved Weekly"], color: C.green, icon: "\u25C9" },
-  { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies \u2014 three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "\u25A3" },
-  { title: "Video Production", tag: "Creative", desc: "Created cinematic product videos that render themselves automatically using code. Write a script, feed in assets, and the system generates broadcast-quality video \u2014 no editor, no timeline, no waiting.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "\u25B2" },
+  { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have — across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "◈" },
+  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each — including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "◇" },
+  { title: "Fruit Fly Defense", tag: "E-Commerce + SEO", desc: "Built the entire digital presence for a natural pest control brand — e-commerce site, AI-optimized blog pipeline, Google Ads strategy, and YouTube channel. Serving commercial clients like Chick-fil-A and Dave & Buster's.", metrics: ["Full E-Commerce", "Commercial Clients", "AI Blog Pipeline"], color: C.accent3, icon: "◆" },
+  { title: "Business Automations", tag: "Systems", desc: "Designed and deployed automation workflows that replace hours of manual work — client intake, invoicing, review collection, social media scheduling. Set-and-forget systems that run 24/7.", metrics: ["Zero Manual Work", "24/7 Running", "Hours Saved Weekly"], color: C.green, icon: "◉" },
+  { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies — three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "▣" },
+  { title: "Video Production", tag: "Creative", desc: "Created cinematic product videos that render themselves automatically using code. Write a script, feed in assets, and the system generates broadcast-quality video — no editor, no timeline, no waiting.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "▲" },
 ];
 
 
 var STEPS = [
   { num: "01", title: "Discover", desc: "AI-powered research into your market, competitors, and audience. I map the landscape before writing a single line.", color: C.accent, example: { label: "Competitive Analysis", lines: ["Scanned 47 competitor sites in 3 minutes", "Identified 12 keyword gaps worth 34K monthly searches", "Mapped pricing tiers across market", "Generated SWOT matrix with citations"] } },
-  { num: "02", title: "Design", desc: "Rapid concept generation \u2014 I explore more directions in a day than most agencies do in a month. Every option is production-ready, not a napkin sketch.", color: C.accent2, example: { label: "Design Sprint Output", lines: ["3 complete homepage concepts in 4 hours", "Mobile + desktop responsive from first draft", "Motion prototypes with real interactions", "Brand system: colors, type, spacing tokens"] } },
-  { num: "03", title: "Build", desc: "Full-stack development with AI pair programming. Tested, optimized, deployed \u2014 not handed off to someone else to finish.", color: C.accent3, example: { label: "Delivery Package", lines: ["React/Next.js codebase, production-deployed", "SEO meta, schema markup, sitemap generated", "Lighthouse: 95+ performance, 100 accessibility", "CI/CD pipeline, staging + production environments"] } },
+  { num: "02", title: "Design", desc: "Rapid concept generation — I explore more directions in a day than most agencies do in a month. Every option is production-ready, not a napkin sketch.", color: C.accent2, example: { label: "Design Sprint Output", lines: ["3 complete homepage concepts in 4 hours", "Mobile + desktop responsive from first draft", "Motion prototypes with real interactions", "Brand system: colors, type, spacing tokens"] } },
+  { num: "03", title: "Build", desc: "Full-stack development with AI pair programming. Tested, optimized, deployed — not handed off to someone else to finish.", color: C.accent3, example: { label: "Delivery Package", lines: ["React/Next.js codebase, production-deployed", "SEO meta, schema markup, sitemap generated", "Lighthouse: 95+ performance, 100 accessibility", "CI/CD pipeline, staging + production environments"] } },
   { num: "04", title: "Launch & Scale", desc: "Deployment is day one, not the finish line. AI-driven analytics, content pipelines, and optimization systems that compound.", color: C.green, example: { label: "Growth Engine", lines: ["Auto-generated blog pipeline (2x/week)", "Rank tracking across 200+ keywords", "Conversion event monitoring + alerts", "Monthly AI-generated performance reports"] } },
 ];
 
 var AUTOMATIONS = [
-  { title: "New Client Intake", icon: "\u2709", desc: "Someone fills out your contact form \u2014 and everything happens automatically. Contract sent, kickoff scheduled, welcome email goes out, project folder created.", before: "You: check email, copy info to CRM, write contract, email it, schedule call, create folder. 45 min.", after: "Automation: form submitted \u2192 contract + calendar + workspace + welcome email. 0 min.", steps: ["Form Submitted","Contract Sent","Call Booked","Folder Created","Welcome Email"], color: C.accent, time: "Saves ~45 min/client" },
-  { title: "Social Media Content", icon: "\ud83d\udcc5", desc: "One blog post automatically becomes a week of social content. AI writes the posts, formats them per platform, and schedules them \u2014 you just approve.", before: "You: read blog, write 5 social posts, resize images, copy into scheduler. 2 hours/week.", after: "Automation: blog published \u2192 5 platform-specific posts drafted + scheduled. 5 min review.", steps: ["Blog Published","AI Writes Posts","Images Sized","Scheduled","Analytics"], color: C.accent2, time: "Saves ~8 hrs/month" },
-  { title: "Invoice & Follow-Up", icon: "\ud83d\udcb0", desc: "Project hits a milestone, invoice goes out automatically. 7 days unpaid, a polite nudge. 14 days, another. You never chase money again.", before: "You: remember to invoice, open QuickBooks, send it, set a reminder, follow up manually. Repeat.", after: "Automation: milestone \u2192 invoice sent \u2192 auto follow-up at 7d, 14d. $0 forgotten.", steps: ["Milestone Hit","Invoice Sent","7-Day Nudge","14-Day Reminder","Payment Logged"], color: C.green, time: "Saves ~3 hrs/month" },
-  { title: "Review & Reputation", icon: "\u2b50", desc: "After every completed project, happy clients automatically get a review request. Good reviews get shared to your site. Bad ones get flagged for you.", before: "You: remember to ask, write a personal email, hope they follow through, manually update site.", after: "Automation: project closed \u2192 review request \u2192 auto-publish good ones \u2192 flag issues.", steps: ["Project Done","Review Asked","Rating Checked","Published/Flagged","Site Updated"], color: C.amber, time: "2x more reviews" },
+  { title: "New Client Intake", icon: "✉", desc: "Someone fills out your contact form — and everything happens automatically. Contract sent, kickoff scheduled, welcome email goes out, project folder created.", before: "You: check email, copy info to CRM, write contract, email it, schedule call, create folder. 45 min.", after: "Automation: form submitted → contract + calendar + workspace + welcome email. 0 min.", steps: ["Form Submitted","Contract Sent","Call Booked","Folder Created","Welcome Email"], color: C.accent, time: "Saves ~45 min/client" },
+  { title: "Social Media Content", icon: "📅", desc: "One blog post automatically becomes a week of social content. AI writes the posts, formats them per platform, and schedules them — you just approve.", before: "You: read blog, write 5 social posts, resize images, copy into scheduler. 2 hours/week.", after: "Automation: blog published → 5 platform-specific posts drafted + scheduled. 5 min review.", steps: ["Blog Published","AI Writes Posts","Images Sized","Scheduled","Analytics"], color: C.accent2, time: "Saves ~8 hrs/month" },
+  { title: "Invoice & Follow-Up", icon: "💰", desc: "Project hits a milestone, invoice goes out automatically. 7 days unpaid, a polite nudge. 14 days, another. You never chase money again.", before: "You: remember to invoice, open QuickBooks, send it, set a reminder, follow up manually. Repeat.", after: "Automation: milestone → invoice sent → auto follow-up at 7d, 14d. $0 forgotten.", steps: ["Milestone Hit","Invoice Sent","7-Day Nudge","14-Day Reminder","Payment Logged"], color: C.green, time: "Saves ~3 hrs/month" },
+  { title: "Review & Reputation", icon: "⭐", desc: "After every completed project, happy clients automatically get a review request. Good reviews get shared to your site. Bad ones get flagged for you.", before: "You: remember to ask, write a personal email, hope they follow through, manually update site.", after: "Automation: project closed → review request → auto-publish good ones → flag issues.", steps: ["Project Done","Review Asked","Rating Checked","Published/Flagged","Site Updated"], color: C.amber, time: "2x more reviews" },
 ];
 
 var SECTS = [{ id: "hero", l: "Home" }, { id: "reel", l: "Reel" }, { id: "stats", l: "Stats" }, { id: "lab", l: "Lab" }, { id: "work", l: "Work" }, { id: "automations", l: "Auto" }, { id: "about", l: "About" }, { id: "process", l: "Process" }, { id: "stack", l: "Tools" }, { id: "contact", l: "Contact" }];
@@ -299,7 +299,7 @@ function SiteMockup({ site, index }) {
           <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"12px",color:C.textDim,fontFamily:F.mono }}>
             <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
           </div>
-          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE \u2192</a>}
+          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE →</a>}
         </div>
         <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"transparent",overflow:"hidden" }}>
           {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
@@ -307,7 +307,7 @@ function SiteMockup({ site, index }) {
             <span style={{fontSize:12,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
           </div>}
           {hasLive && !err && <iframe src={site.liveUrl} title={site.name} onLoad={() => setLoading(false)} onError={() => {setErr(true);setLoading(false);}} style={{width:"200%",height:"200%",transform:"scale(0.5)",transformOrigin:"top left",border:"none",background:"#fff",opacity:loading?0:1,transition:"opacity 0.4s ease",pointerEvents:h?"auto":"none"}} />}
-          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:12,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live \u2192</a></div>}
+          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:12,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live →</a></div>}
           {!hasLive && <div style={{position:"relative",height:"100%",overflow:"hidden"}}>{renderFakeSite()}</div>}
         </div>
       </div>
@@ -678,13 +678,13 @@ function StackOrbit() {
     { name: "React", ring: 1, angle: 72, color: "#61dafb", desc: "Component framework powering every frontend I ship" },
     { name: "Next.js", ring: 1, angle: 144, color: "#ffffff", desc: "Full-stack framework with SSR, API routes, and edge functions" },
     { name: "Three.js", ring: 1, angle: 216, color: "#049ef4", desc: "3D rendering engine for the particle effects on this page" },
-    { name: "Vercel", ring: 1, angle: 288, color: "#ffffff", desc: "Deploy platform \u2014 every site goes live in under 60 seconds" },
+    { name: "Vercel", ring: 1, angle: 288, color: "#ffffff", desc: "Deploy platform — every site goes live in under 60 seconds" },
     { name: "ChatGPT", ring: 2, angle: 30, color: "#74aa9c", desc: "Research, brainstorming, and second-opinion analysis" },
     { name: "Cursor", ring: 2, angle: 90, color: "#7c3aed", desc: "AI-native code editor for rapid full-stack development" },
     { name: "Midjourney", ring: 2, angle: 150, color: "#f0f0f0", desc: "AI image generation for concepts, mockups, and visual assets" },
     { name: "Node.js", ring: 2, angle: 210, color: "#68a063", desc: "Server runtime for APIs, automation scripts, and tooling" },
     { name: "Supabase", ring: 2, angle: 270, color: "#3ecf8e", desc: "Database, auth, and real-time subscriptions" },
-    { name: "Remotion", ring: 2, angle: 330, color: "#0b84f3", desc: "Programmatic video \u2014 code writes the video" },
+    { name: "Remotion", ring: 2, angle: 330, color: "#0b84f3", desc: "Programmatic video — code writes the video" },
     { name: "Figma", ring: 3, angle: 15, color: "#a259ff", desc: "Design handoff and collaborative prototyping" },
     { name: "GA4", ring: 3, angle: 75, color: "#e37400", desc: "Analytics, conversion tracking, and performance measurement" },
     { name: "Tailwind", ring: 3, angle: 135, color: "#38bdf8", desc: "Utility CSS for consistent, rapid UI development" },
@@ -1120,7 +1120,7 @@ export default function DonnyAI() {
             {SITES.map((s, i) => <SiteMockup key={i} site={s} index={i} />)}
           </div>
         </div>
-        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:12,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore \u2192</span></div>
+        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:12,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore →</span></div>
       </section>
 
       {/* STATS */}
@@ -1155,7 +1155,7 @@ export default function DonnyAI() {
 
       {/* CASE STUDIES */}
       <section id="work" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
-        <Heading tag="What I've Built" title="The Work" subtitle="Real products, real clients, real outcomes \u2014 Every one of these was built with AI doing the heavy lifting." />
+        <Heading tag="What I've Built" title="The Work" subtitle="Real products, real clients, real outcomes — Every one of these was built with AI doing the heavy lifting." />
         <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
           {PROJECTS.map((p, i) => <HoloCard key={i} project={p} index={i} />)}
         </div>
@@ -1171,8 +1171,8 @@ export default function DonnyAI() {
       <section id="about" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
         <Heading tag="About" title="AI Is My Medium" />
         <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
-          <p style={{ marginBottom: "18px" }}>I don't just use AI tools \u2014 <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
-          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries \u2014 government, hospitality, healthcare, e-commerce, and more.</p>
+          <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
+          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
           <p>The AI space moves fast. <span style={{ color: "#fff", fontWeight: 600 }}>I move faster.</span></p>
         </div>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "32px" }}>
@@ -1204,7 +1204,7 @@ export default function DonnyAI() {
 
       {/* FOOTER */}
       <footer style={{ padding: "32px 24px", borderTop: `1px solid ${C.border}`, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
-        <span style={{ fontSize: "12px", color: C.textDim, fontFamily: F.mono }}>\u00a9 2026 DONNY</span>
+        <span style={{ fontSize: "12px", color: C.textDim, fontFamily: F.mono }}>© 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
           {[{n:"LinkedIn",u:"https://linkedin.com"},{n:"GitHub",u:"https://github.com"},{n:"Email",u:"mailto:hello@donny.ai"}].map(l => <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ToolPill name={l.n} /></a>)}
         </div>
