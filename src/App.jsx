@@ -105,13 +105,13 @@ function ParticleHero(props) {
       var t = frame*0.016, ease = 1-Math.pow(1-Math.min(t/3.5,1),4);
       var p = geo.attributes.position.array, sf = (scrollRef.current||0)*0.001;
       var mx = ((mouseRef.current?.x||0.5)-0.5)*2, my = ((mouseRef.current?.y||0.5)-0.5)*2;
-      for (var ii=0;ii<count;ii++) { var ii3=ii*3; p[ii3]+=(tgt[ii3]-p[ii3])*0.016*ease; p[ii3+1]+=(tgt[ii3+1]-p[ii3+1])*0.016*ease; p[ii3+2]+=(tgt[ii3+2]-p[ii3+2])*0.016*ease; p[ii3]+=Math.sin(t*0.3+ii*0.05)*0.0006+mx*0.001; p[ii3+1]+=Math.cos(t*0.2+ii*0.08)*0.0006-my*0.001; }
+      for (var ii=0;ii<count;ii++) { var ii3=ii*3; p[ii3]+=(tgt[ii3]-p[ii3])*0.016*ease; p[ii3+1]+=(tgt[ii3+1]-p[ii3+1])*0.016*ease; p[ii3+2]+=(tgt[ii3+2]-p[ii3+2])*0.016*ease; p[ii3]+=Math.sin(t*0.3+ii*0.05)*0.001+mx*0.002; p[ii3+1]+=Math.cos(t*0.2+ii*0.08)*0.001-my*0.002; }
       geo.attributes.position.needsUpdate = true;
       for (var pi=0;pi<pairs.length;pi++) { var idx=pi*6,aa=pairs[pi][0],bb=pairs[pi][1]; lp[idx]=p[aa*3];lp[idx+1]=p[aa*3+1];lp[idx+2]=p[aa*3+2]; lp[idx+3]=p[bb*3];lp[idx+4]=p[bb*3+1];lp[idx+5]=p[bb*3+2]; }
       lineGeo.attributes.position.needsUpdate = true;
       pts.rotation.y=sf*0.35+t*0.035; pts.rotation.x=Math.sin(t*0.06)*0.06;
       lines.rotation.copy(pts.rotation); camera.position.z=5+sf*2;
-      if (opRef.current) opRef.current.style.opacity = Math.max(0,1-(scrollRef.current||0)/600);
+      if (opRef.current) opRef.current.style.opacity = Math.max(0,1-(scrollRef.current||0)/900);
       renderer.render(scene,camera); requestAnimationFrame(animate);
     }
     animate();
@@ -139,36 +139,43 @@ function SpiralWave(props) {
     for(var i=0;i<count;i++){
       particles.push({phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.3,radius:100+Math.random()*200,size:Math.random()*2.5+0.8,color:colors[Math.floor(Math.random()*colors.length)],ySpeed:0.5+Math.random()*0.5});
     }
-    function resize(){var dpr=Math.min(window.devicePixelRatio,2);var h=Math.max(document.documentElement.scrollHeight,window.innerHeight*5);canvas.width=window.innerWidth*dpr;canvas.height=h*dpr;canvas.style.width=window.innerWidth+"px";canvas.style.height=h+"px";ctx.setTransform(dpr,0,0,dpr,0,0);}
+    function resize(){var dpr=Math.min(window.devicePixelRatio,2);canvas.width=window.innerWidth*dpr;canvas.height=window.innerHeight*dpr;canvas.style.width=window.innerWidth+"px";canvas.style.height=window.innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);}
     resize();
     var rto; function onR(){clearTimeout(rto);rto=setTimeout(resize,300);}
     window.addEventListener("resize",onR);
     function animate(){
       if(!running)return; frame++;
-      var t=frame*0.01;var w=window.innerWidth;var pageH=parseInt(canvas.style.height);
-      var scroll=scrollRef.current||0;var viewTop=scroll-200;var viewBot=scroll+window.innerHeight+200;
-      ctx.clearRect(0,0,w,pageH);
-      var mx=((mouseRef.current?.x||0.5)-0.5)*40;
+      var t=frame*0.01;var w=window.innerWidth;var vh=window.innerHeight;var pageH=Math.max(document.documentElement.scrollHeight,vh*5);
+      var scroll=scrollRef.current||0;
+      ctx.clearRect(0,0,w,vh);
+      var mx=((mouseRef.current?.x||0.5)-0.5)*50;
+      var my=((mouseRef.current?.y||0.5)-0.5)*30;
       for(var i=0;i<count;i++){
         var p=particles[i];
-        var yBase=(i/count)*pageH;
-        if(yBase<viewTop||yBase>viewBot)continue;
-        var spiralX=w*0.5+Math.sin(t*p.speed+p.phase+yBase*0.0008)*p.radius+mx*0.2;
-        var spiralY=yBase+Math.cos(t*p.ySpeed+p.phase)*15;
-        var distFromCenter=Math.abs(spiralY-scroll-window.innerHeight*0.5);
-        var vFade=Math.max(0,1-distFromCenter/(window.innerHeight*0.8));
-        if(vFade<0.02)continue;
-        ctx.globalAlpha=vFade*0.8;
-        ctx.beginPath();ctx.arc(spiralX,spiralY,p.size*(0.5+vFade*0.5),0,Math.PI*2);
+        var yPage=(i/count)*pageH;
+        var yScreen=yPage-scroll;
+        if(yScreen<-80||yScreen>vh+80)continue;
+        var wave=Math.sin(t*p.speed+p.phase+yPage*0.0006);
+        var wave2=Math.cos(t*p.speed*0.7+p.phase*1.3+yPage*0.001);
+        var spiralX=w*0.5+wave*p.radius*0.6+wave2*p.radius*0.4+mx*0.15;
+        var spiralY=yScreen+Math.cos(t*p.ySpeed+p.phase)*12+my*0.08;
+        var edgeFade=1-Math.pow(Math.abs(spiralX-w*0.5)/(w*0.45),2);
+        var yFade=Math.min(spiralY/120,1)*Math.min((vh-spiralY)/120,1);
+        var alpha=Math.max(0,edgeFade*yFade);
+        if(alpha<0.02)continue;
+        ctx.globalAlpha=alpha*0.7;
+        ctx.beginPath();ctx.arc(spiralX,spiralY,p.size,0,Math.PI*2);
         ctx.fillStyle=p.color;ctx.fill();
-        if(vFade>0.2){
-          var ni=(i+3)%count;
-          var nyBase=(ni/count)*pageH;
-          if(nyBase>viewTop&&nyBase<viewBot){
-            var nx=w*0.5+Math.sin(t*particles[ni].speed+particles[ni].phase+nyBase*0.0008)*particles[ni].radius+mx*0.2;
-            var ny=nyBase+Math.cos(t*particles[ni].ySpeed+particles[ni].phase)*15;
-            var d=Math.sqrt((nx-spiralX)*(nx-spiralX)+(ny-spiralY)*(ny-spiralY));
-            if(d<300){ctx.globalAlpha=vFade*0.1*(1-d/300);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny);ctx.strokeStyle=C.accent;ctx.lineWidth=0.4;ctx.stroke();}
+        if(alpha>0.12&&i%2===0){
+          var ni=(i+5)%count;
+          var nyPage=(ni/count)*pageH;var nyScreen=nyPage-scroll;
+          if(nyScreen>-80&&nyScreen<vh+80){
+            var nw=Math.sin(t*particles[ni].speed+particles[ni].phase+nyPage*0.0006);
+            var nw2=Math.cos(t*particles[ni].speed*0.7+particles[ni].phase*1.3+nyPage*0.001);
+            var nx=w*0.5+nw*particles[ni].radius*0.6+nw2*particles[ni].radius*0.4+mx*0.15;
+            var ny2=nyScreen+Math.cos(t*particles[ni].ySpeed+particles[ni].phase)*12+my*0.08;
+            var d=Math.sqrt((nx-spiralX)*(nx-spiralX)+(ny2-spiralY)*(ny2-spiralY));
+            if(d<220){ctx.globalAlpha=alpha*0.12*(1-d/220);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny2);ctx.strokeStyle=C.accent;ctx.lineWidth=0.5;ctx.stroke();}
           }
         }
       }
@@ -178,7 +185,7 @@ function SpiralWave(props) {
     animate();
     return function(){running=false;window.removeEventListener("resize",onR);};
   },[]);
-  return <canvas ref={canvasRef} style={{position:"absolute",top:0,left:0,width:"100%",pointerEvents:"none",zIndex:1}} />;
+  return <canvas ref={canvasRef} style={{position:"fixed",top:0,left:0,width:"100vw",height:"100vh",pointerEvents:"none",zIndex:3}} />;
 }
 
 function Nav(props) {
@@ -228,53 +235,48 @@ function SiteMockup(props) {
   function FakeNav(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:14}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
 
   function renderFakeSite() {
-    if (site.id==="physician") return (<div style={{padding:"0 22px"}}>
-      <FakeNav n="Meridian Pain & Spine" l={["About","Services","Patient Portal","Contact"]} />
-      <div style={{padding:"36px 0 16px"}}>
-        <div style={{display:"flex",gap:6,marginBottom:16}}><FakePill t="Board Certified" /><FakePill t="Accepting New Patients" /></div>
-        <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:10}}>Advanced Pain Relief.<br/><span style={{color:site.color}}>Restored Quality of Life.</span></h3>
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.65,marginBottom:18,maxWidth:300}}>Comprehensive interventional pain management. Minimally invasive treatments backed by the latest evidence-based medicine.</p>
-        <div style={{display:"flex",gap:10}}><FakeBtn t="Request Appointment" big /><FakeBtn t="Call (864) 555-0134" outline /></div>
+    if (site.id==="physician") return (<div style={{padding:"0 24px",height:"100%",display:"flex",flexDirection:"column"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:28,height:28,borderRadius:6,background:"linear-gradient(135deg, "+site.color+", "+site.color+"88)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,color:"#fff"}}>M</div><span style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>Meridian</span></div>
+        <div style={{display:"flex",gap:16}}>{["Services","Providers","Patients","Contact"].map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.35)",fontFamily:F.body}}>{n}</span>;})}</div>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}>
-        {[{i:"\u2695\ufe0f",t:"Spine Injections"},{i:"\ud83e\udeb7",t:"Nerve Blocks"},{i:"\u26a1",t:"Regenerative"},{i:"\ud83c\udfaf",t:"Joint Injections"},{i:"\ud83e\ude7a",t:"Spinal Cord Stim"},{i:"\ud83d\udcca",t:"Pain Assessment"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"12px 8px",textAlign:"center",border:"1px solid rgba(255,255,255,0.04)"}}><div style={{fontSize:16,marginBottom:4}}>{s.i}</div><div style={{fontSize:9,fontWeight:600,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{s.t}</div></div>;})}
+      <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",gap:14,paddingBottom:20}}>
+        <div style={{display:"flex",gap:6}}><span style={{fontSize:9,padding:"4px 10px",background:site.color+"15",color:site.color,borderRadius:4,fontFamily:F.mono,fontWeight:500}}>Board Certified</span><span style={{fontSize:9,padding:"4px 10px",background:"rgba(255,255,255,0.04)",color:"rgba(255,255,255,0.5)",borderRadius:4,fontFamily:F.mono}}>Now Accepting Patients</span></div>
+        <div><h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.08,letterSpacing:"-0.5px"}}>Advanced Pain Relief.</h3><h3 style={{fontSize:30,fontWeight:800,color:site.color,fontFamily:F.display,lineHeight:1.08,letterSpacing:"-0.5px"}}>Restored Life.</h3></div>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.45)",fontFamily:F.body,lineHeight:1.65,maxWidth:320}}>Comprehensive interventional pain management with minimally invasive, evidence-based treatments.</p>
+        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 22px",background:site.color,borderRadius:6,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Request Appointment</div><div style={{padding:"10px 22px",border:"1px solid rgba(255,255,255,0.12)",borderRadius:6,fontSize:11,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{"(864) 555-0134"}</div></div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginTop:4}}>{[{i:"\u2695\ufe0f",t:"Spine"},{i:"\u26a1",t:"Nerve Blocks"},{i:"\ud83c\udfaf",t:"Joint"},{i:"\ud83e\udeb7",t:"Regenerative"},{i:"\ud83e\ude7a",t:"Spinal Stim"},{i:"\ud83d\udcca",t:"Assessment"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.02)",borderRadius:6,padding:"10px 6px",textAlign:"center"}}><div style={{fontSize:14,marginBottom:2}}>{s.i}</div><div style={{fontSize:8,color:"rgba(255,255,255,0.4)",fontFamily:F.mono,letterSpacing:"0.5px"}}>{s.t}</div></div>;})}</div>
+        <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"10px 12px",display:"flex",alignItems:"center",gap:10}}>
+          <div style={{width:32,height:32,borderRadius:"50%",background:site.color+"22",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:site.color}}>RM</div>
+          <div style={{flex:1}}><div style={{fontSize:10,fontWeight:600,color:"#fff",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:8,color:"rgba(255,255,255,0.35)",fontFamily:F.body}}>Interventional Pain Medicine</div></div>
+          <div style={{display:"flex",gap:1}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#fbbf24",fontSize:8}}>{"\u2605"}</span>;})}</div>
+        </div>
       </div>
-      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"12px 14px",display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
-        <div style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg, "+site.color+"33, "+site.color+"11)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>DR</div>
-        <div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body}}>Double Board Certified \u00b7 Interventional Pain Medicine</div></div>
-        <div style={{marginLeft:"auto",display:"flex",gap:2}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#fbbf24",fontSize:10}}>{"\u2605"}</span>;})}</div>
-      </div>
-      <div style={{display:"flex",gap:8,padding:"6px 0"}}><FakePill t="In-Network" /><FakePill t="Same-Week Appts" /><FakePill t="Greenville, SC" /></div>
     </div>);
 
-    if (site.id==="accountant") return (<div style={{padding:"0 22px"}}>
-      <FakeNav n="Hargrave & Cole" l={["Services","Industries","Resources","Contact"]} />
-      <div style={{padding:"36px 0 16px"}}>
-        <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:10}}>Your Numbers.<br/><span style={{color:site.color}}>Our Expertise.</span></h3>
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.65,marginBottom:6}}>Strategic tax planning, audit preparation, and business advisory for growing companies.</p>
-        <p style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginBottom:18}}>Greenville, SC \u00b7 Est. 2003</p>
-        <div style={{display:"flex",gap:10}}><FakeBtn t="Schedule Consultation" big /><FakeBtn t="Client Portal" outline /></div>
+    if (site.id==="accountant") return (<div style={{padding:"0 24px",height:"100%",display:"flex",flexDirection:"column"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <span style={{fontSize:14,fontWeight:300,color:"#fff",fontFamily:F.display,letterSpacing:"2px",textTransform:"uppercase"}}>Hargrave <span style={{color:site.color}}>&amp;</span> Cole</span>
+        <div style={{display:"flex",gap:16}}>{["Services","Team","Insights","Portal"].map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.body}}>{n}</span>;})}</div>
       </div>
-      <div style={{display:"flex",gap:10,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="800+" l="Clients" /><FakeStat v="$2.4M" l="Tax Saved" /><FakeStat v="22" l="Years" /></div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"0 0 10px"}}>
-        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udcb0"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Tax Planning</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>Strategic year-round planning to minimize liability</div></div>
-        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udcc8"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Business Advisory</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>CFO-level insights for scaling businesses</div></div>
-        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udccb"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Audit & Assurance</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>Thorough preparation for clean audits</div></div>
-        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83c\udfe2"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Entity Structuring</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>LLC, S-Corp, and partnership optimization</div></div>
-      </div>
-      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{display:"flex",gap:2}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:site.color,fontSize:9}}>{"\u2605"}</span>;})}</div><span style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.mono}}>4.9 / 5 (127 reviews)</span></div>
-        <span style={{fontSize:9,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>QuickBooks Pro Advisor</span>
+      <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",paddingBottom:10}}>
+        <div style={{fontSize:10,letterSpacing:3,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:14,fontWeight:500}}>Certified Public Accountants</div>
+        <h3 style={{fontSize:32,fontWeight:300,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:12,letterSpacing:"-0.3px"}}>Your Numbers.<br/><span style={{fontWeight:800}}>Our Expertise.</span></h3>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.7,marginBottom:20,maxWidth:300}}>Strategic tax planning, audit preparation, and advisory for growing businesses. Serving the Upstate since 2003.</p>
+        <div style={{display:"flex",gap:8}}><div style={{padding:"10px 24px",background:site.color,borderRadius:4,fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.body}}>Schedule Consultation</div><div style={{padding:"10px 24px",border:"1px solid "+site.color+"44",borderRadius:4,fontSize:11,color:site.color,fontFamily:F.body}}>Client Portal</div></div>
+        <div style={{display:"flex",gap:0,marginTop:20,borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:16}}>{[{v:"800+",l:"Clients Served"},{v:"$2.4M",l:"Tax Saved 2024"},{v:"22yr",l:"Experience"}].map(function(s,si){return <div key={si} style={{flex:1,textAlign:"center",borderRight:si<2?"1px solid rgba(255,255,255,0.06)":"none"}}><div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:F.display}}>{s.v}</div><div style={{fontSize:8,letterSpacing:"1px",textTransform:"uppercase",color:"rgba(255,255,255,0.25)",fontFamily:F.mono,marginTop:3}}>{s.l}</div></div>;})}</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginTop:14}}>{[{i:"\ud83d\udcb0",t:"Tax Planning",d:"Year-round strategy"},{i:"\ud83d\udcc8",t:"Advisory",d:"CFO-level insights"},{i:"\ud83d\udccb",t:"Audit Prep",d:"Clean audit ready"},{i:"\ud83c\udfe2",t:"Entity Setup",d:"LLC & S-Corp"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.015)",borderRadius:6,padding:"10px",display:"flex",gap:8,alignItems:"center"}}><span style={{fontSize:14}}>{s.i}</span><div><div style={{fontSize:9,fontWeight:600,color:"rgba(255,255,255,0.7)",fontFamily:F.display}}>{s.t}</div><div style={{fontSize:8,color:"rgba(255,255,255,0.25)",fontFamily:F.body}}>{s.d}</div></div></div>;})}</div>
       </div>
     </div>);
 
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
 
+
   var hasLive = !!site.liveUrl;
 
   return (
-    <div ref={ref} style={{ minWidth:"500px",maxWidth:"540px",flexShrink:0,opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
+    <div ref={ref} style={{ minWidth:"340px",maxWidth:"540px",flexShrink:0,opacity:v?1:0,transform:v?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1) "+(index*0.08)+"s" }}>
       <div onMouseEnter={function(){setH(true);}} onMouseLeave={function(){setH(false);}} style={{ borderRadius:"12px",overflow:"hidden",border:"1px solid "+(h?site.color+"44":C.border),transition:"all 0.4s ease",transform:h?"translateY(-6px) scale(1.01)":"translateY(0) scale(1)",boxShadow:h?"0 24px 80px "+site.color+"20":"none" }}>
         <div style={{ background:"rgba(18,20,28,0.98)",padding:"10px 14px",display:"flex",alignItems:"center",gap:"6px",borderBottom:"1px solid "+C.border }}>
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
@@ -606,12 +608,12 @@ export default function DonnyAI() {
       <style>{CSS}</style>
       <ParticleHero scrollRef={scrollRef} mouseRef={mouseRef} />
       <CursorGlow mouseRef={mouseRef} />
-      <div style={{position:"absolute",top:0,left:0,width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:1}}><SpiralWave scrollRef={scrollRef} mouseRef={mouseRef} /></div>
+      <SpiralWave scrollRef={scrollRef} mouseRef={mouseRef} />
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
-        <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"600px",height:"600px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.1) 0%,rgba(139,92,246,0.05) 30%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
-        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 700px 500px at center, rgba(6,7,11,0.92) 0%, rgba(6,7,11,0.65) 35%, transparent 65%)", padding: "60px 40px", borderRadius: "40px" }}>
+        <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"900px",height:"900px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.14) 0%,rgba(139,92,246,0.07) 25%,rgba(244,63,94,0.03) 40%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
+        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
           <div style={{display:"inline-flex",alignItems:"center",gap:"8px",background:"rgba(0,232,255,0.06)",border:"1px solid rgba(0,232,255,0.15)",borderRadius:"100px",padding:"6px 18px 6px 12px",marginBottom:"24px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}><span style={{width:"6px",height:"6px",borderRadius:"50%",background:C.accent,animation:"pulse 2s ease-in-out infinite"}}></span><span style={{fontSize:"12px",fontFamily:F.mono,color:C.accent,fontWeight:500,letterSpacing:"1px"}}>TOP 1% AI USER IN THE U.S.</span></div>
           <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
@@ -707,13 +709,13 @@ export default function DonnyAI() {
           Let's Build <span style={{ color: C.accent }}>Something</span>
         </h2>
         <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, marginBottom: "40px" }}>The future doesn't wait. Neither should you.</p>
-        <MagBtn style={{ fontSize: "14px", padding: "18px 50px" }}>Get In Touch</MagBtn>
+        <MagBtn onClick={function(){window.location.href="mailto:hello@donny.ai";}} style={{ fontSize: "14px", padding: "18px 50px" }}>Get In Touch</MagBtn>
       </section>
 
       <footer style={{ padding: "32px 24px", borderTop: "1px solid "+C.border, background: BG, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", maxWidth: "1060px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <span style={{ fontSize: "11px", color: C.textDim, fontFamily: F.mono }}>© 2026 DONNY</span>
         <div style={{ display: "flex", gap: "16px" }}>
-          {["LinkedIn", "GitHub", "Email"].map(function(l) { return <ToolPill key={l} name={l} />; })}
+          {[{n:"LinkedIn",u:"https://linkedin.com"},{n:"GitHub",u:"https://github.com"},{n:"Email",u:"mailto:hello@donny.ai"}].map(function(l) { return <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ToolPill name={l.n} /></a>; })}
         </div>
       </footer>
     </div>
