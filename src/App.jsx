@@ -14,10 +14,8 @@ var SITES = [
   { id: "fex", name: "FeX Group", url: "fexgroup.com", liveUrl: "https://fexgroup.vercel.app", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
   { id: "procure", name: "ProcureTrace", url: "procuretrace.io", liveUrl: "https://proceduretrace-site.vercel.app", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
   { id: "awestruck", name: "Awestruck Agency", url: "awestruckagency.com", liveUrl: "https://awestruck-ai-visibility.vercel.app", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
-  { id: "gestational", name: "Gestational.ly", url: "gestational.ly", liveUrl: null, type: "Surrogacy Companion App", year: "2025", color: "#ec4899" },
-  { id: "continuum", name: "Continuum Intl", url: "continuumintl.com", liveUrl: null, type: "Global Relocation Management", year: "2025", color: "#a78bfa" },
-  { id: "synergy", name: "Sourcing Synergies", url: "sourcingsynergies.com", liveUrl: null, type: "Procurement Consultancy", year: "2025", color: "#10b981" },
-  { id: "bakery", name: "Baking with Care", url: "bakingwithcare.co", liveUrl: null, type: "Artisan Micro Bakery", year: "2025", color: "#d97706" },
+  { id: "physician", name: "Meridian Pain & Spine", url: "meridianpainandspine.com", liveUrl: null, type: "Interventional Pain Medicine", year: "2025", color: "#22d3ee" },
+  { id: "accountant", name: "Hargrave & Cole CPA", url: "hargravecole.com", liveUrl: null, type: "Tax & Advisory Services", year: "2025", color: "#6ee7b7" },
 ];
 var PROJECTS = [
   { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have \u2014 across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "\u25C8" },
@@ -68,38 +66,38 @@ function ParticleHero(props) {
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(w, h); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     mountRef.current.appendChild(renderer.domElement);
-    var count = 1800; var geo = new THREE.BufferGeometry();
+    var count = 3200; var geo = new THREE.BufferGeometry();
     var pos = new Float32Array(count * 3), cols = new Float32Array(count * 3), tgt = new Float32Array(count * 3), sizes = new Float32Array(count);
-    var pal = [new THREE.Color("#006680"), new THREE.Color("#5530a0"), new THREE.Color("#a01030"), new THREE.Color("#304050")];
+    var pal = [new THREE.Color("#00e8ff"), new THREE.Color("#8b5cf6"), new THREE.Color("#f43f5e"), new THREE.Color("#006680"), new THREE.Color("#5530a0"), new THREE.Color("#304050")];
     for (var i = 0; i < count; i++) {
       var i3 = i * 3;
       pos[i3] = (Math.random() - 0.5) * 18; pos[i3+1] = (Math.random() - 0.5) * 18; pos[i3+2] = (Math.random() - 0.5) * 8;
-      var phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2, r = 2.0 + Math.random() * 0.6;
+      var phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2, r = 2.8 + Math.random() * 0.8;
       tgt[i3] = r * Math.sin(phi) * Math.cos(theta);
       tgt[i3+1] = r * Math.sin(phi) * Math.sin(theta) + 0.8;
       tgt[i3+2] = r * Math.cos(phi);
       var c = pal[Math.floor(Math.random() * pal.length)];
       cols[i3] = c.r; cols[i3+1] = c.g; cols[i3+2] = c.b;
-      sizes[i] = Math.random() * 2 + 0.8;
+      sizes[i] = Math.random() * 2.5 + 1;
     }
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     geo.setAttribute("color", new THREE.BufferAttribute(cols, 3));
     geo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
     var mat = new THREE.ShaderMaterial({
-      vertexShader: "attribute float size; varying vec3 vColor; void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=size*(160.0/-mv.z);gl_Position=projectionMatrix*mv;}",
-      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.1,d);gl_FragColor=vec4(vColor,a*0.35);}",
+      vertexShader: "attribute float size; varying vec3 vColor; void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=size*(180.0/-mv.z);gl_Position=projectionMatrix*mv;}",
+      fragmentShader: "varying vec3 vColor;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;float a=smoothstep(0.5,0.1,d);gl_FragColor=vec4(vColor,a*0.55);}",
       transparent: true, vertexColors: true, depthWrite: false, blending: THREE.AdditiveBlending,
     });
     var pts = new THREE.Points(geo, mat); scene.add(pts);
     var pairs = [];
-    for (var att = 0; att < 4000 && pairs.length < 150; att++) {
+    for (var att = 0; att < 6000 && pairs.length < 250; att++) {
       var a = Math.floor(Math.random()*count), b = Math.floor(Math.random()*count); if (a===b) continue;
       var dx=tgt[a*3]-tgt[b*3],dy=tgt[a*3+1]-tgt[b*3+1],dz=tgt[a*3+2]-tgt[b*3+2];
-      if (Math.sqrt(dx*dx+dy*dy+dz*dz)<0.6) pairs.push([a,b]);
+      if (Math.sqrt(dx*dx+dy*dy+dz*dz)<0.8) pairs.push([a,b]);
     }
     var lineGeo = new THREE.BufferGeometry(); var lp = new Float32Array(pairs.length*6);
     lineGeo.setAttribute("position", new THREE.BufferAttribute(lp, 3));
-    var lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ color: new THREE.Color(C.accent), transparent: true, opacity: 0.04, blending: THREE.AdditiveBlending }));
+    var lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ color: new THREE.Color(C.accent), transparent: true, opacity: 0.07, blending: THREE.AdditiveBlending }));
     scene.add(lines);
     var running = true, frame = 0;
     function animate() {
@@ -136,10 +134,10 @@ function SpiralWave(props) {
   useEffect(function() {
     var canvas=canvasRef.current; if(!canvas)return;
     var ctx=canvas.getContext("2d"); var running=true; var frame=0;
-    var particles=[];var count=150;
-    var colors=[C.accent+"55",C.accent2+"44",C.accent3+"33",C.green+"33"];
+    var particles=[];var count=220;
+    var colors=[C.accent+"88",C.accent2+"66",C.accent3+"55",C.green+"55","#ffffff44"];
     for(var i=0;i<count;i++){
-      particles.push({phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.3,radius:80+Math.random()*120,size:Math.random()*2+0.5,color:colors[Math.floor(Math.random()*colors.length)],ySpeed:0.5+Math.random()*0.5});
+      particles.push({phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.3,radius:100+Math.random()*200,size:Math.random()*2.5+0.8,color:colors[Math.floor(Math.random()*colors.length)],ySpeed:0.5+Math.random()*0.5});
     }
     function resize(){var dpr=Math.min(window.devicePixelRatio,2);var h=Math.max(document.documentElement.scrollHeight,window.innerHeight*5);canvas.width=window.innerWidth*dpr;canvas.height=h*dpr;canvas.style.width=window.innerWidth+"px";canvas.style.height=h+"px";ctx.setTransform(dpr,0,0,dpr,0,0);}
     resize();
@@ -160,7 +158,7 @@ function SpiralWave(props) {
         var distFromCenter=Math.abs(spiralY-scroll-window.innerHeight*0.5);
         var vFade=Math.max(0,1-distFromCenter/(window.innerHeight*0.8));
         if(vFade<0.02)continue;
-        ctx.globalAlpha=vFade*0.6;
+        ctx.globalAlpha=vFade*0.8;
         ctx.beginPath();ctx.arc(spiralX,spiralY,p.size*(0.5+vFade*0.5),0,Math.PI*2);
         ctx.fillStyle=p.color;ctx.fill();
         if(vFade>0.2){
@@ -170,7 +168,7 @@ function SpiralWave(props) {
             var nx=w*0.5+Math.sin(t*particles[ni].speed+particles[ni].phase+nyBase*0.0008)*particles[ni].radius+mx*0.2;
             var ny=nyBase+Math.cos(t*particles[ni].ySpeed+particles[ni].phase)*15;
             var d=Math.sqrt((nx-spiralX)*(nx-spiralX)+(ny-spiralY)*(ny-spiralY));
-            if(d<300){ctx.globalAlpha=vFade*0.05*(1-d/300);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny);ctx.strokeStyle=C.accent;ctx.lineWidth=0.4;ctx.stroke();}
+            if(d<300){ctx.globalAlpha=vFade*0.1*(1-d/300);ctx.beginPath();ctx.moveTo(spiralX,spiralY);ctx.lineTo(nx,ny);ctx.strokeStyle=C.accent;ctx.lineWidth=0.4;ctx.stroke();}
           }
         }
       }
@@ -230,16 +228,50 @@ function SiteMockup(props) {
   function FakeNav(p){return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}><div style={{fontSize:13,fontWeight:700,color:"#fff",fontFamily:F.display}}>{p.n||site.name}</div><div style={{display:"flex",gap:14}}>{(p.l||[]).map(function(n){return <span key={n} style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:F.body,fontWeight:500}}>{n}</span>;})}</div></div>;}
 
   function renderFakeSite() {
-    if (site.id==="gestational") return (<div style={{padding:"0 22px"}}><FakeNav l={["Features","For Surrogates","For Parents","Download"]} /><div style={{padding:"38px 0 16px"}}><div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>SURROGACY COMPANION APP</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Every Journey<br/>Deserves a <span style={{color:site.color}}>Guide</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>Track milestones, access resources, and stay connected throughout your surrogacy journey.</p><div style={{display:"flex",gap:10}}><FakeBtn t="Download Free" big /><FakeBtn t="Learn More" outline /></div></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"14px 0"}}><FakeCard i={"\ud83d\udcc5"} t="Journey Tracker" /><FakeCard i={"\ud83d\udcda"} t="Resources" /><FakeCard i={"\ud83d\udcac"} t="Messaging" /><FakeCard i={"\ud83d\udd14"} t="Milestones" /></div><div style={{display:"flex",gap:10,padding:"12px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="2,800+" l="Families" /><FakeStat v="4.9" l="Rating" /><FakeStat v="24/7" l="Support" /></div></div>);
+    if (site.id==="physician") return (<div style={{padding:"0 22px"}}>
+      <FakeNav n="Meridian Pain & Spine" l={["About","Services","Patient Portal","Contact"]} />
+      <div style={{padding:"36px 0 16px"}}>
+        <div style={{display:"flex",gap:6,marginBottom:16}}><FakePill t="Board Certified" /><FakePill t="Accepting New Patients" /></div>
+        <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:10}}>Advanced Pain Relief.<br/><span style={{color:site.color}}>Restored Quality of Life.</span></h3>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.65,marginBottom:18,maxWidth:300}}>Comprehensive interventional pain management. Minimally invasive treatments backed by the latest evidence-based medicine.</p>
+        <div style={{display:"flex",gap:10}}><FakeBtn t="Request Appointment" big /><FakeBtn t="Call (864) 555-0134" outline /></div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}>
+        {[{i:"\u2695\ufe0f",t:"Spine Injections"},{i:"\ud83e\udeb7",t:"Nerve Blocks"},{i:"\u26a1",t:"Regenerative"},{i:"\ud83c\udfaf",t:"Joint Injections"},{i:"\ud83e\ude7a",t:"Spinal Cord Stim"},{i:"\ud83d\udcca",t:"Pain Assessment"}].map(function(s,si){return <div key={si} style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"12px 8px",textAlign:"center",border:"1px solid rgba(255,255,255,0.04)"}}><div style={{fontSize:16,marginBottom:4}}>{s.i}</div><div style={{fontSize:9,fontWeight:600,color:"rgba(255,255,255,0.6)",fontFamily:F.body}}>{s.t}</div></div>;})}
+      </div>
+      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"12px 14px",display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+        <div style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg, "+site.color+"33, "+site.color+"11)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>DR</div>
+        <div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display}}>Dr. Rebecca Marin, MD</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body}}>Double Board Certified \u00b7 Interventional Pain Medicine</div></div>
+        <div style={{marginLeft:"auto",display:"flex",gap:2}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:"#fbbf24",fontSize:10}}>{"\u2605"}</span>;})}</div>
+      </div>
+      <div style={{display:"flex",gap:8,padding:"6px 0"}}><FakePill t="In-Network" /><FakePill t="Same-Week Appts" /><FakePill t="Greenville, SC" /></div>
+    </div>);
 
-    if (site.id==="continuum") return (<div style={{padding:"0 22px"}}><FakeNav n="Continuum International" l={["Services","Destinations","Companies","Contact"]} /><div style={{padding:"38px 0 16px"}}><div style={{display:"inline-block",padding:"4px 12px",background:site.color+"15",borderRadius:100,fontSize:10,color:site.color,fontFamily:F.mono,fontWeight:500,marginBottom:14,letterSpacing:1}}>GLOBAL RELOCATION</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Moving People.<br/><span style={{color:site.color}}>Moving Business.</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>End-to-end relocation management for global enterprises. Immigration, housing, and settling-in services.</p><FakeBtn t="Get Started" big /></div><div style={{display:"flex",gap:10,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="140+" l="Countries" /><FakeStat v="8,000" l="Moves/Year" /><FakeStat v="96%" l="Satisfaction" /></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,paddingBottom:14}}><FakeCard i={"\ud83c\udf0d"} t="Immigration" /><FakeCard i={"\ud83c\udfe0"} t="Housing" /><FakeCard i={"\ud83d\udccb"} t="Settling-In" /><FakeCard i={"\ud83d\udce6"} t="Logistics" /></div></div>);
-
-    if (site.id==="synergy") return (<div style={{padding:"0 22px"}}><FakeNav n="Sourcing Synergies" l={["Services","Industries","About","Contact"]} /><div style={{padding:"38px 0 16px"}}><div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:site.color,fontFamily:F.mono,marginBottom:10}}>Strategic Procurement</div><h3 style={{fontSize:28,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Procurement<br/><span style={{color:site.color}}>Reimagined</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:18,maxWidth:280}}>Expert consultancy helping organizations optimize sourcing strategy and vendor relationships.</p><div style={{display:"flex",gap:10}}><FakeBtn t="Schedule Consultation" big /><FakeBtn t="Our Approach" outline /></div></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"14px 0"}}><FakeCard i={"\ud83d\udd0d"} t="Spend Analysis" /><FakeCard i={"\ud83d\udcb0"} t="Cost Reduction" /><FakeCard i={"\ud83e\udd1d"} t="Vendor Mgmt" /></div><div style={{display:"flex",gap:10,padding:"12px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="$180M" l="Savings" /><FakeStat v="60+" l="Clients" /><FakeStat v="35%" l="Avg Reduction" /></div></div>);
-
-    if (site.id==="bakery") return (<div style={{padding:"0 22px"}}><FakeNav l={["Menu","Custom Orders","Catering","Order Now"]} /><div style={{padding:"38px 0 16px"}}><h3 style={{fontSize:30,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.1,marginBottom:12}}>Handcrafted<br/>with <span style={{color:site.color}}>Heart</span></h3><p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.6,marginBottom:6}}>Small-batch artisan baked goods made with locally sourced ingredients.</p><p style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginBottom:18}}>Greenville, SC \u00b7 Est. 2024</p><FakeBtn t="Order Now" big /></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,padding:"14px 0"}}>{["Sourdough","Croissants","Custom Cakes","Cookies","Scones","Seasonal"].map(function(item){return <div key={item} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"14px 6px",textAlign:"center"}}><div style={{width:28,height:28,borderRadius:"50%",background:site.color+"15",margin:"0 auto 6px"}} /><div style={{fontSize:9,fontWeight:500,color:"rgba(255,255,255,0.5)",fontFamily:F.body}}>{item}</div></div>;})}</div><div style={{display:"flex",gap:6,padding:"8px 0"}}><FakePill t="Local Ingredients" /><FakePill t="Same-Day Pickup" /><FakePill t="Delivery" /></div></div>);
+    if (site.id==="accountant") return (<div style={{padding:"0 22px"}}>
+      <FakeNav n="Hargrave & Cole" l={["Services","Industries","Resources","Contact"]} />
+      <div style={{padding:"36px 0 16px"}}>
+        <h3 style={{fontSize:26,fontWeight:800,color:"#fff",fontFamily:F.display,lineHeight:1.15,marginBottom:10}}>Your Numbers.<br/><span style={{color:site.color}}>Our Expertise.</span></h3>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",fontFamily:F.body,lineHeight:1.65,marginBottom:6}}>Strategic tax planning, audit preparation, and business advisory for growing companies.</p>
+        <p style={{fontSize:10,color:"rgba(255,255,255,0.3)",fontFamily:F.mono,marginBottom:18}}>Greenville, SC \u00b7 Est. 2003</p>
+        <div style={{display:"flex",gap:10}}><FakeBtn t="Schedule Consultation" big /><FakeBtn t="Client Portal" outline /></div>
+      </div>
+      <div style={{display:"flex",gap:10,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,0.06)"}}><FakeStat v="800+" l="Clients" /><FakeStat v="$2.4M" l="Tax Saved" /><FakeStat v="22" l="Years" /></div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,padding:"0 0 10px"}}>
+        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udcb0"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Tax Planning</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>Strategic year-round planning to minimize liability</div></div>
+        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udcc8"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Business Advisory</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>CFO-level insights for scaling businesses</div></div>
+        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83d\udccb"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Audit & Assurance</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>Thorough preparation for clean audits</div></div>
+        <div style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:8,padding:"14px 12px"}}><div style={{fontSize:14,marginBottom:6}}>{"\ud83c\udfe2"}</div><div style={{fontSize:11,fontWeight:600,color:"#fff",fontFamily:F.display,marginBottom:3}}>Entity Structuring</div><div style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.5}}>LLC, S-Corp, and partnership optimization</div></div>
+      </div>
+      <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{display:"flex",gap:2}}>{[1,2,3,4,5].map(function(s){return <span key={s} style={{color:site.color,fontSize:9}}>{"\u2605"}</span>;})}</div><span style={{fontSize:9,color:"rgba(255,255,255,0.4)",fontFamily:F.mono}}>4.9 / 5 (127 reviews)</span></div>
+        <span style={{fontSize:9,color:"rgba(255,255,255,0.3)",fontFamily:F.mono}}>QuickBooks Pro Advisor</span>
+      </div>
+    </div>);
 
     return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
   }
+
+}
 
   var hasLive = !!site.liveUrl;
 
@@ -569,7 +601,7 @@ export default function DonnyAI() {
   }, []);
 
   var BG = "#06070b";
-  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
+  var CSS = "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:"+C.accent+"33;color:#fff}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:"+C.accent+"22;border-radius:3px}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes glitchA{0%{transform:translate(2px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,-2px)}}@keyframes glitchB{0%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,2px)}}@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}@media(max-width:900px){.rg2{grid-template-columns:1fr!important}.rg4{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){.rg4{grid-template-columns:1fr!important}.reel-scroll{gap:16px!important}.reel-scroll>div{min-width:300px!important}}input:focus{border-color:"+C.accent+"44!important}";
 
   return (
     <div style={{ background: BG, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
@@ -580,6 +612,7 @@ export default function DonnyAI() {
       <Nav active={active} />
 
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
+        <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"600px",height:"600px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.1) 0%,rgba(139,92,246,0.05) 30%,transparent 55%)",filter:"blur(60px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 700px 500px at center, rgba(6,7,11,0.92) 0%, rgba(6,7,11,0.65) 35%, transparent 65%)", padding: "60px 40px", borderRadius: "40px" }}>
           <div style={{display:"inline-flex",alignItems:"center",gap:"8px",background:"rgba(0,232,255,0.06)",border:"1px solid rgba(0,232,255,0.15)",borderRadius:"100px",padding:"6px 18px 6px 12px",marginBottom:"24px",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}><span style={{width:"6px",height:"6px",borderRadius:"50%",background:C.accent,animation:"pulse 2s ease-in-out infinite"}}></span><span style={{fontSize:"12px",fontFamily:F.mono,color:C.accent,fontWeight:500,letterSpacing:"1px"}}>TOP 1% AI USER IN THE U.S.</span></div>
           <div style={{ fontSize: "11px", letterSpacing: "6px", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontFamily: F.mono, marginBottom: "20px", fontWeight: 500, opacity: loaded?1:0, transition: "opacity 0.6s 0.8s", textShadow: "0 0 20px rgba(6,7,11,1)" }}>AI Design · Development · Strategy</div>
