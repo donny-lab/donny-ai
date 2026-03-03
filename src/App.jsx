@@ -211,7 +211,7 @@ function Nav({ active }) {
         <button key={s.id} onClick={() => goTo(s.id)} title={s.l} style={{
           width: active === s.id ? "20px" : "6px", height: "6px", borderRadius: "3px",
           background: active === s.id ? C.accent : "rgba(255,255,255,0.15)",
-          border: "none", cursor: "pointer", transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)", padding: 0,
+          border: "none", cursor: "pointer", transition: "width 0.3s cubic-bezier(0.23,1,0.32,1), background 0.3s, box-shadow 0.3s", padding: 0,
           boxShadow: active === s.id ? `0 0 10px ${C.accent}44` : "none",
         }} />
       ))}
@@ -225,7 +225,7 @@ function Nav({ active }) {
 function Heading({ tag, title, subtitle, align = "center" }) {
   const [ref, vis] = useInView(0.15);
   return (
-    <div ref={ref} style={{ textAlign: align, marginBottom: "48px", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s cubic-bezier(0.23,1,0.32,1)" }}>
+    <div ref={ref} style={{ textAlign: align, marginBottom: "48px", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1)" }}>
       <div style={{ fontSize: "12px", letterSpacing: "4px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "12px" }}>{tag}</div>
       <h2 style={{ fontSize: "clamp(28px,4.5vw,50px)", fontWeight: 700, color: "#fff", fontFamily: F.display, letterSpacing: "-0.5px", margin: "0 0 14px" }}>{title}</h2>
       {subtitle && <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, maxWidth: align === "center" ? "580px" : "none", margin: align === "center" ? "0 auto" : 0, lineHeight: 1.7 }}>{subtitle}</p>}
@@ -290,8 +290,8 @@ function SiteMockup({ site, index }) {
 
   const hasLive = !!site.liveUrl;
   return (
-    <div ref={ref} style={{ minWidth:"340px",maxWidth:"540px",flexShrink:0,opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:`all 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s` }}>
-      <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ borderRadius:"12px",overflow:"hidden",border:`1px solid ${h?site.color+"44":C.border}`,transition:"all 0.4s ease",transform:h?"translateY(-6px) scale(1.01)":"translateY(0) scale(1)",boxShadow:h?`0 24px 80px ${site.color}20`:"none" }}>
+    <div ref={ref} style={{ minWidth:"340px",maxWidth:"540px",flexShrink:0,opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:`opacity 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s` }}>
+      <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ borderRadius:"12px",overflow:"hidden",border:`1px solid ${h?site.color+"44":C.border}`,willChange:"transform",transition:"transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease",transform:h?"translateY(-4px)":"translateY(0)",boxShadow:h?`0 24px 80px ${site.color}20`:"none" }}>
         <div style={{ background:"rgba(18,20,28,0.98)",padding:"10px 14px",display:"flex",alignItems:"center",gap:"6px",borderBottom:`1px solid ${C.border}` }}>
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ffbd2e"}} />
@@ -336,13 +336,13 @@ function HoloCard({ project, index }) {
   return (
     <div ref={ref} onMouseMove={e => { if (!ref.current) return; const r = ref.current.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5; setTilt({x:y*-10,y:x*10}); setGlow({x:(x+0.5)*100,y:(y+0.5)*100}); }}
       onMouseEnter={() => setH(true)} onMouseLeave={() => { setH(false); setTilt({x:0,y:0}); }}
-      style={{ perspective: "1000px", opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(40px)", transition: `all 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s` }}
+      style={{ perspective: "1000px", opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(40px)", transition: `opacity 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.08}s` }}
     >
       <div style={{
-        transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${h?1.01:1})`,
-        transition: h?"transform 0.1s":"transform 0.4s cubic-bezier(0.23,1,0.32,1)",
+        transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        willChange:"transform",transition: h?"transform 0.1s":"transform 0.4s cubic-bezier(0.23,1,0.32,1)",
         background: C.bgCard, backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-        border: `1px solid ${h?project.color+"44":C.border}`, borderRadius: "12px",
+        border: `1px solid ${h?project.color+"44":C.border}`, borderRadius: "12px", transition: "border-color 0.3s",
         padding: "32px", position: "relative", overflow: "hidden", cursor: "default",
         minHeight: "240px", display: "flex", flexDirection: "column", justifyContent: "space-between",
       }}>
@@ -651,9 +651,9 @@ function ProcessStep({ step, index }) {
   const [h, setH] = useState(false);
   const [expanded, setExpanded] = useState(false);
   return (
-    <div ref={ref} style={{ opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(30px)", transition: `all 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s`, marginBottom: "16px" }}>
+    <div ref={ref} style={{ opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(30px)", transition: `opacity 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s`, marginBottom: "16px" }}>
       <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} onClick={() => setExpanded(!expanded)}
-        style={{ display: "flex", gap: "24px", alignItems: "flex-start", padding: "24px", cursor: "pointer", background: expanded?"rgba(255,255,255,0.02)":"transparent", border: `1px solid ${expanded?step.color+"22":h?C.border:"transparent"}`, borderRadius: "12px", transition: "all 0.3s" }}>
+        style={{ display: "flex", gap: "24px", alignItems: "flex-start", padding: "24px", cursor: "pointer", background: expanded?"rgba(255,255,255,0.02)":"transparent", border: `1px solid ${expanded?step.color+"22":h?C.border:"transparent"}`, borderRadius: "12px", transition: "background 0.3s, border-color 0.3s" }}>
         <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.18)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -703,7 +703,7 @@ function StackOrbit() {
   var at = active ? tools.find(function(t){return t.name===active;}) : null;
 
   return (
-    <div ref={ref} style={{opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(20px)",transition:"all 0.8s cubic-bezier(0.23,1,0.32,1)"}}>
+    <div ref={ref} style={{opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(20px)",transition:"opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1)"}}>
 
       {/* Tool grid — grouped by ring */}
       <div style={{display:"flex",flexDirection:"column",gap:32}}>
@@ -762,7 +762,7 @@ function StackOrbit() {
       </div>
 
       {/* Description panel */}
-      <div style={{marginTop:32,padding:"20px 24px",background:"rgba(255,255,255,0.02)",borderRadius:12,border:"1px solid "+C.border,minHeight:72,transition:"border-color 0.3s",borderColor:at?at.color+"22":C.border}}>
+      <div style={{marginTop:32,padding:"20px 24px",background:"rgba(255,255,255,0.02)",borderRadius:12,border:"1px solid "+C.border,minHeight:72,borderColor:at?at.color+"22":C.border}}>
         {at ? (
           <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
             <div style={{width:12,height:12,borderRadius:"50%",background:at.color,marginTop:4,flexShrink:0,boxShadow:"0 0 12px "+at.color+"44"}} />
@@ -800,7 +800,7 @@ function AutomationCarousel() {
   }, [idx]);
 
   return (
-    <div ref={ref} style={{maxWidth:760,margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"all 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
+    <div ref={ref} style={{maxWidth:760,margin:"0 auto",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(30px)",transition:"opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1)"}}>
 
       {/* Tab navigation with actual names */}
       <div style={{display:"flex",gap:4,marginBottom:0,borderRadius:"14px 14px 0 0",overflow:"hidden",background:"rgba(255,255,255,0.02)",flexWrap:"wrap",border:`1px solid ${C.border}`,borderBottom:"none"}}>
@@ -809,11 +809,11 @@ function AutomationCarousel() {
           return (
             <button key={i} onClick={function(){setIdx(i);}} style={{
               flex:1,padding:"16px 12px",background:isActive?C.bgCard:"transparent",
-              border:"none",borderBottom:isActive?"2px solid "+auto.color:"2px solid transparent",
-              cursor:"pointer",transition:"all 0.3s",position:"relative",
+              border:"none",borderBottom:"2px solid "+(isActive?auto.color:"transparent"),
+              cursor:"pointer",transition:"background 0.3s, border-color 0.3s",position:"relative",
             }}>
-              <div style={{fontSize:13,fontWeight:isActive?700:500,color:isActive?"#fff":C.textDim,fontFamily:F.display,transition:"all 0.3s",marginBottom:2}}>{auto.title}</div>
-              <div style={{fontSize:12,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px",transition:"all 0.3s"}}>{auto.time}</div>
+              <div style={{fontSize:13,fontWeight:600,color:isActive?"#fff":C.textDim,fontFamily:F.display,marginBottom:2}}>{auto.title}</div>
+              <div style={{fontSize:12,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px"}}>{auto.time}</div>
             </button>
           );
         })}
@@ -832,24 +832,24 @@ function AutomationCarousel() {
                 <div key={si} style={{display:"flex",alignItems:"flex-start",flex:si<a.steps.length-1?1:"none"}}>
                   <div style={{display:"flex",flexDirection:"column",alignItems:"center",minWidth:60}}>
                     <div style={{
-                      width:isActive?20:12,height:isActive?20:12,borderRadius:"50%",
+                      width:14,height:14,borderRadius:"50%",transform:isActive?"scale(1.4)":"scale(1)",
                       background:isActive?a.color:isPast?a.color+"88":"rgba(255,255,255,0.08)",
-                      transition:"all 0.4s cubic-bezier(0.23,1,0.32,1)",
+                      transition:"transform 0.4s cubic-bezier(0.23,1,0.32,1), background 0.4s, box-shadow 0.4s",
                       boxShadow:isActive?"0 0 24px "+a.color+"66":"none",
                       display:"flex",alignItems:"center",justifyContent:"center",
                     }}>
                       {isActive && <div style={{width:6,height:6,borderRadius:"50%",background:"#fff"}} />}
                     </div>
                     <div style={{
-                      fontSize:12,fontWeight:isActive?700:400,marginTop:10,textAlign:"center",
+                      fontSize:12,fontWeight:500,marginTop:10,textAlign:"center",
                       color:isActive?a.color:isPast?C.textBody:"rgba(255,255,255,0.25)",
-                      fontFamily:F.body,transition:"all 0.3s",lineHeight:1.3,maxWidth:80,
+                      fontFamily:F.body,transition:"color 0.3s",lineHeight:1.3,maxWidth:80,
                     }}>{step}</div>
                   </div>
                   {si<a.steps.length-1 && (
                     <div style={{flex:1,paddingTop:5,position:"relative"}}>
                       <div style={{height:2,background:"rgba(255,255,255,0.06)",borderRadius:1,margin:"0 4px",overflow:"hidden"}}>
-                        <div style={{height:"100%",background:isPast?a.color+"88":"transparent",transition:"all 0.5s",borderRadius:1,width:isPast?"100%":"0%"}} />
+                        <div style={{height:"100%",background:isPast?a.color+"88":"transparent",transition:"width 0.5s, background 0.5s",borderRadius:1,width:isPast?"100%":"0%"}} />
                       </div>
                       {isActive && <div style={{position:"absolute",top:2,right:0,width:10,height:10,borderRadius:"50%",background:a.color,animation:"pulse 0.7s ease-in-out infinite",filter:"blur(2px)"}} />}
                     </div>
@@ -869,7 +869,7 @@ function AutomationCarousel() {
             <button onClick={function(){setShowAfter(false);}} style={{
               flex:1,padding:"18px",background:!showAfter?"rgba(255,255,255,0.04)":"transparent",
               border:"1px solid "+(!showAfter?"rgba(255,255,255,0.1)":"rgba(255,255,255,0.04)"),
-              borderRadius:12,cursor:"pointer",transition:"all 0.25s",textAlign:"left",
+              borderRadius:12,cursor:"pointer",transition:"background 0.25s, border-color 0.25s",textAlign:"left",
             }}>
               <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITHOUT</div>
               <p style={{fontSize:14,color:!showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.before}</p>
@@ -877,7 +877,7 @@ function AutomationCarousel() {
             <button onClick={function(){setShowAfter(true);}} style={{
               flex:1,padding:"18px",background:showAfter?a.color+"0a":"transparent",
               border:"1px solid "+(showAfter?a.color+"33":"rgba(255,255,255,0.04)"),
-              borderRadius:12,cursor:"pointer",transition:"all 0.25s",textAlign:"left",
+              borderRadius:12,cursor:"pointer",transition:"background 0.25s, border-color 0.25s",textAlign:"left",
             }}>
               <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITH AI</div>
               <p style={{fontSize:14,color:showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.after}</p>
@@ -917,7 +917,7 @@ function Stats() {
           textAlign: "center", padding: "32px 16px",
           background: C.bgCard, borderRadius: "12px", border: `1px solid ${C.border}`,
           opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(16px)",
-          transition: `all 0.5s cubic-bezier(0.23,1,0.32,1) ${i*0.08}s`,
+          transition: `opacity 0.5s cubic-bezier(0.23,1,0.32,1) ${i*0.08}s, transform 0.5s cubic-bezier(0.23,1,0.32,1) ${i*0.08}s`,
         }}>
           <div style={{ fontSize: "42px", fontWeight: 800, color: "#fff", fontFamily: F.display, lineHeight: 1 }}>
             <Counter end={s.value} suffix={s.suffix} prefix={s.prefix || ""} vis={vis} />
@@ -947,7 +947,7 @@ function Glitch({ text, style }) {
 // ============================================================
 function ToolPill({ name }) {
   const [h, setH] = useState(false);
-  return <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ fontSize: "13px", letterSpacing: "1px", color: h?C.accent:C.textMid, fontFamily: F.mono, border: `1px solid ${h?C.accent+"33":C.border}`, padding: "7px 16px", borderRadius: "100px", transition: "all 0.3s", cursor: "default", display: "inline-block" }}>{name}</span>;
+  return <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ fontSize: "13px", letterSpacing: "1px", color: h?C.accent:C.textMid, fontFamily: F.mono, border: `1px solid ${h?C.accent+"33":C.border}`, padding: "7px 16px", borderRadius: "100px", transition: "color 0.3s, border-color 0.3s", cursor: "default", display: "inline-block" }}>{name}</span>;
 }
 
 export default function DonnyAI() {
@@ -1003,7 +1003,7 @@ export default function DonnyAI() {
       {/* HERO */}
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"700px",height:"700px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.10) 0%,rgba(139,92,246,0.05) 30%,transparent 50%)",filter:"blur(50px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
-        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "all 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
+        <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "opacity 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s, transform 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
           <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map((t,i) => <span key={i} style={{fontSize:"13px",fontFamily:F.mono,color:i===2?C.accent:C.textBody,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>)}</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
@@ -1012,8 +1012,8 @@ export default function DonnyAI() {
             I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
-            <button onClick={() => goTo("work")} onMouseEnter={e => {e.target.style.transform="translateY(-2px)";e.target.style.boxShadow="0 8px 30px rgba(0,232,255,0.3)";}} onMouseLeave={e => {e.target.style.transform="";e.target.style.boxShadow="";}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,transition:"all 0.3s",borderRadius:"2px"}}>See the Work</button>
-            <button onClick={() => goTo("contact")} onMouseEnter={e => {e.target.style.transform="translateY(-2px)";e.target.style.background="rgba(255,255,255,0.14)";}} onMouseLeave={e => {e.target.style.transform="";e.target.style.background="rgba(255,255,255,0.08)";}} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,transition:"all 0.3s",borderRadius:"2px"}}>Get in Touch</button>
+            <button onClick={() => goTo("work")} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>See the Work</button>
+            <button onClick={() => goTo("contact")} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,borderRadius:"2px"}}>Get in Touch</button>
           </div>
         </div>
         <div style={{ position: "absolute", bottom: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", opacity: loaded?0.35:0, transition: "opacity 0.6s 2s", animation: "float 2.5s ease-in-out infinite" }}>
