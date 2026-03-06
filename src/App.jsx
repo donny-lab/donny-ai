@@ -14,9 +14,9 @@ var C = {
   bg: "#06070b",
   bgCard: "#0a0c16",
   text: "#e8eaed",
-  textBody: "rgba(232,234,237,0.85)", textMid: "rgba(232,234,237,0.6)",
-  textDim: "rgba(232,234,237,0.4)",
-  border: "rgba(255,255,255,0.06)",
+  textBody: "rgba(232,234,237,0.85)", textMid: "rgba(232,234,237,0.7)",
+  textDim: "rgba(232,234,237,0.55)",
+  border: "rgba(255,255,255,0.08)",
 };
 
 var BG = "#06070b";
@@ -30,11 +30,11 @@ var F = {
 // PORTFOLIO SITES — Embedded mini-site designs
 // ============================================================
 var SITES = [
-  { id: "fex", name: "FeX Group", url: "fexgroup.com", liveUrl: "https://fexgroup.vercel.app", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
-  { id: "procure", name: "ProcureTrace", url: "procuretrace.io", liveUrl: "https://proceduretrace-site.vercel.app", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
-  { id: "awestruck", name: "Awestruck Agency", url: "awestruckagency.com", liveUrl: "https://awestruck-ai-visibility.vercel.app", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
-  { id: "physician", name: "Meridian Pain & Spine", url: "meridianpainandspine.com", liveUrl: null, type: "Interventional Pain Medicine", year: "2025", color: "#22d3ee" },
-  { id: "accountant", name: "Hargrave & Cole CPA", url: "hargravecole.com", liveUrl: null, type: "Tax & Advisory Services", year: "2025", color: "#6ee7b7" },
+  { id: "fex", name: "FeX Group", url: null, liveUrl: null, type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
+  { id: "procure", name: "ProcureTrace", url: null, liveUrl: null, type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
+  { id: "awestruck", name: "Awestruck Agency", url: null, liveUrl: null, type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
+  { id: "physician", name: "Meridian Pain & Spine", url: null, liveUrl: null, type: "Interventional Pain Medicine", year: "2025", color: "#22d3ee" },
+  { id: "accountant", name: "Hargrave & Cole CPA", url: null, liveUrl: null, type: "Tax & Advisory Services", year: "2025", color: "#6ee7b7" },
 ];
 
 var PROJECTS = [
@@ -285,7 +285,7 @@ function SiteMockup({ site, index }) {
       </div>
     </div>);
 
-    return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.3)"}}>{site.name}</div>;
+    return <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.5)"}}>{site.name}</div>;
   }
 
   const hasLive = !!site.liveUrl;
@@ -296,10 +296,9 @@ function SiteMockup({ site, index }) {
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ff5f57"}} />
           <div style={{width:8,height:8,borderRadius:"50%",background:"#ffbd2e"}} />
           <div style={{width:8,height:8,borderRadius:"50%",background:"#28c840"}} />
-          <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"12px",color:C.textDim,fontFamily:F.mono }}>
-            <span style={{color:"rgba(255,255,255,0.2)"}}>https://</span>{site.url}
+          <div style={{ flex:1,marginLeft:"8px",background:"rgba(255,255,255,0.05)",borderRadius:"4px",padding:"5px 12px",fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>
+            {site.name}
           </div>
-          {hasLive && <a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none",letterSpacing:"1px",padding:"4px 10px",border:`1px solid ${site.color}33`,borderRadius:4}}>LIVE →</a>}
         </div>
         <div style={{ position:"relative",height:"420px",background:hasLive?"#fff":"transparent",overflow:"hidden" }}>
           {hasLive && loading && !err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12,zIndex:2,background:BG}}>
@@ -307,7 +306,7 @@ function SiteMockup({ site, index }) {
             <span style={{fontSize:12,color:C.textDim,fontFamily:F.mono,letterSpacing:"1px"}}>Loading live site...</span>
           </div>}
           {hasLive && !err && <iframe src={site.liveUrl} title={site.name} onLoad={() => setLoading(false)} onError={() => {setErr(true);setLoading(false);}} style={{width:"200%",height:"200%",transform:"scale(0.5)",transformOrigin:"top left",border:"none",background:"#fff",opacity:loading?0:1,transition:"opacity 0.4s ease",pointerEvents:h?"auto":"none"}} />}
-          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:12,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span><a href={site.liveUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:site.color,fontFamily:F.mono,textDecoration:"none"}}>Visit live →</a></div>}
+          {hasLive && err && <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,background:BG}}><span style={{fontSize:12,color:C.textDim,fontFamily:F.mono}}>Preview unavailable</span></div>}
           {!hasLive && <div style={{position:"relative",height:"100%",overflow:"hidden"}}>{renderFakeSite()}</div>}
         </div>
       </div>
@@ -317,7 +316,7 @@ function SiteMockup({ site, index }) {
           <div style={{ fontSize:"13px",color:C.textMid,fontFamily:F.body,marginTop:"2px" }}>{site.type}</div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          {hasLive && <span style={{fontSize:12,color:C.green,fontFamily:F.mono,letterSpacing:"1px",display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:C.green,display:"inline-block"}} />LIVE</span>}
+          
           <span style={{ fontSize:"12px",color:C.textMid,fontFamily:F.mono }}>{site.year}</span>
         </div>
       </div>
@@ -654,7 +653,7 @@ function ProcessStep({ step, index }) {
     <div ref={ref} style={{ opacity: vis?1:0, transform: vis?"translateY(0)":"translateY(30px)", transition: `opacity 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${index*0.12}s`, marginBottom: "16px" }}>
       <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} onClick={() => setExpanded(!expanded)}
         style={{ display: "flex", gap: "24px", alignItems: "flex-start", padding: "24px", cursor: "pointer", background: expanded?"rgba(255,255,255,0.02)":"transparent", border: `1px solid ${expanded?step.color+"22":h?C.border:"transparent"}`, borderRadius: "12px", transition: "background 0.3s, border-color 0.3s" }}>
-        <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.18)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
+        <div style={{ fontSize: "40px", fontWeight: 800, fontFamily: F.display, color: h||expanded ? step.color : "rgba(255,255,255,0.35)", transition: "color 0.4s ease", lineHeight: 1, minWidth: "65px" }}>{step.num}</div>
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <h3 style={{ fontSize: "20px", fontWeight: 600, color: h||expanded ? "#fff" : C.textMid, fontFamily: F.display, marginBottom: "6px", transition: "color 0.3s" }}>{step.title}</h3>
@@ -813,7 +812,7 @@ function AutomationCarousel() {
               cursor:"pointer",transition:"background 0.3s, border-color 0.3s",position:"relative",
             }}>
               <div style={{fontSize:13,fontWeight:600,color:isActive?"#fff":C.textDim,fontFamily:F.display,marginBottom:2}}>{auto.title}</div>
-              <div style={{fontSize:12,color:isActive?auto.color:"transparent",fontFamily:F.mono,letterSpacing:"0.5px"}}>{auto.time}</div>
+              <div style={{fontSize:12,color:isActive?auto.color:C.textDim,fontFamily:F.mono,letterSpacing:"0.5px"}}>{auto.time}</div>
             </button>
           );
         })}
@@ -833,7 +832,7 @@ function AutomationCarousel() {
                   <div style={{display:"flex",flexDirection:"column",alignItems:"center",minWidth:60}}>
                     <div style={{
                       width:14,height:14,borderRadius:"50%",transform:isActive?"scale(1.4)":"scale(1)",
-                      background:isActive?a.color:isPast?a.color+"88":"rgba(255,255,255,0.08)",
+                      background:isActive?a.color:isPast?a.color+"88":"rgba(255,255,255,0.15)",
                       transition:"transform 0.4s cubic-bezier(0.23,1,0.32,1), background 0.4s, box-shadow 0.4s",
                       boxShadow:isActive?"0 0 24px "+a.color+"66":"none",
                       display:"flex",alignItems:"center",justifyContent:"center",
@@ -841,8 +840,8 @@ function AutomationCarousel() {
                       {isActive && <div style={{width:6,height:6,borderRadius:"50%",background:"#fff"}} />}
                     </div>
                     <div style={{
-                      fontSize:12,fontWeight:500,marginTop:10,textAlign:"center",
-                      color:isActive?a.color:isPast?C.textBody:"rgba(255,255,255,0.25)",
+                      fontSize:13,fontWeight:500,marginTop:10,textAlign:"center",
+                      color:isActive?a.color:isPast?C.textBody:"rgba(255,255,255,0.45)",
                       fontFamily:F.body,transition:"color 0.3s",lineHeight:1.3,maxWidth:80,
                     }}>{step}</div>
                   </div>
@@ -871,16 +870,16 @@ function AutomationCarousel() {
               border:"1px solid "+(!showAfter?"rgba(255,255,255,0.1)":"rgba(255,255,255,0.04)"),
               borderRadius:12,cursor:"pointer",transition:"background 0.25s, border-color 0.25s",textAlign:"left",
             }}>
-              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITHOUT</div>
-              <p style={{fontSize:14,color:!showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.before}</p>
+              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:!showAfter?C.accent3:"rgba(255,255,255,0.4)",marginBottom:8,fontWeight:600}}>WITHOUT</div>
+              <p style={{fontSize:14,color:!showAfter?C.textBody:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.before}</p>
             </button>
             <button onClick={function(){setShowAfter(true);}} style={{
               flex:1,padding:"18px",background:showAfter?a.color+"0a":"transparent",
               border:"1px solid "+(showAfter?a.color+"33":"rgba(255,255,255,0.04)"),
               borderRadius:12,cursor:"pointer",transition:"background 0.25s, border-color 0.25s",textAlign:"left",
             }}>
-              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.2)",marginBottom:8,fontWeight:600}}>WITH AI</div>
-              <p style={{fontSize:14,color:showAfter?C.textBody:"rgba(255,255,255,0.15)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.after}</p>
+              <div style={{fontSize:12,fontFamily:F.mono,letterSpacing:"1.5px",color:showAfter?a.color:"rgba(255,255,255,0.4)",marginBottom:8,fontWeight:600}}>WITH AI</div>
+              <p style={{fontSize:14,color:showAfter?C.textBody:"rgba(255,255,255,0.4)",fontFamily:F.body,lineHeight:1.65,transition:"color 0.3s"}}>{a.after}</p>
             </button>
           </div>
         </div>
@@ -1004,12 +1003,12 @@ export default function DonnyAI() {
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"700px",height:"700px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.10) 0%,rgba(139,92,246,0.05) 30%,transparent 50%)",filter:"blur(50px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "opacity 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s, transform 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
-          <div style={{display:"flex",justifyContent:"center",gap:"16px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Clients","Top 1% AI User"].map((t,i) => <span key={i} style={{fontSize:"13px",fontFamily:F.mono,color:i===2?C.accent:C.textBody,letterSpacing:"1.5px",fontWeight:400}}>{t}</span>)}</div>
-          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "20px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
+          <div style={{display:"flex",justifyContent:"center",gap:"20px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Work","Top 1% AI User — according to Claude"].map((t,i) => <span key={i} style={{fontSize:"14px",fontFamily:F.mono,color:i===2?C.accent:"#fff",letterSpacing:"1.5px",fontWeight:500,textShadow:"0 0 20px rgba(6,7,11,1), 0 0 40px rgba(6,7,11,0.8)"}}>{i>0?" · ":""}{t}</span>)}</div>
+          <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "24px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
-          <p style={{ fontSize: "19px", color: C.textBody, fontFamily: F.body, maxWidth: "500px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 40px rgba(6,7,11,1)" }}>
-            I build products, platforms, and experiences with artificial intelligence — at a level most teams can't match.
+          <p style={{ fontSize: "20px", color: "#fff", fontFamily: F.body, maxWidth: "540px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 40px rgba(6,7,11,1)", fontWeight: 500 }}>
+            One person. AI-native workflow.<br/><span style={{ color: C.accent }}>Entire teams worth of output.</span>
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
             <button onClick={() => goTo("work")} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>See the Work</button>
@@ -1032,7 +1031,7 @@ export default function DonnyAI() {
             {SITES.map((s, i) => <SiteMockup key={i} site={s} index={i} />)}
           </div>
         </div>
-        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:12,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textDim}}>Scroll to explore →</span></div>
+        <div style={{textAlign:"center",padding:"16px 0 0"}}><span style={{fontSize:13,letterSpacing:3,textTransform:"uppercase",fontFamily:F.mono,color:C.textMid}}>Scroll to explore →</span></div>
       </section>
 
       {/* STATS */}
