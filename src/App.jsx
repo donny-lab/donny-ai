@@ -30,9 +30,9 @@ var F = {
 // PORTFOLIO SITES — Embedded mini-site designs
 // ============================================================
 var SITES = [
-  { id: "fex", name: "FeX Group", url: null, liveUrl: null, type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
-  { id: "procure", name: "ProcureTrace", url: null, liveUrl: null, type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
-  { id: "awestruck", name: "Awestruck Agency", url: null, liveUrl: null, type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
+  { id: "fex", name: "FeX Group", url: null, liveUrl: "https://fexgroup.vercel.app", type: "Materials Sourcing Platform", year: "2025", color: "#f59e0b" },
+  { id: "procure", name: "ProcureTrace", url: null, liveUrl: "https://proceduretrace-site.vercel.app", type: "AI Compliance Platform", year: "2025", color: "#00e8ff" },
+  { id: "awestruck", name: "Awestruck Agency", url: null, liveUrl: "https://awestruck-ai-visibility.vercel.app", type: "Government Marketing Agency", year: "2025", color: "#6366f1" },
   { id: "physician", name: "Meridian Pain & Spine", url: null, liveUrl: null, type: "Interventional Pain Medicine", year: "2025", color: "#22d3ee" },
   { id: "accountant", name: "Hargrave & Cole CPA", url: null, liveUrl: null, type: "Tax & Advisory Services", year: "2025", color: "#6ee7b7" },
 ];
