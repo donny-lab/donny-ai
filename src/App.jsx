@@ -38,12 +38,12 @@ var SITES = [
 ];
 
 var PROJECTS = [
-  { title: "ProcureTrace", tag: "Government Tech", desc: "Built a Chrome extension that automatically tracks and logs every AI conversation federal employees have — across ChatGPT, Claude, Gemini, and more. Paired with a real-time dashboard so agencies can prove compliance without any manual work.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "◈" },
-  { title: "AI-Built Websites", tag: "Web Design", desc: "Designed and developed complete, professional websites for real businesses in under a week each — including this one. Every site is responsive, SEO-optimized, and built to convert visitors into customers.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "◇" },
-  { title: "Fruit Fly Defense", tag: "E-Commerce + SEO", desc: "Built the entire digital presence for a natural pest control brand — e-commerce site, AI-optimized blog pipeline, Google Ads strategy, and YouTube channel. Serving commercial clients like Chick-fil-A and Dave & Buster's.", metrics: ["Full E-Commerce", "Commercial Clients", "AI Blog Pipeline"], color: C.accent3, icon: "◆" },
-  { title: "Business Automations", tag: "Systems", desc: "Designed and deployed automation workflows that replace hours of manual work — client intake, invoicing, review collection, social media scheduling. Set-and-forget systems that run 24/7.", metrics: ["Zero Manual Work", "24/7 Running", "Hours Saved Weekly"], color: C.green, icon: "◉" },
-  { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Designed a complete SaaS product for agencies — three pricing tiers, feature sets, onboarding flows, and go-to-market strategy. The kind of product planning that usually takes a team months, done in days.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "▣" },
-  { title: "Video Production", tag: "Creative", desc: "Created cinematic product videos that render themselves automatically using code. Write a script, feed in assets, and the system generates broadcast-quality video — no editor, no timeline, no waiting.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "▲" },
+  { title: "ProcureTrace", tag: "Government Tech", desc: "Automated AI usage compliance system for federal agencies. Chrome extension tracks conversations across ChatGPT, Claude, and Gemini. Real-time dashboard enables OMB M-25-21 compliance without manual logging.", metrics: ["Chrome Extension", "Live Dashboard", "5 AI Platforms"], color: C.accent, icon: "◈" },
+  { title: "AI-Built Websites", tag: "Web Design", desc: "Full-stack website development using AI-accelerated workflows. Responsive, accessible, and SEO-optimized. Average delivery time under one week per site.", metrics: ["5+ Sites Shipped", "Under 1 Week Each", "SEO Built-In"], color: C.accent2, icon: "◇" },
+  { title: "Fruit Fly Defense", tag: "E-Commerce + SEO", desc: "End-to-end digital platform for a commercial pest control brand. E-commerce, AI-generated content pipeline, Google Ads, and YouTube. Clients include Chick-fil-A and Dave & Buster's.", metrics: ["Full E-Commerce", "Commercial Clients", "AI Blog Pipeline"], color: C.accent3, icon: "◆" },
+  { title: "Business Automations", tag: "Systems", desc: "Workflow automation systems for client intake, invoicing, follow-up, and reporting. Designed for zero manual intervention after deployment.", metrics: ["Zero Manual Work", "24/7 Running", "Hours Saved Weekly"], color: C.green, icon: "◉" },
+  { title: "AI SEO Product", tag: "SaaS Strategy", desc: "Full SaaS product design including pricing model, feature architecture, onboarding flows, and go-to-market strategy. Completed in days using AI-assisted planning.", metrics: ["3 Pricing Tiers", "Full GTM Plan", "Revenue Model"], color: C.amber, icon: "▣" },
+  { title: "Video Production", tag: "Creative", desc: "Programmatic video production system. Script-to-render pipeline generates broadcast-quality video from code. No manual editing required.", metrics: ["Auto-Generated", "Broadcast Quality", "Infinitely Scalable"], color: "#f87171", icon: "▲" },
 ];
 
 
@@ -1003,16 +1003,16 @@ export default function DonnyAI() {
       <section id="hero" style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 2, opacity: heroOp }}>
         <div style={{position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%)",width:"700px",height:"700px",borderRadius:"50%",background:"radial-gradient(circle,rgba(0,232,255,0.10) 0%,rgba(139,92,246,0.05) 30%,transparent 50%)",filter:"blur(50px)",animation:"breathe 4s ease-in-out infinite",pointerEvents:"none"}} />
         <div style={{ textAlign: "center", opacity: loaded?1:0, transform: loaded?"translateY(0)":"translateY(25px)", transition: "opacity 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s, transform 0.8s cubic-bezier(0.23,1,0.32,1) 0.3s", background: "radial-gradient(ellipse 500px 380px at center, rgba(6,7,11,0.8) 0%, rgba(6,7,11,0.45) 40%, transparent 58%)", padding: "50px 36px", borderRadius: "30px" }}>
-          <div style={{display:"flex",justifyContent:"center",gap:"20px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ Products Shipped","Enterprise Work","Top 1% AI User — according to Claude"].map((t,i) => <span key={i} style={{fontSize:"14px",fontFamily:F.mono,color:i===2?C.accent:"#fff",letterSpacing:"1.5px",fontWeight:500,textShadow:"0 0 20px rgba(6,7,11,1), 0 0 40px rgba(6,7,11,0.8)"}}>{i>0?" · ":""}{t}</span>)}</div>
+          <div style={{display:"flex",justifyContent:"center",gap:"20px",marginBottom:"28px",flexWrap:"wrap",opacity:loaded?1:0,transition:"opacity 0.6s 0.6s"}}>{["15+ AI Products Shipped","Top 1% AI User — according to Claude"].map((t,i) => <span key={i} style={{fontSize:"14px",fontFamily:F.mono,color:i===2?C.accent:"#fff",letterSpacing:"1.5px",fontWeight:500,textShadow:"0 0 20px rgba(6,7,11,1), 0 0 40px rgba(6,7,11,0.8)"}}>{i>0?" · ":""}{t}</span>)}</div>
           <h1 style={{ fontSize: "clamp(56px,12vw,140px)", fontWeight: 800, fontFamily: F.display, letterSpacing: "-3px", lineHeight: 0.9, marginBottom: "24px", textShadow: "0 0 80px rgba(6,7,11,1), 0 0 160px rgba(6,7,11,0.9)" }}>
             <Glitch text="DONNY" /><span style={{ color: C.accent }}>.</span>
           </h1>
           <p style={{ fontSize: "20px", color: "#fff", fontFamily: F.body, maxWidth: "540px", lineHeight: 1.7, margin: "0 auto", opacity: loaded?1:0, transition: "opacity 0.6s 1.2s", textShadow: "0 0 40px rgba(6,7,11,1)", fontWeight: 500 }}>
-            One person. AI-native workflow.<br/><span style={{ color: C.accent }}>Entire teams worth of output.</span>
+            AI-native development, design, and automation.<br/><span style={{ color: C.accent }}>From prototype to production.</span>
           </p>
           <div style={{ marginTop: "44px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", opacity: loaded?1:0, transition: "opacity 0.6s 1.6s" }}>
-            <button onClick={() => goTo("work")} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>See the Work</button>
-            <button onClick={() => goTo("contact")} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,borderRadius:"2px"}}>Get in Touch</button>
+            <button onClick={() => goTo("work")} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>View Portfolio</button>
+            <button onClick={() => goTo("about")} style={{background:"rgba(255,255,255,0.08)",color:"#fff",fontFamily:F.mono,fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",padding:"16px 44px",border:"1px solid rgba(255,255,255,0.2)",cursor:"pointer",fontWeight:500,borderRadius:"2px"}}>Capabilities</button>
           </div>
         </div>
         <div style={{ position: "absolute", bottom: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", opacity: loaded?0.35:0, transition: "opacity 0.6s 2s", animation: "float 2.5s ease-in-out infinite" }}>
@@ -1024,7 +1024,7 @@ export default function DonnyAI() {
       {/* PORTFOLIO REEL */}
       <section id="reel" style={{ background: BG, padding: "100px 0 80px", position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px" }}>
-          <Heading tag="Portfolio" title="Sites I've Built" subtitle="Every one of these was designed and developed using AI-accelerated workflows. Agency quality at startup speed." />
+          <Heading tag="Portfolio" title="Sites I've Built" subtitle="Production websites designed and developed using AI-accelerated workflows." />
         </div>
         <div className="reel-wrap" style={{ overflowX: "auto", padding: "0 0 20px", WebkitOverflowScrolling: "touch" }}>
           <div className="reel-scroll" style={{ display: "inline-flex", gap: "24px", padding: "0 max(24px, calc((100vw - 1060px)/2 + 24px))" }}>
@@ -1045,8 +1045,8 @@ export default function DonnyAI() {
         <div style={{ maxWidth: "1060px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
           <div style={{textAlign:"center",marginBottom:"56px"}}>
             <div style={{fontSize:"12px",letterSpacing:"4px",textTransform:"uppercase",color:C.accent,fontFamily:F.mono,marginBottom:"14px",fontWeight:500}}>Interactive Lab</div>
-            <h2 style={{fontSize:"clamp(36px,5vw,56px)",fontWeight:800,fontFamily:F.display,letterSpacing:"-1px",marginBottom:"14px"}}>Go Ahead, <span style={{color:C.accent}}>Play.</span></h2>
-            <p style={{fontSize:"17px",color:C.textBody,fontFamily:F.body,maxWidth:"480px",margin:"0 auto",lineHeight:1.7}}>Every one of these is running live in your browser right now. Built with AI. Touch them.</p>
+            <h2 style={{fontSize:"clamp(36px,5vw,56px)",fontWeight:800,fontFamily:F.display,letterSpacing:"-1px",marginBottom:"14px"}}>Technical <span style={{color:C.accent}}>Demos.</span></h2>
+            <p style={{fontSize:"17px",color:C.textBody,fontFamily:F.body,maxWidth:"480px",margin:"0 auto",lineHeight:1.7}}>Live browser-based demos built with AI. Each one runs entirely client-side — no backend, no API calls.</p>
           </div>
           <div style={{position:"relative",marginBottom:"28px"}}>
             <div style={{display:"flex",alignItems:"center",gap:"12px",padding:"16px 0 14px"}}>
@@ -1066,7 +1066,7 @@ export default function DonnyAI() {
 
       {/* CASE STUDIES */}
       <section id="work" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2 }}>
-        <Heading tag="What I've Built" title="The Work" subtitle="Real products, real clients, real outcomes — Every one of these was built with AI doing the heavy lifting." />
+        <Heading tag="Portfolio" title="Selected Work" subtitle="Production systems and platforms built with AI-native workflows." />
         <div className="rg2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "1060px", margin: "0 auto" }}>
           {PROJECTS.map((p, i) => <HoloCard key={i} project={p} index={i} />)}
         </div>
@@ -1074,17 +1074,17 @@ export default function DonnyAI() {
 
       {/* AUTOMATIONS */}
       <section id="automations" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2 }}>
-        <Heading tag="Automation" title="Set It and Forget It" subtitle="Real workflows I build for small businesses. Click a card to see the before and after." />
+        <Heading tag="Automation" title="Workflow Automation" subtitle="Examples of automated business processes. Each workflow eliminates manual steps entirely." />
         <AutomationCarousel />
       </section>
 
       {/* ABOUT */}
       <section id="about" style={{ background: BG, padding: "60px 24px 80px", position: "relative", zIndex: 2, maxWidth: "720px", margin: "0 auto" }}>
-        <Heading tag="About" title="AI Is My Medium" />
+        <Heading tag="About" title="Background" />
         <div style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, lineHeight: 1.85 }}>
-          <p style={{ marginBottom: "18px" }}>I don't just use AI tools — <span style={{ color: "#fff", fontWeight: 600 }}>I think in AI</span>. Every project I touch is designed, built, and optimized through artificial intelligence. From full-stack web applications to enterprise SEO strategies, from SaaS product architecture to programmatic video production.</p>
-          <p style={{ marginBottom: "18px" }}>While most people are still figuring out how to write a prompt, I'm shipping production-ready products, <span style={{ color: C.accent, fontSize: "18px", fontWeight: 500 }}>designing award-quality websites</span>, and building systems that scale across industries — government, hospitality, healthcare, e-commerce, and more.</p>
-          <p>The AI space moves fast. <span style={{ color: "#fff", fontWeight: 600 }}>I move faster.</span></p>
+          <p style={{ marginBottom: "18px" }}>I build production systems using AI-native workflows — <span style={{ color: "#fff", fontWeight: 600 }}>full-stack development, UI/UX design, automation, and data infrastructure</span>. Every project on this site was architected, developed, and deployed with AI integrated into each stage of the process.</p>
+          <p style={{ marginBottom: "18px" }}>My work spans <span style={{ color: C.accent, fontWeight: 500 }}>government compliance, healthcare, hospitality, e-commerce, and SaaS</span> — from Chrome extensions for federal AI tracking to commercial e-commerce platforms serving national restaurant chains.</p>
+          <p>I operate across the full product lifecycle: research, design, development, deployment, and ongoing optimization.</p>
         </div>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "32px" }}>
           {["Claude", "ChatGPT", "Cursor", "Midjourney", "Remotion", "Vercel AI", "Three.js", "Next.js"].map(t => <ToolPill key={t} name={t} />)}
@@ -1099,18 +1099,18 @@ export default function DonnyAI() {
 
       {/* STACK */}
       <section id="stack" style={{ background: BG, padding: "80px 24px", position: "relative", zIndex: 2, maxWidth: "1060px", margin: "0 auto" }}>
-        <Heading tag="The Tools" title="My Stack" subtitle="Everything I use to ship products, design sites, and automate businesses." />
+        <Heading tag="The Tools" title="My Stack" subtitle="Primary tools and technologies across current projects." />
         <StackOrbit />
       </section>
 
       {/* CONTACT */}
       <section id="contact" style={{ background: BG, padding: "120px 24px", position: "relative", zIndex: 2, textAlign: "center" }}>
-        <div style={{ fontSize: "12px", letterSpacing: "4px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "18px" }}>Ready?</div>
+        <div style={{ fontSize: "12px", letterSpacing: "4px", textTransform: "uppercase", color: C.accent, fontFamily: F.mono, marginBottom: "18px" }}>Contact</div>
         <h2 style={{ fontSize: "clamp(32px,5vw,64px)", fontWeight: 700, fontFamily: F.display, letterSpacing: "-1px", marginBottom: "14px" }}>
-          Let's Build <span style={{ color: C.accent }}>Something</span>
+          Let's <span style={{ color: C.accent }}>Talk</span>
         </h2>
-        <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, marginBottom: "40px" }}>The future doesn't wait. Neither should you.</p>
-        <button onClick={() => {window.location.href="mailto:hello@donny.ai";}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"14px",letterSpacing:"2px",textTransform:"uppercase",padding:"18px 50px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>Get In Touch</button>
+        <p style={{ fontSize: "17px", color: C.textBody, fontFamily: F.body, marginBottom: "40px" }}>Available for projects, partnerships, and contract work.</p>
+        <button onClick={() => {window.location.href="mailto:hello@donny.ai";}} style={{background:C.accent,color:"#000",fontFamily:F.mono,fontSize:"14px",letterSpacing:"2px",textTransform:"uppercase",padding:"18px 50px",border:"none",cursor:"pointer",fontWeight:600,borderRadius:"2px"}}>Email</button>
       </section>
 
       {/* FOOTER */}
